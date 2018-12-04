@@ -295,9 +295,9 @@ export default {
     //     // always executed
     //   });
 
-    request("com.iiding.admin.shop_management.base_param.query", {}, data => {
-      console.log(data);
-    });
+    // request("com.iiding.admin.shop_management.base_param.query", {}, data => {
+    //   console.log(data);
+    // });
   },
   methods: {
     handleRouteChange(path) {

@@ -2,10 +2,10 @@
   <div>
     <div class="banner-wrapper">
       <div class="banner-inner">
-        <div class="banner">
-          <img class="pic" src="//pic.iidingyun.com//file/20181120/75486.png" alt="">
-          <div class="arr left"></div>
-          <div class="arr right"></div>
+        <div class="banner" v-for="item in banner_list" :key="item.id">
+          <img class="pic" :src="item.advertise_piture" alt="" v-show="item.visible">
+          <div class="arr left" @click="tetch('left')"></div>
+          <div class="arr right" @click="tetch('right')"></div>
           <ul class="dot">
             <li class="active"></li>
             <li></li>
@@ -413,11 +413,49 @@
 </template>
 
 <script>
+import { request } from "../api/api";
 export default {
   name: "Home",
   data() {
-    return {};
-  }
+    return {
+      banner_list:[],
+
+    };
+  },
+  mounted(){
+    var _this = this;
+    request("com.iiding.web.index.select", {}, data => {
+      data.banner_data.forEach(function(ele,index,self){
+        if(index == 0){
+          ele["visible"] = true;
+        }else{
+          ele["visible"] = false;
+        }
+      })
+      console.log(data);
+      _this.banner_list = data.banner_data;
+    });
+  },
+  methods:{
+    tetch(val){
+      debugger;
+      var _this = this;
+      _this.banner_list.forEach(function(ele,index,self){
+          if(index < _this.banner_list.length - 1){
+              if(val == "left"){
+                ele.visible = false;
+                self[index-1].visible = true;
+              }
+              if(val == "right"){
+                ele.visible = false;
+                self[index+1].visible = true;
+              }
+              return false;
+          }
+      })
+      console.log(index);
+    },
+  },
 };
 </script>
 
