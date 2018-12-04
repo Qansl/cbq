@@ -25,13 +25,13 @@
                     <span class="disp-txt">12345678899</span>
                     <i class="icon-more"></i>
                 </li>
-                <li class="item">
+                <li class="item" @click="toEditPwd">
                     <span class="lb">修改登陆密码</span>
                     <span style="flex:1"></span>
                     <span class="disp-txt"></span>
                     <i class="icon-more"></i>
                 </li>
-                <li class="item">
+                <li class="item" @click="toAuth">
                     <span class="lb">实名认证</span>
                     <span style="flex:1"></span>
                     <span class="disp-txt">未认证</span>
@@ -57,6 +57,12 @@ export default {
         },
         toEditMobile(){
             this.$router.push('/muser/editmobile');
+        },
+        toEditPwd(){
+            this.$router.push('/muser/editpwd');
+        },
+        toAuth(){
+            this.$router.push('/muser/auth');
         },
     }
 };

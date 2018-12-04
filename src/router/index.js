@@ -26,6 +26,11 @@ import MUserHome from '@/components/m/user/Home'
 import MUserInfo from '@/components/m/user/Info'
 import MEditNick from '@/components/m/user/EditNick'
 import MEditMobile from '@/components/m/user/EditMobile'
+import MEditPwd from '@/components/m/user/EditPwd'
+import MMessage from '@/components/m/user/Message'
+import MAuth from '@/components/m/user/Auth'
+import MFinance from '@/components/m/user/Finance'
+import MMyProject from '@/components/m/user/MyProject'
 
 Vue.use(Router)
 
@@ -138,6 +143,26 @@ export default new Router({
         {
           path: 'editmobile',
           component: MEditMobile
+        },
+        {
+          path: 'editpwd',
+          component: MEditPwd
+        },
+        {
+          path: 'message',
+          component: MMessage
+        },
+        {
+          path: 'auth',
+          component: MAuth
+        },
+        {
+          path: 'finance',
+          component: MFinance
+        },
+        {
+          path: 'myproject',
+          component: MMyProject
         },
       ]
     },
