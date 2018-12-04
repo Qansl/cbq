@@ -1,0 +1,522 @@
+<template>
+    <div class="proj-wrapper">
+        <ul class="u-tabpanel2">
+            <li class="item" :class="{active:tab==0}" @click="changeTab(0)">预报名项目</li>
+            <li class="item" :class="{active:tab==1}" @click="changeTab(1)">预售开发项目</li>
+            <li class="item" :class="{active:tab==2}" @click="changeTab(2)">定制开发项目</li>
+        </ul>
+        <div v-show="tab==0" class="proj-list">
+            <ul class="proj-list-inner">
+                <li class="item">
+                    <div class="basic">
+                        <div class="item-field">
+                            <div class="lb">项目名称：</div>
+                            <div class="disp-txt">拼多多APP商城开发</div>
+                        </div>
+                        <div class="item-field">
+                            <div class="lb">报名时间：</div>
+                            <div class="disp-txt">18-11-20 19:10:22</div>
+                        </div>
+                        <div class="item-field">
+                            <div class="lb">开发均摊费：</div>
+                            <div class="disp-txt im">10000</div>
+                            <div class="disp-txt del">开发总费：6000</div>
+                        </div>
+                        <div class="tools">
+                            <button class="btn">预报名参与</button>
+                            <a class="link" href="javascript:;">已关注</a>
+                            <a class="link active" href="javascript:;">项目进度</a>
+                        </div>
+                    </div>
+                    <div class="other">
+                        <span class="no">5</span>
+                        <span class="deadline">报名截止时间 2018-12-06</span>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="basic">
+                        <div class="item-field">
+                            <div class="lb">项目名称：</div>
+                            <div class="disp-txt">拼多多APP商城开发</div>
+                        </div>
+                        <div class="item-field">
+                            <div class="lb">报名时间：</div>
+                            <div class="disp-txt">18-11-20 19:10:22</div>
+                        </div>
+                        <div class="item-field">
+                            <div class="lb">开发尾款：</div>
+                            <div class="disp-txt im">10000</div>
+                            <div class="disp-txt del">开发总费：6000</div>
+                        </div>
+                        <div class="tools">
+                            <button class="btn">支付尾款</button>
+                            <a class="link disabled" href="javascript:;">已预报名</a>
+                            <a class="link active" href="javascript:;">项目进度</a>
+                        </div>
+                    </div>
+                    <div class="other">
+                        <span class="no">5</span>
+                        <span class="deadline">报名截止时间 2018-12-06</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div v-show="tab==1" class="proj-list proj-list2">
+            <ul class="proj-list-inner">
+                <li class="item">
+                    <div class="basic">
+                        <div class="item-field">
+                            <div class="lb">项目名称：</div>
+                            <div class="disp-txt">拼多多APP商城开发</div>
+                        </div>
+                        <div class="item-field">
+                            <div class="lb">报名时间：</div>
+                            <div class="disp-txt">18-11-20 19:10:22</div>
+                        </div>
+                        <div class="tools">
+                            <a class="link active" href="javascript:;">开发明细</a>
+                            <a class="link active" href="javascript:;">项目进度</a>
+                            <a class="link active" href="javascript:;">预览合同</a>
+                            <a class="link green" href="javascript:;">个性化需求</a>
+                        </div>
+                    </div>
+                    <div class="other pre-proj">
+                        <span class="deadline">报名截止时间 2018-12-06</span>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="basic">
+                        <div class="item-field">
+                            <div class="lb">项目名称：</div>
+                            <div class="disp-txt">拼多多APP商城开发</div>
+                        </div>
+                        <div class="item-field">
+                            <div class="lb">报名时间：</div>
+                            <div class="disp-txt">18-11-20 19:10:22</div>
+                        </div>
+                        <div class="tools">
+                            <a class="link active" href="javascript:;">开发明细</a>
+                            <a class="link active" href="javascript:;">项目进度</a>
+                            <a class="link active" href="javascript:;">预览合同</a>
+                            <a class="link green" href="javascript:;">个性化需求</a>
+                        </div>
+                    </div>
+                    <div class="other pre-proj">
+                        <span class="deadline">报名截止时间 2018-12-06</span>
+                    </div>
+                </li>
+            </ul>
+        </div>  
+        <div v-show="tab==2" class="custom-proj">
+            <div class="tools">
+                <el-select v-model="value" placeholder="请选择">
+                    <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                    </el-option>
+                </el-select>
+                <a class="link" href="javascript:;">预览合同</a>
+                <a class="contact" href="#/chat" target="_blank">
+                    <i class="icon"></i>
+                    <div class="txt">联系客服，提交个性化需求</div>
+                </a>
+            </div>
+            <h3 class="title">项目进度</h3>
+            <div class="plan_table">
+                <ul>
+                    <li class="item">
+                        <div class="option">
+                            <div class="words">今天</div>
+                            <div class="circle"></div>
+                        </div>
+                        <div class="word">
+                            非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
+                            在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
+                            地址：联系人：东方酷音客服部，13692119804退货地址：
+                            广东省深圳市南山区科技园特发信息科技大厦1802
+                            （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
+                            请牢记退换货地址仅此一个）
+                        </div>
+                        <div class="imgs_box">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="option">
+                            <div class="words">今天</div>
+                            <div class="circle"></div>
+                        </div>
+                        <div class="word">
+                            非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
+                            在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
+                            地址：联系人：东方酷音客服部，13692119804退货地址：
+                            广东省深圳市南山区科技园特发信息科技大厦1802
+                            （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
+                            请牢记退换货地址仅此一个）
+                        </div>
+                        <div class="imgs_box">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="option">
+                            <div class="words">今天</div>
+                            <div class="circle"></div>
+                        </div>
+                        <div class="word">
+                            非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
+                            在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
+                            地址：联系人：东方酷音客服部，13692119804退货地址：
+                            广东省深圳市南山区科技园特发信息科技大厦1802
+                            （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
+                            请牢记退换货地址仅此一个）
+                        </div>
+                        <div class="imgs_box">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="option">
+                            <div class="words">今天</div>
+                            <div class="circle"></div>
+                        </div>
+                        <div class="word">
+                            非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
+                            在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
+                            地址：联系人：东方酷音客服部，13692119804退货地址：
+                            广东省深圳市南山区科技园特发信息科技大厦1802
+                            （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
+                            请牢记退换货地址仅此一个）
+                        </div>
+                        <div class="imgs_box">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="option">
+                            <div class="words">今天</div>
+                            <div class="circle"></div>
+                        </div>
+                        <div class="word">
+                            非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
+                            在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
+                            地址：联系人：东方酷音客服部，13692119804退货地址：
+                            广东省深圳市南山区科技园特发信息科技大厦1802
+                            （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
+                            请牢记退换货地址仅此一个）
+                        </div>
+                        <div class="imgs_box">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tab: 0,
+      options: [
+        {
+          value: "选项1",
+          label: "拼多多开发平台"
+        },
+        {
+          value: "选项2",
+          label: "拼多多开发平台"
+        },
+        {
+          value: "选项3",
+          label: "拼多多开发平台"
+        },
+      ],
+      value: ""
+    };
+  },
+  methods: {
+    changeTab(i) {
+      this.tab = i;
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+@import "../../styles/vars.scss";
+.proj-wrapper{
+    background: #ffffff;
+    box-shadow:2px 2px 6px 2px rgba(0,0,0,0.05);
+    .proj-list {
+    .proj-list-inner {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        .item {
+        background: rgba(255, 255, 255, 1);
+        border-radius: 2px;
+        border: 1px solid #ffbc9e;
+        display: flex;
+        justify-content: space-between;
+        padding: 25px 10px 25px 30px;
+        box-sizing: border-box;
+        transition: border ease 0.2s;
+        .basic {
+            flex: 1;
+            .item-field {
+            display: flex;
+            &:first-child {
+                margin-top: 5px;
+            }
+            & + .item-field {
+                margin-top: 30px;
+            }
+            .lb {
+                font-size: 16px;
+                color: #333333;
+            }
+            .disp-txt {
+                font-size: 16px;
+                color: #666666;
+                &.im {
+                color: $front-color;
+                }
+                &.del {
+                color: #999999;
+                text-decoration: line-through;
+                margin-left: 26px;
+                }
+            }
+            }
+            .tools {
+            width: 90%;
+            padding: 20px;
+            box-sizing: border-box;
+            background: #f2f2f2;
+            margin-top: 30px;
+            display: flex;
+            align-items: flex-end;
+            .btn {
+                height: 40px;
+                line-height: 40px;
+                background: $front-color;
+                color: #ffffff;
+                font-size: 16px;
+                padding: 0 45px;
+            }
+            .status {
+                font-size: 16px;
+                color: rgba(153, 153, 153, 1);
+                line-height: 20px;
+                margin-left: 50px;
+            }
+            .link {
+                font-size: 16px;
+                color: rgba(153, 153, 153, 1);
+                line-height: 20px;
+                margin-left: 30px;
+                transition: color ease 0.2s;
+                &.active {
+                color: $front-color;
+                }
+                &:hover {
+                color: rgba(255, 80, 0, 0.8);
+                }
+                &.green {
+                color: rgba(25, 220, 228, 1);
+                &:hover {
+                    color: rgba(25, 220, 228, 0.8);
+                }
+                }
+                &.disabled {
+                color: rgba(153, 153, 153, 1);
+                cursor: default;
+                }
+            }
+            }
+        }
+        .other {
+            width: 420px;
+            height: 231px;
+            background: url("//pic.iidingyun.com/1000//file/20181127/75701.png")
+            no-repeat;
+            position: relative;
+            .no {
+            position: absolute;
+            left: 104px;
+            top: 70px;
+            font-size: 70px;
+            font-family: MyFont;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 1);
+            line-height: 82px;
+            text-shadow: 0px 3px 8px rgba(0, 0, 0, 0.26);
+            }
+            .deadline {
+            position: absolute;
+            left: 50%;
+            bottom: 20px;
+            transform: translateX(-50%);
+            width: 167px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 1);
+            line-height: 18px;
+            }
+            &.pre-proj {
+            width: 382px;
+            height: 143px;
+            background: url("//pic.iidingyun.com//file/20181127/75712.png")
+                no-repeat;
+            }
+        }
+        &:hover {
+            border-color: $front-color;
+        }
+        & + .item {
+            margin-top: 30px;
+        }
+        }
+    }
+    &.proj-list2 .basic .tools .link:first-child {
+        margin-left: 0;
+    }
+    }
+
+    .custom-proj {
+    .title {
+        font-size: 16px;
+        font-weight: bold;
+        color: $front-color;
+        line-height: 20px;
+        padding: 0 40px;
+        margin: 30px 0;
+        box-sizing: border-box;
+    }
+    .tools {
+        display: flex;
+        align-items: flex-end;
+        padding: 0 40px;
+        margin: 30px 0;
+        box-sizing: border-box;
+        position: relative;
+        .link {
+        font-size: 16px;
+        color: $front-color;
+        line-height: 20px;
+        margin-left: 30px;
+        }
+        .el-select{
+            width: 400px;
+        }
+        .contact{
+            display: flex;
+            align-items: center;
+            position: absolute;
+            right:72px;
+            top:0;
+            .icon{
+                width:30px;
+                height: 30px;
+                background: url('//pic.iidingyun.com//file/20181127/75714.png') no-repeat;
+            }
+            .txt{
+                font-size:14px;
+                color:rgba(102,102,102,1);
+                line-height:18px;
+                margin-left: 12px;
+            }
+        }
+    }
+    }
+
+    .plan_table {
+    border-left: 2px solid #e7e7e7;
+    margin: 30px 0px 0px 80px;
+    padding: 25px 0px 0px 25px;
+    .item {
+        position: relative;
+        .option {
+        position: absolute;
+        display: flex;
+        height: 12px;
+        transform: translate(-112px, 4px);
+        background: transparent;
+        .words {
+            height: 12px;
+            font-size: 12px;
+            color: rgba(153, 153, 153, 1);
+            // margin-top: -5px;
+            margin-right: 10px;
+            text-align: right;
+            width: 70px;
+        }
+        .circle {
+            width: 8px;
+            height: 8px;
+            border: 2px solid $front-color;
+            border-radius: 50%;
+            background: #ffffff;
+        }
+        }
+        .word {
+        width: 664px;
+        height: 86px;
+        font-size: 14px;
+        line-height: 21px;
+        }
+        .imgs_box {
+        width: 664px;
+        //   margin: 0px auto 30px;
+        margin-bottom: 30px;
+        display: flex;
+        flex-flow: wrap;
+        .imgs {
+            width: 100px;
+            height: 100px;
+            margin-right: 30px;
+            margin-top: 20px;
+        }
+        }
+    }
+    .item:last-child {
+        margin-bottom: -20px;
+    }
+    }
+
+}
+</style>

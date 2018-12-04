@@ -1,0 +1,735 @@
+<template>
+  <div>
+    <div class="banner-wrapper">
+      <div class="banner-inner">
+        <div class="banner">
+          <img class="pic" src="//pic.iidingyun.com//file/20181120/75486.png" alt="">
+          <div class="arr left"></div>
+          <div class="arr right"></div>
+          <ul class="dot">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+          </ul>
+        </div>
+        <div class="intro">
+          <div class="title">预定截止日期</div>
+          <div class="date">
+            <span class="month">11</span>月
+            <span class="day">30</span>日
+          </div>
+          <ul class="seperator">
+            <li></li><li></li><li></li><li></li><li></li><li></li>
+            <li></li><li></li><li></li><li></li><li></li>
+          </ul>
+          <div class="desc">拼多多类APP商城定制开发</div>
+          <a class="ad-wrapper" href="javascript:;">
+            <img class="ad" src="//pic.iidingyun.com/1000//file/20181120/75484.png" alt="">
+          </a>
+        </div>
+      </div>
+    </div>
+  
+    <ul class="stat">
+      <li class="item">
+        <div class="val">
+          <span class="no">8</span>
+          <span class="unit">年</span>
+        </div>
+        <div class="desc">建成行业领先的PASS平台</div>
+      </li>
+      <li class="item">
+        <div class="val">
+          <span class="no">20</span>
+          <span class="unit">款</span>
+        </div>
+        <div class="desc">行业热门APP预售</div>
+      </li>
+      <li class="item">
+        <div class="val">
+          <span class="prev">近</span>
+          <span class="no">600</span>
+          <span class="unit">人</span>
+        </div>
+        <div class="desc">行业热门APP预售</div>
+      </li>
+      <li class="item">
+        <div class="val">
+          <span class="prev">近</span>
+          <span class="no">1000</span>
+          <span class="unit">万</span>
+        </div>
+        <div class="desc">行业热门APP预售</div>
+      </li>
+    </ul>
+  
+    <div class="main">
+      <div class="m-project">
+        <h1 class="title">
+          热门预售
+          <a class="more" href="javascript:;">更多 ></a>
+        </h1>
+        <ul class="list">
+          <li class="item col2">
+            <a class="item-inner" href="javascript:;">
+              <img class="ad" src="//pic.iidingyun.com//file/20181120/75487.png" alt="">
+            </a>
+          </li>
+          <li class="item">
+            <a class="item-inner" href="#/projectdetails">
+              <div class="cover-wrapper">
+                <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
+              </div>
+              <h3 class="name">拼多多类APP商城 定制开发</h3>
+              <div class="price-wrapper">
+                <div class="price">3000.<span class="decimal">00</span></div>
+                <div class="status">满额截标</div>
+              </div>
+              <div class="progress-wrapper">
+                <progress class="u-progress" value="22" max="100"></progress>
+              </div>
+              <ul class="details">
+                <li>
+                  <div class="prog">60%</div>
+                  <div class="desc">完成</div>
+                </li>
+                <li>
+                  <div class="prog">6人</div>
+                  <div class="desc">参与人数</div>
+                </li>
+                <li>
+                  <div class="prog">30天</div>
+                  <div class="desc">剩余时间</div>
+                </li>
+              </ul>
+              <div class="tag">满10人截标</div>
+              <div class="qrcode-wrapper">
+                <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
+                <div class="desc">扫码查看样例</div>
+              </div>
+            </a>
+          </li>
+          <li class="item">
+            <a class="item-inner" href="javascript:;">
+              <div class="cover-wrapper">
+                <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
+              </div>
+              <h3 class="name">拼多多类APP商城 定制开发</h3>
+              <div class="price-wrapper">
+                <div class="price">3000.<span class="decimal">00</span></div>
+                <div class="status">满额截标</div>
+              </div>
+              <div class="progress-wrapper">
+                <progress class="u-progress" value="22" max="100"></progress>
+              </div>
+              <ul class="details">
+                <li>
+                  <div class="prog">60%</div>
+                  <div class="desc">完成</div>
+                </li>
+                <li>
+                  <div class="prog">6人</div>
+                  <div class="desc">参与人数</div>
+                </li>
+                <li>
+                  <div class="prog">30天</div>
+                  <div class="desc">剩余时间</div>
+                </li>
+              </ul>
+              <div class="tag">满10人截标</div>
+              <div class="qrcode-wrapper">
+                <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
+                <div class="desc">扫码查看样例</div>
+              </div>
+            </a>
+          </li>
+          <li class="item">
+            <a class="item-inner" href="javascript:;">
+              <div class="cover-wrapper">
+                <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
+              </div>
+              <h3 class="name">拼多多类APP商城 定制开发</h3>
+              <div class="price-wrapper">
+                <div class="price">3000.<span class="decimal">00</span></div>
+                <div class="status">满额截标</div>
+              </div>
+              <div class="progress-wrapper">
+                <progress class="u-progress" value="22" max="100"></progress>
+              </div>
+              <ul class="details">
+                <li>
+                  <div class="prog">60%</div>
+                  <div class="desc">完成</div>
+                </li>
+                <li>
+                  <div class="prog">6人</div>
+                  <div class="desc">参与人数</div>
+                </li>
+                <li>
+                  <div class="prog">30天</div>
+                  <div class="desc">剩余时间</div>
+                </li>
+              </ul>
+              <div class="tag">满10人截标</div>
+              <div class="qrcode-wrapper">
+                <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
+                <div class="desc">扫码查看样例</div>
+              </div>
+            </a>
+          </li>
+          <li class="item">
+            <a class="item-inner" href="javascript:;">
+              <div class="cover-wrapper">
+                <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
+              </div>
+              <h3 class="name">拼多多类APP商城 定制开发</h3>
+              <div class="price-wrapper">
+                <div class="price">3000.<span class="decimal">00</span></div>
+                <div class="status">满额截标</div>
+              </div>
+              <div class="progress-wrapper">
+                <progress class="u-progress" value="22" max="100"></progress>
+              </div>
+              <ul class="details">
+                <li>
+                  <div class="prog">60%</div>
+                  <div class="desc">完成</div>
+                </li>
+                <li>
+                  <div class="prog">6人</div>
+                  <div class="desc">参与人数</div>
+                </li>
+                <li>
+                  <div class="prog">30天</div>
+                  <div class="desc">剩余时间</div>
+                </li>
+              </ul>
+              <div class="tag">满10人截标</div>
+              <div class="qrcode-wrapper">
+                <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
+                <div class="desc">扫码查看样例</div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+  
+      <div class="m-project">
+        <h1 class="title">
+          正在开发
+          <a class="more" href="javascript:;">更多 ></a>
+        </h1>
+        <ul class="list">
+          <li class="item">
+            <a class="item-inner" href="javascript:;">
+              <div class="cover-wrapper">
+                <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
+              </div>
+              <h3 class="name">拼多多类APP商城 定制开发</h3>
+              <div class="price-wrapper">
+                <div class="price">3000.<span class="decimal">00</span></div>
+                <div class="status">满额截标</div>
+              </div>
+              <div class="progress-wrapper">
+                <progress class="u-progress green" value="22" max="100"></progress>
+              </div>
+              <ul class="details">
+                <li>
+                  <div class="prog">60%</div>
+                  <div class="desc">完成</div>
+                </li>
+                <li>
+                  <div class="prog">6人</div>
+                  <div class="desc">参与人数</div>
+                </li>
+                <li>
+                  <div class="prog">30天</div>
+                  <div class="desc">剩余时间</div>
+                </li>
+              </ul>
+              <div class="modal">
+                <a class="link" href="javascript:;" target="_blank">查看进度</a>
+              </div>
+            </a>
+          </li>
+          <li class="item">
+            <a class="item-inner" href="javascript:;">
+              <div class="cover-wrapper">
+                <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
+              </div>
+              <h3 class="name">拼多多类APP商城 定制开发</h3>
+              <div class="price-wrapper">
+                <div class="price">3000.<span class="decimal">00</span></div>
+                <div class="status">满额截标</div>
+              </div>
+              <div class="progress-wrapper">
+                <progress class="u-progress green" value="22" max="100"></progress>
+              </div>
+              <ul class="details">
+                <li>
+                  <div class="prog">60%</div>
+                  <div class="desc">完成</div>
+                </li>
+                <li>
+                  <div class="prog">6人</div>
+                  <div class="desc">参与人数</div>
+                </li>
+                <li>
+                  <div class="prog">30天</div>
+                  <div class="desc">剩余时间</div>
+                </li>
+              </ul>
+              <div class="modal">
+                <a class="link" href="javascript:;" target="_blank">查看进度</a>
+              </div>
+            </a>
+          </li>
+          <li class="item">
+            <a class="item-inner" href="javascript:;">
+              <div class="cover-wrapper">
+                <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
+              </div>
+              <h3 class="name">拼多多类APP商城 定制开发</h3>
+              <div class="price-wrapper">
+                <div class="price">3000.<span class="decimal">00</span></div>
+                <div class="status">满额截标</div>
+              </div>
+              <div class="progress-wrapper">
+                <progress class="u-progress green" value="80" max="100"></progress>
+              </div>
+              <ul class="details">
+                <li>
+                  <div class="prog">60%</div>
+                  <div class="desc">完成</div>
+                </li>
+                <li>
+                  <div class="prog">6人</div>
+                  <div class="desc">参与人数</div>
+                </li>
+                <li>
+                  <div class="prog">30天</div>
+                  <div class="desc">剩余时间</div>
+                </li>
+              </ul>
+              <div class="modal">
+                <a class="link" href="javascript:;" target="_blank">查看进度</a>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+  
+      <div class="m-project custom">
+        <h1 class="title">
+          定制开发
+          <a class="more" href="javascript:;">更多 ></a>
+        </h1>
+        <ul class="list">
+          <li class="item col2">
+            <a class="item-inner" href="javascript:;">
+              <img class="ad" src="//pic.iidingyun.com//file/20181120/75487.png" alt="">
+            </a>
+          </li>
+          <li class="item">
+            <a class="item-inner" href="javascript:;">
+              <div class="cover-wrapper">
+                <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
+              </div>
+              <h3 class="name">拼多多类APP商城 定制开发</h3>
+              <div class="price-wrapper">
+                <div class="price">3000.<span class="decimal">00</span></div>
+              </div>
+              <div class="qrcode-wrapper">
+                <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
+                <div class="desc">扫码查看样例</div>
+              </div>
+            </a>
+          </li>
+          <li class="item">
+            <a class="item-inner" href="javascript:;">
+              <div class="cover-wrapper">
+                <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
+              </div>
+              <h3 class="name">拼多多类APP商城 定制开发</h3>
+              <div class="price-wrapper">
+                <div class="price">3000.<span class="decimal">00</span></div>
+              </div>
+              <div class="qrcode-wrapper">
+                <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
+                <div class="desc">扫码查看样例</div>
+              </div>
+            </a>
+          </li>
+          <li class="item">
+            <a class="item-inner" href="javascript:;">
+              <div class="cover-wrapper">
+                <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
+              </div>
+              <h3 class="name">拼多多类APP商城 定制开发</h3>
+              <div class="price-wrapper">
+                <div class="price">3000.<span class="decimal">00</span></div>
+              </div>
+              <div class="qrcode-wrapper">
+                <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
+                <div class="desc">扫码查看样例</div>
+              </div>
+            </a>
+          </li>
+          <li class="item">
+            <a class="item-inner" href="javascript:;">
+              <div class="cover-wrapper">
+                <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
+              </div>
+              <h3 class="name">拼多多类APP商城 定制开发</h3>
+              <div class="price-wrapper">
+                <div class="price">3000.<span class="decimal">00</span></div>
+              </div>
+              <div class="qrcode-wrapper">
+                <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
+                <div class="desc">扫码查看样例</div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- contact -->
+    <ul class="contact-wrapper">
+      <li class="item chat">
+        <a href="#/chat" target="_blank">
+          <i class="icon icon-chat"><div class="txt">咨询客服</div></i>
+        </a>
+      </li>
+      <li class="item wechat">
+        <i class="icon icon-qrcode"></i>
+        <div class="qrcode-inner">
+          <img class="pic" src="//pic.iidingyun.com/1000//file/20181129/75737.png" alt="">
+          <div class="desc">关注我们</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Home",
+  data() {
+    return {};
+  }
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import "../styles/vars.scss";
+.banner-wrapper {
+  height: 456px;
+  background: #ea7a20;
+  display: flex;
+  .banner-inner {
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    .banner {
+      flex: 1;
+      position: relative;
+      .pic {
+        width: 930px;
+        height: 456px;
+      }
+      .dot {
+        display: flex;
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+        li {
+          width: 4px;
+          height: 4px;
+          background: rgba(255, 255, 255, 0.5);
+          border-radius: 50%;
+          &.active {
+            width: 26px;
+            height: 4px;
+            background: rgba(255, 255, 255, 1);
+            border-radius: 2px;
+          }
+          & + li {
+            margin-left: 8px;
+          }
+        }
+      }
+      .arr {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        transition: background ease 0.4s;
+        &::after {
+          content: "";
+          width: 10px;
+          height: 18px;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        &.left {
+          left: 20px;
+          &::after {
+            left: 8px;
+            background: url("//pic.iidingyun.com//file/20181120/75491.png")
+              no-repeat;
+          }
+        }
+        &.right {
+          right: 20px;
+          &::after {
+            right: 8px;
+            background: url("//pic.iidingyun.com//file/20181120/75492.png")
+              no-repeat;
+          }
+        }
+      }
+    }
+    .intro {
+      width: 270px;
+      height: 456px;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      position: relative;
+      .title {
+        height: 63px;
+        line-height: 63px;
+        color: #ffffff;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        background: url("//pic.iidingyun.com/1000//file/20181120/75478.png")
+          no-repeat;
+      }
+      .date {
+        height: 128px;
+        line-height: 128px;
+        text-align: center;
+        .month,
+        .day {
+          font-size: 60px;
+          color: $front-color;
+          text-shadow:0px 4px 10px rgba(255,80,0,0.4);
+          font-family: myFont;
+        }
+      }
+      .desc {
+        text-align: center;
+        font-size: 18px;
+        line-height: 23px;
+        margin-top: 18px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .ad-wrapper {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        display: flex;
+        .ad {
+          width: 270px;
+          height: 204px;
+        }
+      }
+      .seperator {
+        width: 100%;
+        display: flex;
+        overflow: hidden;
+        li {
+          width: 14px;
+          height: 2px;
+          background: $front-color;
+          margin-left: 10px;
+          &:first-child {
+            margin-left: 8px;
+          }
+        }
+      }
+    }
+  }
+  &:hover {
+    .arr {
+      background: rgba(0, 0, 0, 0.4);
+    }
+  }
+}
+
+.stat {
+  width: 1200px;
+  margin: 0 auto;
+  height: 111px;
+  box-shadow: 0px 0px 40px 0px rgba(216, 216, 216, 0.5);
+  border-radius: 0px 0px 4px 4px;
+  display: flex;
+  .item {
+    flex: 1;
+    text-align: center;
+    .val {
+      display: flex;
+      justify-content: center;
+      font-size: 14px;
+      color: rgba(153, 153, 153, 1);
+      line-height: 18px;
+      margin-top: 12px;
+      .no {
+        align-self: center;
+        font-size: 50px;
+        color: rgba(51, 51, 51, 1);
+        line-height: 58px;
+        font-family: myFont;
+      }
+      .prev {
+        align-self: flex-end;
+        margin-bottom: 8px;
+        margin-right: 8px;
+      }
+      .unit {
+        align-self: flex-start;
+        margin-top: 11px;
+        margin-left: 8px;
+      }
+    }
+    .desc {
+      font-size: 12px;
+      color: rgba(51, 51, 51, 1);
+      line-height: 15px;
+      margin-top: 2px;
+    }
+  }
+}
+
+.main {
+  width: 1200px;
+  margin: 10px auto 90px;
+}
+
+
+
+
+@media (max-width: 767px){
+  .banner-wrapper{
+    height: auto;
+    .banner-inner{
+      width: 100%;
+      .banner{
+        display:flex;
+        .pic{
+          width:100%;
+          height: 210px;
+        }
+        .arr{
+          display: none;
+        }
+      }
+      .intro{
+        display: none;
+      }
+    }
+  }
+  .stat{
+    display: none;
+  }
+  .main{
+    width: 100%;
+  }
+  .m-project{
+    .title{
+      font-size: 18px;
+      padding-left: 23px;
+      margin: 25px 0 12px;
+      .more{
+        font-size:14px;
+        color:rgba(153,153,153,1);
+        line-height:17.5px;
+        top:50%;
+        transform: translateY(-50%);
+        right: 15px;
+      }
+      &::before{
+        width: 2px;
+        height: 15px;
+        left: 15px;
+      }
+    }
+    .list{
+      width: 100%;
+      margin: 0;
+      justify-content: space-between;
+      padding: 0 15px;
+      box-sizing: border-box;
+      line-height:23px;
+      .item{
+        width: 165px;
+        height: auto;
+        margin: 0;
+        margin-bottom: 10px;
+        .item-inner{
+          .cover-wrapper{
+            width: 165px;
+            height: 131px;
+            .cover{
+              width: 165px;
+              height: 131px;
+            }
+          }
+          .name{
+            font-size:14px;
+            line-height:17.5px;
+            margin: 12px 0 0;
+            font-weight: normal;
+          }
+          .details{
+            display: none;
+          }
+          .price-wrapper{
+            padding: 0;
+            .price{
+              font-size:15px;
+              font-weight:normal;
+              line-height:17px;
+              .decimal{
+                font-size: 10px;
+              }
+            }
+            .status{
+              display: none;
+            }
+          }
+          .progress-wrapper{
+            padding: 0;
+            margin: 0;
+            margin-bottom: 10px;
+            line-height: 4px;
+          }
+          .tag{
+            width:65px;
+            height: 21px;
+            line-height: 21px;
+            font-size:10px;
+            padding-left: 4px;
+            background: url('//pic.iidingyun.com//file/20181130/75750.png') no-repeat;
+            background-size: contain;
+          }
+        }
+        &.col2{
+          display: none;
+        }
+      }
+    }
+  }
+  
+}
+</style>
