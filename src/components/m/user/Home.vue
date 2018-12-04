@@ -30,19 +30,19 @@
                 <button class="btn green">充值</button>
             </div>
             <ul class="menu">
-                <li class="item">
+                <li class="item" @click="toFinance">
                     <i class="icon icon-finance"></i>
                     <span>财务管理</span>
                     <i class="icon-more"></i>
                 </li>
-                <li class="item">
+                <li class="item" @click="toMyProject">
                     <i class="icon icon-project"></i>
                     <span>项目管理</span>
                     <i class="icon-more"></i>
                 </li>
             </ul>
             <ul class="menu">
-                <li class="item">
+                <li class="item" @click="toMessage">
                     <span>消息中心</span>
                     <i class="icon-more"></i>
                 </li>
@@ -61,6 +61,15 @@ export default {
   methods: {
     toInfo() {
       this.$router.push("/muser/info");
+    },
+    toMessage(){
+      this.$router.push("/muser/message");
+    },
+    toFinance(){
+      this.$router.push("/muser/finance");
+    },
+    toMyProject(){
+      this.$router.push("/muser/myproject");
     }
   }
 };
