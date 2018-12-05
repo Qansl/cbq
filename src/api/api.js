@@ -2,7 +2,7 @@ import axios from 'axios';
 const SERVICE_URL = "https://s3.iidingyun.com/api/get_service_to_json.vm";
 const SITEID = '73413';
 
-export let request = (serviceName, para = {}, cb) => {
+export const request = (serviceName, para = {}, cb) => {
     let serviceUrlNow = '';
     para.siteid = SITEID;
     if (!serviceDataAll || serviceDataAll.length == 0) {
