@@ -6,20 +6,24 @@
         <span class="txt">官方咨询电话</span>
         <span class="txt tel im">000 - 444 1234</span>
         <span style="flex:1"></span>
-        <a class="link active" href="javascript:;" @click="showLogin">请登录</a>
-        <a class="link register" href="javascript:;" @click="showRegister">免费注册</a>
-        <el-dropdown>
-          <span class="el-dropdown-link">
-            <a class="link" href="javascript:;">吕涛</a>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item @click.native="toUserCenter">个人中心</el-dropdown-item>
-            <el-dropdown-item @click.native="toUserInfo">我的资料</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <a class="link logout" href="javascript:;">退出</a>
-        <div class="seperator"></div>
-        <a class="link" href="#/user/myproject" target="_blank">我的项目</a>
+        <template v-if="!login">
+          <a class="link active" href="javascript:;" @click="showLogin">请登录</a>
+          <a class="link register" href="javascript:;" @click="showRegister">免费注册</a>
+        </template>
+        <template v-else>
+          <el-dropdown>
+            <span class="el-dropdown-link">
+              <a class="link" href="javascript:;">{{userInfo.user_name}}</a>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item @click.native="toUserCenter">个人中心</el-dropdown-item>
+              <el-dropdown-item @click.native="toUserInfo">我的资料</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <a class="link logout" href="javascript:;" @click="logout">退出</a>
+          <div class="seperator"></div>
+          <a class="link" href="#/user/myproject" target="_blank">我的项目</a>
+        </template>
         <div class="seperator"></div>
         <a class="link sel market" href="javascript:;">
           手机商城
@@ -92,16 +96,28 @@
           <section class="dialog-body">
             <div class="login-wrapper">
               <div class="input-wrapper icon-left">
-                <input class="input" type="text" placeholder="手机号" maxlength="11">
+                <input
+                  v-model="loginInfo.account"
+                  class="input"
+                  type="text"
+                  placeholder="手机号"
+                  maxlength="11"
+                >
                 <i class="icon icon-phone"></i>
                 <div class="warning-txt"></div>
               </div>
-              <div class="input-wrapper icon-left warning">
-                <input class="input" type="password" placeholder="密码" maxlength="16">
+              <div class="input-wrapper icon-left">
+                <input
+                  v-model="loginInfo.password"
+                  class="input"
+                  type="password"
+                  placeholder="密码"
+                  maxlength="16"
+                >
                 <i class="icon icon-pwd"></i>
-                <div class="warning-txt">* 密码错误，请从新输入</div>
+                <div class="warning-txt"></div>
               </div>
-              <button class="btn disabled">登录</button>
+              <button class="btn" @click="loginSubmit">登录</button>
               <div class="tool">
                 <label class="u-checkbox">
                   <span class="u-checkbox__input">
@@ -136,24 +152,24 @@
           </header>
           <section class="dialog-body">
             <div class="login-wrapper pwd-wrapper">
-              <div class="input-wrapper">
-                <input class="input" type="text" placeholder="输入11位手机号" maxlength="11">
-                <div class="warning-txt"></div>
+              <div class="input-wrapper" :class="{warning:findPwdInfo.phoneErr!=''}">
+                <input v-model="findPwdInfo.phone" class="input" type="text" placeholder="输入11位手机号" maxlength="11" @input="onFindPwdPhoneChange">
+                <div class="warning-txt">{{findPwdInfo.phoneErr}}</div>
               </div>
               <div class="input-wrapper validcode icon-right">
-                <input class="input" type="text" placeholder="验证码" maxlength="6">
-                <i class="icon icon-valid-success"></i>
-                <button class="btn">获取验证码</button>
+                <input v-model="findPwdInfo.verify_code" class="input" type="text" placeholder="验证码" maxlength="6" @change="onFindPwdCodeChange">
+                <i class="icon " :class="{'icon-valid-success':findPwdInfo.verify_codePass===true,'icon-valid-error':findPwdInfo.verify_codePass===false}"></i>
+                <button class="btn" @click="findPwdGetValidCode">{{findPwdInfo.codeBtnTxt}}</button>
               </div>
               <div class="input-wrapper">
-                <input class="input" type="password" placeholder="6 - 16位密码，区分大小写" maxlength="16">
-                <div class="warning-txt">* 密码错误，请从新输入</div>
+                <input v-model="findPwdInfo.pwd1" class="input" type="password" placeholder="6-16位密码，区分大小写" maxlength="16">
+                <div class="warning-txt"></div>
               </div>
-              <div class="input-wrapper warning">
-                <input class="input" type="password" placeholder="确认密码" maxlength="16">
-                <div class="warning-txt">* 密码错误，请从新输入</div>
+              <div class="input-wrapper ">
+                <input v-model="findPwdInfo.pwd2" class="input" type="password" placeholder="确认密码" maxlength="16">
+                <div class="warning-txt"></div>
               </div>
-              <button class="btn disabled">确认重置</button>
+              <button class="btn " @click="findPwdSubmit">确认重置</button>
             </div>
           </section>
           <footer class="dialog-footer"></footer>
@@ -171,24 +187,53 @@
           </header>
           <section class="dialog-body">
             <div class="login-wrapper">
-              <div class="input-wrapper">
-                <input class="input" type="text" placeholder="输入11位手机号" maxlength="11">
-                <div class="warning-txt"></div>
+              <div class="input-wrapper" :class="{warning:registerInfo.phoneErr!=''}">
+                <input
+                  v-model="registerInfo.phone"
+                  class="input"
+                  type="text"
+                  placeholder="输入11位手机号"
+                  maxlength="11"
+                  @input="onRegisterPhoneChange"
+                >
+                <div class="warning-txt">{{registerInfo.phoneErr}}</div>
               </div>
               <div class="input-wrapper validcode icon-right">
-                <input class="input" type="text" placeholder="验证码" maxlength="6">
-                <i class="icon icon-valid-error"></i>
-                <button class="btn">获取验证码</button>
+                <input
+                  v-model="registerInfo.verify_code"
+                  class="input"
+                  type="text"
+                  placeholder="验证码"
+                  maxlength="6"
+                  @change="onRegisterCodeChange"
+                >
+                <i
+                  class="icon"
+                  :class="{'icon-valid-success':registerInfo.verify_codePass===true,'icon-valid-error':registerInfo.verify_codePass===false}"
+                ></i>
+                <button class="btn" @click="getValidCode">{{registerInfo.codeBtnTxt}}</button>
               </div>
               <div class="input-wrapper">
-                <input class="input" type="password" placeholder="6 - 16位密码，区分大小写" maxlength="16">
-                <div class="warning-txt">* 密码错误，请从新输入</div>
+                <input
+                  v-model="registerInfo.password"
+                  class="input"
+                  type="password"
+                  placeholder="6-16位密码，区分大小写"
+                  maxlength="16"
+                >
+                <div class="warning-txt"></div>
               </div>
-              <div class="input-wrapper warning">
-                <input class="input" type="password" placeholder="确认密码" maxlength="16">
-                <div class="warning-txt">* 密码错误，请从新输入</div>
+              <div class="input-wrapper">
+                <input
+                  v-model="registerInfo.password2"
+                  class="input"
+                  type="password"
+                  placeholder="确认密码"
+                  maxlength="16"
+                >
+                <div class="warning-txt"></div>
               </div>
-              <button class="btn disabled">注册</button>
+              <button class="btn" @click="registerSubmit">注册</button>
               <div class="tool">
                 <div class="link">第三方账号注册</div>
                 <a class="icon icon-wechat" href="javascript:;" @click="showPhone"></a>
@@ -234,6 +279,8 @@
 
 <script>
 import { request } from "./api/api";
+//import "./blueimp-md5/js/md5.min.js"
+import md5 from "blueimp-md5/js/md5";
 export default {
   name: "App",
   data() {
@@ -246,15 +293,50 @@ export default {
         "/bindcard",
         "/bindcardsuccess"
       ],
+      userInfo: {
+        user_name: ""
+      },
       //登录
+      login: false,
       loginDialogVisible: false,
       autoLogin: false,
+      loginInfo: {
+        account: "",
+        password: ""
+      },
 
       //找回密码
       pwdDialogVisible: false,
+      findPwdInfo:{
+        phone:'',
+        verify_code:'',
+        verify_codePass: "", //验证码是否验证通过
+        pwd1:'',
+        pwd2:'',
+
+        phoneErr:'',
+
+        codeBtnTxt: '获取验证码',
+        codeInterval: null,
+      },
 
       //注册
       registerDialogVisible: false,
+      registerInfo: {
+        phone: "",
+        verify_code: "",
+        verify_codePass: "", //验证码是否验证通过
+        password: "",
+        password2: "",
+
+        phoneErr: "",
+        //verify_codeErr: "",
+        passwordErr: "",
+        password2Err: "",
+
+        codeBtnTxt: '获取验证码',
+        codeInterval: null,
+      },
 
       //绑定手机
       phoneDialogVisible: false
@@ -298,6 +380,35 @@ export default {
     // request("com.iiding.admin.shop_management.base_param.query", {}, data => {
     //   console.log(data);
     // });
+
+    let userInfo = sessionStorage.getItem("userInfo");
+    if (userInfo && userInfo != "") {
+      this.login = true;
+      this.userInfo = JSON.parse(userInfo);
+    }else{
+      
+      //自动登录
+      let autoLogin = localStorage.getItem("autoLogin");
+      let loginInfo = localStorage.getItem("loginInfo");
+      if (autoLogin) {
+        loginInfo = JSON.parse(loginInfo);
+        request(
+          "com.iiding.user.account.user_login",
+          { account: loginInfo.account, password: loginInfo.password },
+          res => {
+            console.log(res);
+            if (res.code == "success") {
+              sessionStorage.setItem("userInfo", JSON.stringify(res));
+              this.userInfo = res;
+              this.login = true;
+            } else {
+              this.$message.error(res.msg);
+            }
+          }
+        );
+      }
+
+    }
   },
   methods: {
     handleRouteChange(path) {
@@ -345,12 +456,258 @@ export default {
       this.phoneDialogVisible = false;
     },
     toUserCenter() {
-      console.log(1);
       window.open("#/user/info");
     },
     toUserInfo() {
       window.open("#/user/info");
-    }
+    },
+
+    getValidCode() {
+      if(this.registerInfo.codeBtnTxt != '获取验证码'){
+        return;
+      }
+      if (this.registerInfo.phone == "") {
+        //this.$message("请输入手机号");
+        this.registerInfo.phoneErr = "请输入手机号";
+        return;
+      }
+      let reg = /^1\d{10}$/;
+      if (!reg.test(this.registerInfo.phone)) {
+        //this.$message("请输入正确的手机号");
+        this.registerInfo.phoneErr = "请输入正确的手机号";
+        return;
+      }
+      request(
+        "com.iiding.common.user.verify_code",
+        { phone: this.registerInfo.phone },
+        res => {
+          if(res.code=='success'){
+            this.registerInfo.codeBtnTxt = 60;
+            this.registerInfo.codeInterval = setInterval(() => {
+              if(this.registerInfo.codeBtnTxt>1){
+                this.registerInfo.codeBtnTxt --;
+              }else{
+                this.registerInfo.codeInterval = null;
+                clearInterval(this.registerInfo.codeInterval);
+                this.registerInfo.codeBtnTxt = '获取验证码';
+              }
+            }, 1000);
+          }
+        }
+      );
+    },
+    onRegisterPhoneChange() {
+      let reg = /^1\d{10}$/;
+      if (reg.test(this.registerInfo.phone)) {
+        this.registerInfo.phoneErr = "";
+      }
+    },
+    onRegisterCodeChange() {
+      let reg = /^\d{6}$/;
+      if (reg.test(this.registerInfo.verify_code)) {
+        request(
+          "com.iiding.common.user.user_phone_check",
+          {
+            phone: this.registerInfo.phone,
+            verify_code: this.registerInfo.verify_code
+          },
+          res => {
+            if (res.code == "success") {
+              this.registerInfo.verify_codePass = true;
+            } else {
+              this.registerInfo.verify_codePass = false;
+            }
+          }
+        );
+      } else {
+        this.registerInfo.verify_codePass = "";
+      }
+    },
+    //注册
+    registerSubmit() {
+      let reg1 = /^1\d{10}$/;
+      let reg2 = /^\d{6}$/;
+      let para = {};
+      para.phone = this.registerInfo.phone;
+      para.verify_code = this.registerInfo.verify_code;
+      para.password = this.registerInfo.password;
+      if (!reg1.test(para.phone)) {
+        this.$message("请输入正确的手机号");
+        return;
+      }
+      if (!reg2.test(this.registerInfo.verify_code)) {
+        this.$message("验证码错误");
+        return;
+      }
+      if (para.password != this.registerInfo.password2) {
+        this.$message("密码输入错误");
+        return;
+      }
+      para.password = md5(para.password);
+      //console.log(para);
+      request("com.iiding.user.account.user_register", para, res => {
+        if (res.code == "success") {
+          this.$message({
+            message: "注册成功",
+            type: "success"
+          });
+          setTimeout(() => {
+            this.showLogin();
+          }, 1000);
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
+    },
+
+    //登录
+    loginSubmit() {
+      var para = {};
+      para.account = this.loginInfo.account;
+      para.password = md5(this.loginInfo.password);
+      let reg = /^1\d{10}$/;
+      if (!reg.test(para.account)) {
+        this.$message("请输入正确的手机号");
+        return;
+      }
+      if (para.password == "") {
+        this.$message("请输入密码");
+        return;
+      }
+      console.log(para)
+      request("com.iiding.user.account.user_login", para, res => {
+        console.log(res);
+        if (res.code == "success") {
+          this.$message({
+            message: "登录成功",
+            type: "success"
+          });
+          sessionStorage.setItem("userInfo", JSON.stringify(res));
+          this.userInfo = res;
+          this.loginDialogVisible = false;
+          this.login = true;
+
+          if (this.autoLogin) {
+            localStorage.setItem("autoLogin", true);
+            localStorage.setItem(
+              "loginInfo",
+              JSON.stringify({ account: para.account, password: para.password })
+            );
+          } else {
+            localStorage.removeItem("autoLogin");
+          }
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
+    },
+    logout() {
+      sessionStorage.removeItem("userInfo");
+      localStorage.removeItem('autoLogin');
+      localStorage.removeItem('loginInfo');
+      this.login = false;
+    },
+
+    //找回密码
+    findPwdSubmit(){
+      let reg1 = /^1\d{10}$/;
+      let reg2 = /^\d{6}$/;
+      let para = {};
+      para.phone = this.findPwdInfo.phone;
+      para.verify_code = this.findPwdInfo.verify_code;
+      para.pwd1 = this.findPwdInfo.pwd1;
+      para.pwd2 = this.findPwdInfo.pwd2;
+      if (!reg1.test(para.phone)) {
+        this.$message("请输入正确的手机号");
+        return;
+      }
+      if (!reg2.test(this.findPwdInfo.verify_code)) {
+        this.$message("验证码错误");
+        return;
+      }
+      if (para.pwd1 != this.findPwdInfo.pwd2) {
+        this.$message("密码输入错误");
+        return;
+      }
+      para.pwd1 = md5(para.pwd1);
+      para.pwd2 = md5(para.pwd2);
+      //console.log(para);
+      request("com.iiding.user.account.user_forget_password", para, res => {
+        if (res.code == "success") {
+          this.$message({
+            message: "重置成功",
+            type: "success"
+          });
+          this.logout();
+          setTimeout(() => {
+            this.showLogin();
+          }, 1000);
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
+    },
+    findPwdGetValidCode() {
+      if(this.findPwdInfo.codeBtnTxt != '获取验证码'){
+        return;
+      }
+      if (this.findPwdInfo.phone == "") {
+        this.findPwdInfo.phoneErr = "请输入手机号";
+        return;
+      }
+      let reg = /^1\d{10}$/;
+      if (!reg.test(this.findPwdInfo.phone)) {
+        this.findPwdInfo.phoneErr = "请输入正确的手机号";
+        return;
+      }
+      request(
+        "com.iiding.common.user.verify_code",
+        { phone: this.findPwdInfo.phone },
+        res => {
+          if(res.code=='success'){
+            this.findPwdInfo.codeBtnTxt = 60;
+            this.findPwdInfo.codeInterval = setInterval(() => {
+              if(this.findPwdInfo.codeBtnTxt>1){
+                this.findPwdInfo.codeBtnTxt --;
+              }else{
+                this.findPwdInfo.codeInterval = null;
+                clearInterval(this.findPwdInfo.codeInterval);
+                this.findPwdInfo.codeBtnTxt = '获取验证码';
+              }
+            }, 1000);
+          }
+        }
+      );
+    },
+    onFindPwdPhoneChange() {
+      let reg = /^1\d{10}$/;
+      if (reg.test(this.findPwdInfo.phone)) {
+        this.findPwdInfo.phoneErr = "";
+      }
+    },
+    onFindPwdCodeChange() {
+      let reg = /^\d{6}$/;
+      if (reg.test(this.findPwdInfo.verify_code)) {
+        request(
+          "com.iiding.common.user.user_phone_check",
+          {
+            phone: this.findPwdInfo.phone,
+            verify_code: this.findPwdInfo.verify_code
+          },
+          res => {
+            if (res.code == "success") {
+              this.findPwdInfo.verify_codePass = true;
+            } else {
+              this.findPwdInfo.verify_codePass = false;
+            }
+          }
+        );
+      } else {
+        this.findPwdInfo.verify_codePass = "";
+      }
+    },
+
+
   },
   watch: {
     $route(to, from) {
@@ -649,7 +1006,6 @@ textarea {
     }
   }
 }
-
 .u-checkbox-group1 {
   display: flex;
 }
@@ -660,7 +1016,7 @@ textarea {
   align-items: center;
   position: relative;
   .u-checkbox__label {
-    //min-width: 92px;
+    // min-width: 92px;
     padding: 0 20px;
     box-sizing: border-box;
     height: 26px;
@@ -728,7 +1084,6 @@ textarea {
     }
   }
 }
-
 .u-input {
   height: 40px;
   line-height: 40px;
@@ -770,8 +1125,7 @@ textarea {
   outline: none;
   cursor: pointer;
 }
-
-/*分享*/
+/* 分享 */
 .u-share {
   display: flex;
   align-items: center;
@@ -811,7 +1165,6 @@ textarea {
     }
   }
 }
-
 // tab
 .u-tabpanel {
   width: 100%;
@@ -822,9 +1175,7 @@ textarea {
     width: 112px;
     height: 42px;
     line-height: 42px;
-    text-align: center;
-    // padding: 0 28px;
-    // box-sizing: border-box;
+    text-align: center; // padding: 0 28px; // box-sizing: border-box;
     font-size: 14px;
     transition: all ease 0.2s;
     cursor: pointer;
@@ -915,7 +1266,6 @@ textarea {
     }
   }
 }
-
 @keyframes ani-u-tabpanel {
   0% {
     bottom: -10px;
@@ -928,8 +1278,7 @@ textarea {
     height: 2px;
   }
 }
-
-//弹出框
+// 弹出框
 .u-dialog-wrapper {
   position: fixed;
   top: 0;
@@ -982,7 +1331,6 @@ textarea {
     }
   }
 }
-
 @keyframes dialog-ani {
   from {
     transform: translateY(-20px);
@@ -993,7 +1341,6 @@ textarea {
     opacity: 1;
   }
 }
-
 .u-table {
   width: 100%;
   border-collapse: collapse;
@@ -1042,7 +1389,6 @@ textarea {
     background: $gray-bg;
   }
 }
-
 .u-el-table-wrapper {
   padding: 29px 31px 80px 31px;
   box-sizing: border-box;
@@ -1062,7 +1408,6 @@ textarea {
     justify-content: flex-end;
   }
 }
-
 .u-form {
   .u-form-item {
     display: flex;
@@ -1164,7 +1509,6 @@ textarea {
     }
   }
 }
-
 .m-project {
   .title {
     height: 30px;
@@ -1381,14 +1725,12 @@ textarea {
     margin-top: 20px;
   }
 }
-
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #333333;
 }
-
 .header1 {
   height: 36px;
   background: rgba(51, 51, 51, 1);
@@ -1478,7 +1820,6 @@ textarea {
     }
   }
 }
-
 .header2 {
   height: 80px;
   background: #ffffff;
@@ -1497,7 +1838,6 @@ textarea {
     }
   }
 }
-
 .g-nav-wrapper {
   background: #ffffff;
   .g-nav {
@@ -1524,7 +1864,6 @@ textarea {
     }
   }
 }
-
 .g-nav-mobile {
   position: fixed;
   left: 0;
@@ -1617,7 +1956,6 @@ textarea {
     }
   }
 }
-
 .footer {
   height: 150px;
   background: rgba(51, 51, 51, 1);
@@ -1646,11 +1984,9 @@ textarea {
     }
   }
 }
-
 .u-dialog.dialog-login {
   width: 400px;
 }
-
 .login-wrapper {
   margin-top: 50px;
   padding-bottom: 54px;
@@ -1849,7 +2185,6 @@ textarea {
     padding-bottom: 229px;
   }
 }
-
 .contact-wrapper {
   width: 80px;
   position: fixed;
@@ -1944,11 +2279,9 @@ textarea {
     }
   }
 }
-
 .g-title-mobile {
   display: none;
 }
-
 @media (max-width: 767px) {
   .u-progress {
     height: 4px;
@@ -1958,7 +2291,6 @@ textarea {
       border-radius: 3px;
     }
   }
-
   .g-title-mobile {
     width: 100%;
     display: block;
@@ -1996,7 +2328,6 @@ textarea {
     left: 0;
     z-index: 1000;
   }
-
   .header1 {
     display: none;
   }
@@ -2012,11 +2343,9 @@ textarea {
   .contact-wrapper {
     display: none;
   }
-
   .g-nav-mobile {
     display: flex;
   }
-
   .u-dialog-wrapper {
     .u-dialog {
       width: 100%;
