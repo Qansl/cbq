@@ -78,7 +78,7 @@
               </el-carousel>
           </li>
           <li class="item" v-for="item in pre_list" :key="item.id">
-            <a class="item-inner" :href="'#/projectdetails?shopid='+item.id">
+            <a class="item-inner" :href="'#/projectdetails/'+item.status + '/' + item.id">
               <div class="cover-wrapper">
                 <img class="cover" :src="item.shop_piture" alt="">
               </div>

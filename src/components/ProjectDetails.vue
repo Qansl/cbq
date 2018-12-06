@@ -2,16 +2,20 @@
     <div>
         <div class="main">
             <div class="intro-container">
-                <img class="cover" src="//pic.iidingyun.com//file/20181122/75577.png" alt="">
+                <el-carousel class="cover" height="400px">
+                  <el-carousel-item v-for="(item,index) in jsons.pic_list" :key="index">
+                      <img  :src="item" alt="" >
+                  </el-carousel-item>
+                </el-carousel>
                 <div class="intro-details">
-                    <h2 class="title">拼多多类APP商城 定制开发</h2>
-                    <div class="desc">近百种营销工具，系统化管理客户，分销拓展销售渠道</div>
+                    <h2 class="title">{{jsons.shop_title}}</h2>
+                    <div class="desc">{{jsons.shop_next_title}}</div>
                     <ul class="stat">
                         <li class="item">
                             <div class="lb">参与费用：</div>
                             <div class="num">
                                 <span class="unit-price">¥</span>
-                                <span>3000</span>
+                                <span>{{jsons.presell_price}}</span>
                             </div>
                         </li>
                         <li class="item">
@@ -225,7 +229,7 @@
                 <aside class="aside">
                     <div class="service-wrapper">
                         <h3 class="title">客服热线</h3>
-                        <div class="no">400-600-6666</div>
+                        <div class="no">{{contact.web_constract}}</div>
                         <div class="time">周一至周五（09:00-18:00）</div>
                         <div class="tips">* 项目最终解释权归平台所有</div>
                     </div>
@@ -383,11 +387,15 @@
 </template>
 
 <script>
+import { request } from "../api/api";
 export default {
   name: "ProjectDetails",
   data() {
     return {
-      tab: 0
+      tab: 0,
+      jsons:{},
+      contact:{},
+      
     };
   },
   mounted() {
@@ -403,8 +411,21 @@ export default {
         }
       }
     };
+    this.get_info();
   },
   methods: {
+    //根据shopid获取信息
+    get_info(){
+      var _this = this;
+      var param = {};
+      param.status = _this.$route.params.type;
+      param.id = _this.$route.params.shopid;
+      request("com.iiding.web.index.shop_detials", param, data => {
+        console.log(data);
+        _this.jsons = data.detial_data;
+        _this.contact = data.constract;
+      })
+    },
     changeTab(i) {
       this.tab = i;
       document.documentElement.scrollTop = 432;
