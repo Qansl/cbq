@@ -51,7 +51,7 @@ export default new Router({
       component: ProjectList
     },
     {
-      path: '/projectdetails',
+      path: '/projectdetails/:type/:shopid',
       component: ProjectDetails
     },
     {
