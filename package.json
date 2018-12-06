@@ -14,7 +14,8 @@
     "element-ui": "^2.4.11",
     "v-charts": "^1.19.0",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -35,6 +36,7 @@
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
+    "js-cookie": "^2.2.0",
     "node-notifier": "^5.1.2",
     "node-sass": "^4.10.0",
     "normalize.css": "^8.0.1",
