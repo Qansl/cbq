@@ -12,3 +12,13 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+build/
+config/
+src/
+.babelrc
+.editorconfig
+.postcssrc.js
+LICENSE
+package-lock.json
+pachage.json
