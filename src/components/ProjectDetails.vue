@@ -19,26 +19,26 @@
                             </div>
                         </li>
                         <li class="item">
-                            <div class="lb">参与人数：</div>
+                            <div class="lb">参与名额：</div>
                             <div class="num">
-                                <span>10</span>
+                                <span>{{jsons.person_count}}</span>
                                 <span class="unit-person">人</span>
                             </div>
                         </li>
                     </ul>
                     <div class="prog-wrapper">
-                        <progress class="u-progress" value="88" max="100"></progress>
+                        <progress class="u-progress" :value="jsons.plenty" :max="jsons.plenty > 100 ? jsons.plenty : 100"></progress>
                         <ul class="prog-details">
                             <li>
-                                <div class="prog">60%</div>
+                                <div class="prog">{{jsons.plenty}}%</div>
                                 <div class="desc2">完成</div>
                             </li>
-                            <li>
-                                <div class="prog">6人</div>
-                                <div class="desc2">参与人数</div>
+                            <li v-show="jsons.status == 0">
+                                <div class="prog">{{jsons.pre_count}}人</div>
+                                <div class="desc2">预报名人数</div>
                             </li>
                             <li>
-                                <div class="prog">30天</div>
+                                <div class="prog">{{jsons.date_time}}天</div>
                                 <div class="desc2">剩余时间</div>
                             </li>
                         </ul>
@@ -422,8 +422,26 @@ export default {
       param.id = _this.$route.params.shopid;
       request("com.iiding.web.index.shop_detials", param, data => {
         console.log(data);
-        _this.jsons = data.detial_data;
         _this.contact = data.constract;
+        _this.jsons = data.detial_data;
+        if(_this.jsons.status == 0){
+          var date1 = new Date();
+          var date2 = new Date(_this.jsons.presell_finish_time.replace(/-/g, "/"))
+          var date = date2.getTime() - date1.getTime();
+          _this.jsons["date_time"] = parseInt(date/(1000*3600*24));
+          var plenty = parseInt((_this.jsons.pre_count / _this.jsons.person_count) * 100);
+          _this.jsons["plenty"] = plenty;
+        }
+        else if(_this.jsons.status == 1){
+          var date1 = new Date();
+          var date2 = new Date(_this.jsons.dev_end_time.replace(/-/g, "/"))
+          var date3 = new Date(_this.jsons.dev_start_time.replace(/-/g, "/"))
+          var date = date2.getTime() - date1.getTime();
+          var dates = date1.getTime() - date3.getTime();
+          _this.jsons["date_time"] = parseInt(date/(1000*3600*24));
+          var plenty = parseInt(( dates / (date2.getTime() - date3.getTime())) * 100);
+          _this.jsons["plenty"] = plenty;
+        }
       })
     },
     changeTab(i) {
