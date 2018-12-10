@@ -7,19 +7,38 @@
       <div class="form">
         <div class="form-item">
           <div class="lb">绑定新的手机号</div>
-          <input class="u-input" type="text" placeholder="输入11位手机号" maxlength="11">
+          <input
+            v-model="editMobile.phone"
+            class="u-input"
+            type="text"
+            placeholder="输入11位手机号"
+            maxlength="11"
+          >
         </div>
         <div class="form-item">
           <div class="validcode-wrapper">
             <div class="validcode">
-              <input class="u-input" type="text" placeholder="验证码">
-              <i class="icon icon-valid-success"></i>
+              <input
+                v-model="editMobile.validCode"
+                class="u-input"
+                type="text"
+                placeholder="验证码"
+                @change="onEditMobileCodeChange"
+              >
+              <i
+                class="icon"
+                :class="{'icon-valid-success':editMobile.validCodePass===true,'icon-valid-error':editMobile.validCodePass===false}"
+              ></i>
             </div>
-            <button class="btn">获取验证码</button>
+            <button class="btn" @click="getValidCode">{{editMobile.codeBtnTxt}}</button>
           </div>
         </div>
         <div class="form-tool">
-          <button class="btn">提交</button>
+          <button
+            class="btn"
+            :class="{disabled:editMobile.validCodePass!==true}"
+            @click="showPhone"
+          >提交</button>
         </div>
       </div>
     </div>
@@ -27,7 +46,93 @@
 </template>
 
 <script>
-export default {};
+import { request } from "../../../api/api";
+export default {
+  data() {
+    return {
+      editMobile: {
+        phone: "",
+        validCode: "",
+        validCodePass: "",
+        codeBtnTxt: "获取验证码",
+        codeInterval: null
+      }
+    };
+  },
+  methods: {
+    getValidCode() {
+      if (this.editMobile.codeBtnTxt != "获取验证码") {
+        return;
+      }
+      let reg1 = /^1\d{10}$/;
+      if (!reg1.test(this.editMobile.phone)) {
+        this.$message.error("请输入正确的手机号");
+        return;
+      }
+      request(
+        "com.iiding.common.user.verify_code",
+        { phone: this.editMobile.phone },
+        res => {
+          if (res.code == "success") {
+            this.editMobile.codeBtnTxt = 60;
+            this.editMobile.codeInterval = setInterval(() => {
+              if (this.editMobile.codeBtnTxt > 1) {
+                this.editMobile.codeBtnTxt--;
+              } else {
+                this.editMobile.codeInterval = null;
+                clearInterval(this.editMobile.codeInterval);
+                this.editMobile.codeBtnTxt = "获取验证码";
+              }
+            }, 1000);
+          }
+        }
+      );
+    },
+    onEditMobileCodeChange() {
+      let reg = /^\d{6}$/;
+      if (reg.test(this.editMobile.validCode)) {
+        request(
+          "com.iiding.common.user.user_phone_check",
+          {
+            phone: this.editMobile.phone,
+            verify_code: this.editMobile.validCode
+          },
+          res => {
+            if (res.code == "success") {
+              this.editMobile.validCodePass = true;
+            } else {
+              this.editMobile.validCodePass = false;
+            }
+          }
+        );
+      } else {
+        this.editMobile.validCodePass = "";
+      }
+    },
+    showPhone() {
+      if (this.editMobile.validCodePass !== true) {
+        return;
+      }
+      var para = {};
+      para.phone = this.editMobile.phone;
+      para.verify_code = this.editMobile.validCode;
+      request("com.iiding.user.account.user_phone_update", para, res => {
+        if (res.code == "success") {
+          this.$message({
+            message: "绑定成功",
+            type: "success"
+          });
+          this.$store.commit("changeUserInfo", { phone: para.phone });
+          setTimeout(() => {
+            this.$router.push("/muser/info");
+          }, 1000);
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

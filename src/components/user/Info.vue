@@ -461,7 +461,7 @@ export default {
         userInfo = JSON.parse(userInfo);
         //获取用户详细信息
         request(
-          "com.iiding.common.user.get_user_detail",
+          "com.iiding.web.personal_center.user_manage.find_userinfo",
           { userid: userInfo.userid,type:1 },
           res => {
             this.userInfo = res.data;
@@ -501,7 +501,7 @@ export default {
         para.real_name = this.auth.real_name;
         para.idcard = this.auth.idcard;
         para.front_photo = encodeURIComponent(this.auth.front_photo);
-        para.rear_photo = encodeURIComponent(this.auth.rear_photo);console.log(para)
+        para.rear_photo = encodeURIComponent(this.auth.rear_photo);
         request("com.iiding.user.authentication.auth_info_upload", para, res => {
           if (res.code == "success") {
             this.step = _to;
@@ -551,8 +551,8 @@ export default {
     transferMobile(m) {
       return m.substr(0, 3) + "****" + m.substr(7, 4);
     },
-    uploadImg(obj) {
-      upload.chooseImg(obj.target, url => {
+    uploadImg(e) {
+      upload.chooseImg(e.target, url => {
         request(
           "com.iiding.web.personal_center.user_manage.update_userinfo",
           { icon: encodeURIComponent(url) },
