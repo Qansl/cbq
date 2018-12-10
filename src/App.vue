@@ -417,7 +417,7 @@ export default {
 
     let userInfo = sessionStorage.getItem("userInfo");
     if (userInfo && userInfo != "") {
-      this.$store.commit('changeLogin',true);
+      this.$store.commit("changeLogin", true);
       this.userInfo = JSON.parse(userInfo);
       this.$store.commit("changeUserInfo", JSON.parse(userInfo));
     } else {
@@ -434,13 +434,13 @@ export default {
               sessionStorage.setItem("userInfo", JSON.stringify(res));
               this.userInfo = res;
               this.$store.commit("changeUserInfo", res);
-              this.$store.commit('changeLogin',true);
+              this.$store.commit("changeLogin", true);
             } else {
               this.$message.error(res.msg);
             }
           }
         );
-      }else{
+      } else {
         this.$router.push("/home");
       }
     }
@@ -621,8 +621,8 @@ export default {
           sessionStorage.setItem("userInfo", JSON.stringify(res));
           this.userInfo = res;
           this.loginDialogVisible = false;
-          this.$store.commit('changeLogin',true);
-          this.$store.commit('changeUserInfo',res);
+          this.$store.commit("changeLogin", true);
+          this.$store.commit("changeUserInfo", res);
 
           if (this.autoLogin) {
             localStorage.setItem("autoLogin", true);
@@ -642,8 +642,8 @@ export default {
       sessionStorage.removeItem("userInfo");
       localStorage.removeItem("autoLogin");
       localStorage.removeItem("loginInfo");
-      this.$store.commit('changeLogin',false);
-      this.$router.push('/home');
+      this.$store.commit("changeLogin", false);
+      this.$router.push("/home");
     },
 
     //找回密码
@@ -790,6 +790,17 @@ button {
 }
 textarea {
   resize: none;
+}
+
+.upload-btn {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  height: 100%;
+  cursor: pointer;
+  font-size: 0px;
 }
 
 .dialogfade-enter-active,
@@ -2220,7 +2231,7 @@ textarea {
   &.phone-wrapper {
     padding-bottom: 229px;
   }
-  &.editpwd-wrapper{
+  &.editpwd-wrapper {
     padding-bottom: 70px;
   }
 }
