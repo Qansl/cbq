@@ -4,6 +4,9 @@ const SERVICE_URL = "https://s3.iidingyun.com/api/get_service_to_json.vm";
 export const SITEID = '73393';//73393 73413
 
 axios.defaults.headers.Authorization = cookie.get('Authorization');
+if (window.MicroserviceEnv) {
+    axios.defaults.headers.Env = MicroserviceEnv;
+}
 
 export const request = (serviceName, para = {}, cb) => {
     let serviceUrlNow = '';

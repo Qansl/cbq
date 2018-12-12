@@ -1,74 +1,75 @@
 <template>
-    <div>
-        <h1 class="g-title-mobile">个人中心</h1>
-        <div class="main">
-            <div class="basic-wrapper">
-                <div class="basic" @click="toInfo">
-                    <img class="avator" src="http://pic.iidingyun.com/1000//file/20181127/75713.png" alt="">
-                    <div class="account">
-                        <div class="mobile">13422211223</div>
-                        <div class="no">账号：1324</div>
-                    </div>
-                    <i class="icon-more"></i>
-                </div>
-            </div>
-            <div class="stat-con">
-                <ul class="list">
-                    <li class="item">
-                        <div class="no">0.00</div>
-                        <div class="desc">总收入
-                        </div>
-                        
-                    </li>
-                    <li class="item">
-                        <div class="no">0.00</div>
-                        <div class="desc">余额</div>
-                    </li>
-                </ul>
-                <span style="flex:1"></span>
-                <button class="btn">提现</button>
-                <button class="btn green">充值</button>
-            </div>
-            <ul class="menu">
-                <li class="item" @click="toFinance">
-                    <i class="icon icon-finance"></i>
-                    <span>财务管理</span>
-                    <i class="icon-more"></i>
-                </li>
-                <li class="item" @click="toMyProject">
-                    <i class="icon icon-project"></i>
-                    <span>项目管理</span>
-                    <i class="icon-more"></i>
-                </li>
-            </ul>
-            <ul class="menu">
-                <li class="item" @click="toMessage">
-                    <span>消息中心</span>
-                    <i class="icon-more"></i>
-                </li>
-            </ul>
-            <ul class="menu">
-                <li class="item">
-                    <span>联系我们</span>
-                </li>
-            </ul>
+  <div>
+    <h1 class="g-title-mobile">个人中心</h1>
+    <div class="main">
+      <div class="basic-wrapper">
+        <div class="basic" @click="toInfo">
+          <img class="avator" :src="decodeURIComponent($store.state.userInfo.icon)" alt>
+          <div class="account">
+            <div class="mobile">{{transferMobile($store.state.userInfo.phone)}}</div>
+            <div class="no">账号：{{$store.state.userInfo.userid}}</div>
+          </div>
+          <i class="icon-more"></i>
         </div>
+      </div>
+      <div class="stat-con">
+        <ul class="list">
+          <li class="item">
+            <div class="no">0.00</div>
+            <div class="desc">总收入</div>
+          </li>
+          <li class="item">
+            <div class="no">{{$store.state.userInfo.current_coin.toFixed(2)}}</div>
+            <div class="desc">余额</div>
+          </li>
+        </ul>
+        <span style="flex:1"></span>
+        <button class="btn">提现</button>
+        <button class="btn green">充值</button>
+      </div>
+      <ul class="menu">
+        <li class="item" @click="toFinance">
+          <i class="icon icon-finance"></i>
+          <span>财务管理</span>
+          <i class="icon-more"></i>
+        </li>
+        <li class="item" @click="toMyProject">
+          <i class="icon icon-project"></i>
+          <span>项目管理</span>
+          <i class="icon-more"></i>
+        </li>
+      </ul>
+      <ul class="menu">
+        <li class="item" @click="toMessage">
+          <span>消息中心</span>
+          <i class="icon-more"></i>
+        </li>
+      </ul>
+      <ul class="menu">
+        <li class="item">
+          <span>联系我们</span>
+        </li>
+      </ul>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
   methods: {
+    transferMobile(v) {
+      return v.substr(0, 3) + "****" + v.substr(7, 4);
+    },
     toInfo() {
       this.$router.push("/muser/info");
     },
-    toMessage(){
+    toMessage() {
       this.$router.push("/muser/message");
     },
-    toFinance(){
+    toFinance() {
       this.$router.push("/muser/finance");
     },
-    toMyProject(){
+    toMyProject() {
       this.$router.push("/muser/myproject");
     }
   }

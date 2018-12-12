@@ -9,6 +9,7 @@ export default new Vuex.Store({
             icon: '//pic.iidingyun.com/file/2778/top_head portrait_default@2x-2.png',
             phone: '',
             user_name: '',
+            current_coin:0 //余额
         }
     },
     mutations: {

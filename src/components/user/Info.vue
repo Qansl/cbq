@@ -75,12 +75,19 @@
           </div>
         </div>
       </div>
-      <div class="u-form-item">
+      <div v-show="userInfo.auth_status==0" class="u-form-item">
         <div class="lb">实名认证：</div>
         <div class="disp-txt">你尚未实名认证，请进行实名认证</div>
-        <a class="link" href="javascript:;">修改</a>
+        <a class="link" href="javascript:;" @click="toAuth">认证</a>
       </div>
-      <div class="u-form-item vertify">
+      <div v-show="userInfo.auth_status==1&&userInfo.auth.check_status!=0" class="u-form-item">
+        <div class="lb">实名认证：</div>
+        <div class="disp-txt">正在审核中</div>
+      </div>
+      <div
+        v-show="userInfo.auth_status==1&&userInfo.auth.check_status==0"
+        class="u-form-item vertify"
+      >
         <div class="lb">实名认证：</div>
         <div class="disp-txt vertify-con">
           <div class="vertify-item">
@@ -89,24 +96,31 @@
           </div>
           <div class="vertify-item">
             <span class="vertify-lb">姓名：</span>
-            <span class="vertify-disp">吕涛</span>
+            <span class="vertify-disp">{{userInfo.auth.real_name}}</span>
           </div>
           <div class="vertify-item">
             <span class="vertify-lb">身份证号：</span>
-            <span class="vertify-disp">1234*********12354</span>
+            <span class="vertify-disp">{{userInfo.auth.idcard2}}</span>
           </div>
         </div>
       </div>
       <div class="u-form-item card-wrapper">
         <div class="lb">绑定的银行卡：</div>
         <div class="card-con">
-          <div class="add">
+          <div class="add" @click="toBindCard">
             <i class="icon-add"></i>
             <div class="desc">添加银行卡</div>
           </div>
           <div class="upload-img">
-            <img class="pic" src="http://pic.iidingyun.com//file/20181120/75487.png" alt>
-            <a class="link" href="#/user/bindcard">修改</a>
+            <!-- <img class="pic" src="http://pic.iidingyun.com//file/20181120/75487.png" alt> -->
+            <div class="pic">
+              <div class="card-icon"></div>
+              <div class="card-info">
+                <div class="name">广发银行</div>
+                <div class="id">**** **** **** 1111</div>
+              </div>
+            </div>
+            <a class="link" href="#/bindcard">修改</a>
           </div>
           <div class="tips">注：提现及充值，只能同卡进出，姓名需与实名认证相同</div>
         </div>
@@ -140,26 +154,40 @@
         <div class="form-auth-info">
           <div class="form-item">
             <span class="lb">填写姓名:</span>
-            <input v-model="auth.realname" class="u-input2 name" type="text" maxlength="10">
+            <input v-model="auth.real_name" class="u-input2 name" type="text" maxlength="10">
           </div>
           <div class="form-item">
             <span class="lb">身份证号:</span>
             <input v-model="auth.idcard" class="u-input2 card" type="text" maxlength="18">
           </div>
-          <div class="form-item">
+          <!-- <div class="form-item">
             <span class="lb">是否为大陆地区:</span>
             <el-radio-group v-model="auth.is_mainland">
               <el-radio :label="0" :value="0">是</el-radio>
               <el-radio :label="1" :value="1">否</el-radio>
             </el-radio-group>
-          </div>
+          </div>-->
           <div class="form-item">
             <span class="lb" style="align-self:flex-start">上传身份证:</span>
             <div class="card-wrapper">
-              <img class="pic" src="//pic.iidingyun.com/1000//file/20181129/75734.png" alt>
+              <img class="pic" :src="auth.front_photo" alt>
+              <input
+                class="upload-btn"
+                type="file"
+                capture="camera"
+                accept="image/*"
+                @change="uploadImgIDCard($event,'front_photo')"
+              >
             </div>
             <div class="card-wrapper">
-              <img class="pic" src="//pic.iidingyun.com/1000//file/20181129/75734.png" alt>
+              <img class="pic" :src="auth.rear_photo" alt>
+              <input
+                class="upload-btn"
+                type="file"
+                capture="camera"
+                accept="image/*"
+                @change="uploadImgIDCard($event,'rear_photo')"
+              >
             </div>
           </div>
           <div class="form-item">
@@ -177,7 +205,7 @@
           </div>
           <div class="form-tool">
             <button class="btn2" @click="goTo(2,1)">上一步</button>
-            <button class="btn2 disabled" @click="goTo(2,3)">下一步</button>
+            <button class="btn2" @click="goTo(2,3)">下一步</button>
           </div>
         </div>
       </div>
@@ -375,11 +403,11 @@ export default {
       auth: {
         phone: "",
         validcode: "",
-        realname: "",
+        real_name: "",
         idcard: "",
         is_mainland: 0,
-        front_photo: "",
-        rear_photo: "",
+        front_photo: "//pic.iidingyun.com/1000//file/20181129/75734.png",
+        rear_photo: "//pic.iidingyun.com/1000//file/20181129/75734.png",
         typeid: "",
         second_typeid: "",
         third_typeid: "",
@@ -433,8 +461,8 @@ export default {
         userInfo = JSON.parse(userInfo);
         //获取用户详细信息
         request(
-          "com.iiding.common.user.get_user_detail",
-          { userid: userInfo.userid },
+          "com.iiding.web.personal_center.user_manage.find_userinfo",
+          { userid: userInfo.userid,type:1 },
           res => {
             this.userInfo = res.data;
 
@@ -465,8 +493,25 @@ export default {
       if (_from == 1) {
       }
       if (_to == 3) {
-        _this.step = _to;
-        _this.auth.check_status = 1;
+        if (this.auth.real_name == "" || this.auth.idcard == "") {
+          return;
+        }
+
+        let para = {};
+        para.real_name = this.auth.real_name;
+        para.idcard = this.auth.idcard;
+        para.front_photo = encodeURIComponent(this.auth.front_photo);
+        para.rear_photo = encodeURIComponent(this.auth.rear_photo);
+        request("com.iiding.user.authentication.auth_info_upload", para, res => {
+          if (res.code == "success") {
+            this.step = _to;
+          } else {
+            this.$message.error(res.msg);
+          }
+        });
+
+        //_this.step = _to;
+        //_this.auth.check_status = 1;
       } else {
         _this.step = _to;
       }
@@ -506,8 +551,8 @@ export default {
     transferMobile(m) {
       return m.substr(0, 3) + "****" + m.substr(7, 4);
     },
-    uploadImg(obj) {
-      upload.chooseImg(obj.target, url => {
+    uploadImg(e) {
+      upload.chooseImg(e.target, url => {
         request(
           "com.iiding.web.personal_center.user_manage.update_userinfo",
           { icon: encodeURIComponent(url) },
@@ -718,7 +763,21 @@ export default {
           }
         );
       }
-    }
+    },
+
+    toAuth() {
+      this.changeTab(1);
+    },
+
+    uploadImgIDCard(e, field) {
+      upload.chooseImg(e.target, url => {
+        this.auth[field] = url;
+      });
+    },
+
+    toBindCard(){
+      this.$router.push('/bindcard');
+    },
   }
 };
 </script>
@@ -802,9 +861,36 @@ p {
             }
           }
           .upload-img {
+            display: flex;
+            align-items: flex-end;
             .pic {
               width: 278px;
               height: 134px;
+              background: linear-gradient(to right,#FF8570,#FE5765);
+              display: flex;
+              color: #ffffff;
+              padding: 20px;
+              box-sizing: border-box;
+              .card-icon{
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: #ffffff;
+                margin-right: 14px;
+              }
+              .card-info{
+                display: flex;
+                flex-direction: column;
+                .name{
+                  font-size:16px;
+                  line-height:20px;
+                }
+                .id{
+                  font-size:16px;
+                  line-height:20px;
+                  margin-top: 40px;
+                }
+              }
             }
           }
         }
@@ -1115,9 +1201,20 @@ p {
       .card-wrapper {
         cursor: pointer;
         display: flex;
+        position: relative;
         .pic {
           width: 260px;
           height: 172px;
+        }
+        .upload-btn {
+          position: absolute;
+          width: 100%;
+          top: 0;
+          left: 0;
+          opacity: 0;
+          height: 100%;
+          cursor: pointer;
+          font-size: 0px;
         }
         & + .card-wrapper {
           margin-left: 40px;
