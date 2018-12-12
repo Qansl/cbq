@@ -8,12 +8,12 @@
                     <div class="form basic">
                         <div class="form-item">
                             <div class="lb">项目名称：</div>
-                            <div class="disp-txt"> 拼多多APP商城开发</div>
+                            <div class="disp-txt">{{jsons.shop_title}}</div>
                         </div>
                         <div class="form-item">
                             <div class="lb top">开发类型：</div>
                             <div class="u-radio-group1"> 
-                                <label class="u-radio" :class="{ischecked:devType==1}">
+                                <!-- <label class="u-radio" :class="{ischecked:devType==1}">
                                     <input v-model="devType" class="u-radio__original" type="radio" tabindex="-1" value="1">
                                     <span class="u-radio__label">1份</span>
                                     <div class="u-radio__desc">软件+10%分红权</div>
@@ -27,22 +27,27 @@
                                     <input v-model="devType" class="u-radio__original" type="radio" tabindex="-1" value="3">
                                     <span class="u-radio__label">3份</span>
                                     <div class="u-radio__desc">软件+30%分红权</div>
+                                </label> -->
+                                <label class="u-radio" v-for="item in dev_list" :key="item.id" :class="{ischecked:devType==item.dev_count}">
+                                    <input v-model="devType" class="u-radio__original" type="radio" tabindex="-1" :value="item.dev_count">
+                                    <span class="u-radio__label">{{item.dev_count}}份</span>
+                                    <div class="u-radio__desc">{{item.mark}}</div>
                                 </label>
                             </div>
                         </div>
                         <div class="form-item">
                             <div class="lb">开发均摊费：</div>
-                            <div class="disp-txt im"> 10000</div>
-                            <div class="del-txt">开发总费：6000</div>
+                            <div class="disp-txt im">{{jsons.presell_price}}</div>
+                            <div class="del-txt">开发总费：{{jsons.presell_price * jsons.person_count}}</div>
                         </div>
                         <div class="form-item">
                             <div class="lb">支付选项：</div>
                             <div class="u-radio-group2"> 
                                 <label class="u-radio down-payment" :class="{ischecked:payWay1==1}">
                                     <input v-model="payWay1" class="u-radio__original" type="radio" tabindex="-1" value="1">
-                                    <span class="u-radio__label">¥100定金</span>
+                                    <span class="u-radio__label">¥{{jsons.deposit * devType}}定金</span>
                                     <div class="poper">
-                                        <span class="im">*</span>预报名需支付100元报名费（可退） 预售成功后再缴纳其他费用
+                                        <span class="im">*</span>预报名需支付{{jsons.deposit * devType}}元报名费（可退） 预售成功后再缴纳其他费用
                                     </div>
                                 </label>
                                 <label class="u-radio" :class="{ischecked:payWay1==2}">
@@ -119,7 +124,7 @@
                 <div class="form">
                     <div class="form-item">
                         <div class="lb">手机验证：</div>
-                        <div class="disp-txt im">123****9809</div>
+                        <div class="disp-txt im">{{phone}}</div>
                     </div>
                     <div class="form-item valid">
                         <div class="validcode">
@@ -143,6 +148,7 @@
 </template>
 
 <script>
+import { request } from "../api/api";
 export default {
   name: "Service",
   data() {
@@ -150,13 +156,49 @@ export default {
       payWay1: 1, //支付选项
       payWay2: 1, //支付方式
       devType: 1, //开发类型
-      isAgree: false
+      isAgree: false,
+      status:'',
+      dev_list:[],
+      jsons:{},
     };
   },
-  methods: {
+  mounted(){
+      this.status = this.$route.params.status;
+      console.log(this.status);
+      this.get_dev_type();
+      this.get_shop_info();
+    //this.$store.commit('changeUserInfo',{phone:'fdsfs'})
+  },
+  computed:{
+      phone:function(){
+          return this.$store.state.userInfo.phone.substr(0,3) + "****" + this.$store.state.userInfo.phone.substr(7);
+      }
+  },
+  methods:{
     handlePay() {
       this.$router.push("/paysuccess");
-    }
+    },
+    //获取开发类型
+    get_dev_type(){
+        var _this = this;
+        var param = {};
+        param.shopid = _this.$route.params.shopid;
+        request("com.iiding.web.shop_management.select_devtype_by_shopid",param,data => {
+            _this.dev_list = data.list;
+            _this.dev_list.forEach(function(ele){
+                ele.dev_count = parseInt(ele.dev_count);
+            })
+        })
+    },
+    //获取项目信息
+    get_shop_info(){
+        var _this = this;
+        var param = {};
+        param.id = _this.$route.params.shopid;
+        request("com.iiding.web.shop_management.select_by_shopid",param,data => {
+            _this.jsons = data.list;
+        })
+    },
   }
 };
 </script>

@@ -6,22 +6,24 @@
                 <div class="type-item">
                     <div class="lb">类型</div>
                     <ul class="type">
-                        <li class="item active">全部</li>
-                        <li class="item">预售项目</li>
-                        <li class="item">定制项目</li>
+                        <li class="item" :class="{active:tops == 0}" @click="changeTab(0)">预售项目</li>
+                        <li class="item" :class="{active:tops == 1}" @click="changeTab(1)">开发中项目</li>
+                        <li class="item" :class="{active:tops == 2}" @click="changeTab(2)">定制项目</li>
                     </ul>
                 </div>
                 <div class="type-item">
                     <div class="lb">品类</div>
                     <ul class="type">
-                        <li class="item active">全部</li>
+                        <!-- <li class="item active">全部</li>
                         <li class="item">游戏</li>
                         <li class="item">直播</li>
                         <li class="item">硬件</li>
                         <li class="item">旅游</li>
                         <li class="item">餐厅</li>
                         <li class="item">小程序</li>
-                        <li class="item">商城</li>
+                        <li class="item">商城</li> -->
+                        <li class="item" :class="{active:op == 0}" @click="changeType(0)">全部</li>
+                        <li class="item" v-for="item in type_list" :key="item.type_id" @click="changeType(item.type_id)" :class="{active:op == item.type_id}">{{item.type_name}}</li>
                     </ul>
                 </div>
             </div>
@@ -182,8 +184,39 @@
 </template>
 
 <script>
+import { request } from "../api/api";
 export default {
-  name: "ProjectList"
+  name: "ProjectList",
+  data(){
+      return {
+          tops:0,
+          type_list:[],
+          op:0,
+      }
+  },
+  mounted(){
+      this.get_list();
+      this.tops = this.$route.params.type;
+  },
+  methods:{
+      //获取列表
+      get_list(){
+          var _this = this;
+          var param = {};
+          param.status = _this.$route.params.type;
+          request("com.iiding.web.index.shop_list",param,data => {
+              console.log(data);
+              _this.type_list = data.type_list;
+          })
+      },
+      //切换
+      changeTab(i){
+          this.tops = i;
+      },
+      changeType(i){
+          this.op = i;
+      },
+  }
 };
 </script>
 

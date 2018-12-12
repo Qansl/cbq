@@ -47,7 +47,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/projectlist',
+      path: '/projectlist/:type',
       component: ProjectList
     },
     {
@@ -67,7 +67,7 @@ export default new Router({
       component: Service
     },
     {
-      path: '/order',
+      path: '/order/:shopid/:status',
       component: Order
     },
     {
