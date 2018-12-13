@@ -32,151 +32,100 @@
             <div class="order">
                 <div class="lb">排序:</div>
                 <ul class="field">
-                    <li class="item down-single active">综合</li>
-                    <li class="item down-single">参与人数</li>
-                    <li class="item up-down up">价格</li>
-                    <li class="item up-down down">截止日期</li>
+                    <li class="item down-single" :class="{active:orders == 10}"  @click="changeOrder(1)">综合</li>
+                    <li class="item down-single" :class="{active:orders == 1}" @click="changeOrder(2)" v-show="tops==0">参与人数</li>
+                    <li class="item up-down" :class="{active:orders==2 || orders==3,up:orders == 2,down:orders == 3}" @click="changeOrder(3)">价格</li>
+                    <li class="item up-down" :class="{active:orders==4 || orders==5,up:orders == 4,down:orders == 5}" @click="changeOrder(4)" v-show="tops != 2">截止日期</li>
                 </ul>
             </div>
 
             <div class="m-project">
-                <ul class="list">
-                <li class="item">
-                    <a class="item-inner" href="javascript:;">
-                    <div class="cover-wrapper">
-                        <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
-                    </div>
-                    <h3 class="name">拼多多类APP商城 定制开发</h3>
-                    <div class="price-wrapper">
-                        <div class="price">3000.<span class="decimal">00</span></div>
-                        <div class="status">满额截标</div>
-                    </div>
-                    <div class="progress-wrapper">
-                        <progress class="u-progress" value="22" max="100"></progress>
-                    </div>
-                    <ul class="details">
-                        <li>
-                        <div class="prog">60%</div>
-                        <div class="desc">完成</div>
-                        </li>
-                        <li>
-                        <div class="prog">6人</div>
-                        <div class="desc">参与人数</div>
-                        </li>
-                        <li>
-                        <div class="prog">30天</div>
-                        <div class="desc">剩余时间</div>
-                        </li>
+                <ul class="list" v-if="tops == 0">
+                    <li class="item" v-for="item in list" :key="item.id" >
+                        <a class="item-inner" :href="'#/projectdetails/'+item.status + '/' + item.id" @click="preinfo(item)">
+                            <div class="cover-wrapper">
+                                <img class="cover" :src="item.shop_piture" alt="">
+                            </div>
+                            <h3 class="name">{{item.shop_title}}</h3>
+                            <div class="price-wrapper">
+                                <div class="price">{{item.presell_price}}.<span class="decimal">00</span></div>
+                                <div class="status">满额截标</div>
+                            </div>
+                            <div class="progress-wrapper">
+                                <progress class="u-progress" :value="item.plenty" :max="item.plenty > 100 ? item.plenty : 100"></progress>
+                            </div>
+                            <ul class="details">
+                                <li>
+                                    <div class="prog">{{item.plenty}}%</div>
+                                    <div class="desc">完成</div>
+                                </li>
+                                <li>
+                                    <div class="prog">{{item.pre_count}}人</div>
+                                    <div class="desc">预报名人数</div>
+                                </li>
+                                <li>
+                                    <div class="prog">{{item.date_time}}天</div>
+                                    <div class="desc">剩余时间</div>
+                                </li>
+                            </ul>
+                            <div class="tag">满{{item.person_count}}人截标</div>
+                            <div class="qrcode-wrapper">
+                                <img class="pic" :src="item.demo_qcode" alt="">
+                                <div class="desc">扫码查看样例</div>
+                            </div>
+                        </a>
+                    </li>
                     </ul>
-                    <div class="tag">满10人截标</div>
-                    <div class="qrcode-wrapper">
-                        <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
-                        <div class="desc">扫码查看样例</div>
-                    </div>
-                    </a>
-                </li>
-                <li class="item">
-                    <a class="item-inner" href="javascript:;">
-                    <div class="cover-wrapper">
-                        <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
-                    </div>
-                    <h3 class="name">拼多多类APP商城 定制开发</h3>
-                    <div class="price-wrapper">
-                        <div class="price">3000.<span class="decimal">00</span></div>
-                        <div class="status">满额截标</div>
-                    </div>
-                    <div class="progress-wrapper">
-                        <progress class="u-progress" value="22" max="100"></progress>
-                    </div>
-                    <ul class="details">
-                        <li>
-                        <div class="prog">60%</div>
-                        <div class="desc">完成</div>
-                        </li>
-                        <li>
-                        <div class="prog">6人</div>
-                        <div class="desc">参与人数</div>
-                        </li>
-                        <li>
-                        <div class="prog">30天</div>
-                        <div class="desc">剩余时间</div>
-                        </li>
+                    <ul class="list" v-else-if="tops == 1">
+                    <li class="item" v-for="item in list" :key="item.id" >
+                        <a class="item-inner" :href="'#/projectdetails/'+item.status + '/' + item.id" @click="preinfo(item)">
+                            <div class="cover-wrapper">
+                                <img class="cover" :src="item.shop_piture" alt="">
+                            </div>
+                            <h3 class="name">{{item.shop_title}}</h3>
+                            <div class="price-wrapper">
+                                <div class="price">{{item.presell_price}}.<span class="decimal">00</span></div>
+                                <div class="status">开发进度</div>
+                            </div>
+                            <div class="progress-wrapper">
+                                <progress class="u-progress green" :value="item.plenty" max="100"></progress>
+                            </div>
+                            <ul class="details">
+                                <li>
+                                    <div class="prog">{{item.plenty}}%</div>
+                                    <div class="desc">完成</div>
+                                </li>
+                                <li>
+                                    <div class="prog"></div>
+                                    <div class="desc"></div>
+                                </li>
+                                <li>
+                                    <div class="prog">{{item.date_time}}天</div>
+                                    <div class="desc">剩余时间</div>
+                                </li>
+                            </ul>
+                            <div class="modal">
+                                <a class="link" href="javascript:;" target="_blank">查看进度</a>
+                            </div>
+                        </a>
+                    </li>
                     </ul>
-                    <div class="tag">满10人截标</div>
-                    <div class="qrcode-wrapper">
-                        <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
-                        <div class="desc">扫码查看样例</div>
-                    </div>
-                    </a>
-                </li>
-                <li class="item">
-                    <a class="item-inner" href="javascript:;">
-                    <div class="cover-wrapper">
-                        <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
-                    </div>
-                    <h3 class="name">拼多多类APP商城 定制开发</h3>
-                    <div class="price-wrapper">
-                        <div class="price">3000.<span class="decimal">00</span></div>
-                        <div class="status">满额截标</div>
-                    </div>
-                    <div class="progress-wrapper">
-                        <progress class="u-progress" value="22" max="100"></progress>
-                    </div>
-                    <ul class="details">
-                        <li>
-                        <div class="prog">60%</div>
-                        <div class="desc">完成</div>
-                        </li>
-                        <li>
-                        <div class="prog">6人</div>
-                        <div class="desc">参与人数</div>
-                        </li>
-                        <li>
-                        <div class="prog">30天</div>
-                        <div class="desc">剩余时间</div>
-                        </li>
-                    </ul>
-                    <div class="tag">满10人截标</div>
-                    <div class="qrcode-wrapper">
-                        <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
-                        <div class="desc">扫码查看样例</div>
-                    </div>
-                    </a>
-                </li>
-                <li class="item">
-                    <a class="item-inner" href="javascript:;">
-                    <div class="cover-wrapper">
-                        <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
-                    </div>
-                    <h3 class="name">拼多多类APP商城 定制开发</h3>
-                    <div class="price-wrapper">
-                        <div class="price">3000.<span class="decimal">00</span></div>
-                        <div class="status">满额截标</div>
-                    </div>
-                    <div class="progress-wrapper">
-                        <progress class="u-progress" value="22" max="100"></progress>
-                    </div>
-                    <ul class="details">
-                        <li>
-                        <div class="prog">60%</div>
-                        <div class="desc">完成</div>
-                        </li>
-                        <li>
-                        <div class="prog">6人</div>
-                        <div class="desc">参与人数</div>
-                        </li>
-                        <li>
-                        <div class="prog">30天</div>
-                        <div class="desc">剩余时间</div>
-                        </li>
-                    </ul>
-                    <div class="tag">满10人截标</div>
-                    <div class="qrcode-wrapper">
-                        <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
-                        <div class="desc">扫码查看样例</div>
-                    </div>
-                    </a>
-                </li>
+                    <ul class="list" v-else>
+                    <li class="item" v-for="item in list" :key="item.id" >
+                        <a class="item-inner" :href="'#/projectdetails/'+item.status + '/' + item.id" @click="preinfo(item)">
+                            <div class="cover-wrapper">
+                                <img class="cover" :src="item.shop_piture" alt="">
+                            </div>
+                            <h3 class="name">{{item.shop_title}}</h3>
+                            <div class="price-wrapper">
+                                <div class="price">{{item.dev_standard_price}}.<span class="decimal">00</span></div>
+                            </div>
+                            <div class="qrcode-wrapper">
+                                <img class="pic" :src="item.demo_qcode" alt="">
+                                <div class="desc">扫码查看样例</div>
+                            </div>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -192,6 +141,9 @@ export default {
           tops:0,
           type_list:[],
           op:0,
+          orders:10,
+          list:[],
+          is_true:false,
       }
   },
   mounted(){
@@ -204,18 +156,80 @@ export default {
           var _this = this;
           var param = {};
           param.status = _this.$route.params.type;
+          param.type_id = _this.op;
+          param.rules = _this.orders;
           request("com.iiding.web.index.shop_list",param,data => {
               console.log(data);
               _this.type_list = data.type_list;
+                if(_this.tops == 0){
+                    _this.list = data.list;
+                    _this.list.forEach(function(ele){
+                    var date1 = new Date();
+                    var date2 = new Date(ele.presell_finish_time.replace(/-/g, "/"))
+                    var date = date2.getTime() - date1.getTime();
+                    ele["date_time"] = parseInt(date/(1000*3600*24));
+                    var plenty = parseInt((ele.pre_count / ele.person_count) * 100);
+                    ele["plenty"] = plenty;
+                    })
+                }
+                else if(_this.tops == 1){
+                    _this.list = data.list;
+                    _this.list.forEach(function(ele){
+                    var date1 = new Date();
+                    var date2 = new Date(ele.dev_end_time.replace(/-/g, "/"))
+                    var date3 = new Date(ele.dev_start_time.replace(/-/g, "/"))
+                    var date = date2.getTime() - date1.getTime();
+                    var dates = date1.getTime() - date3.getTime();
+                    ele["date_time"] = parseInt(date/(1000*3600*24));
+                    var plenty = parseInt(( dates / (date2.getTime() - date3.getTime())) * 100);
+                    ele["plenty"] = plenty;
+                    })
+                }else{
+                    _this.list = data.list;
+                }
           })
       },
       //切换
       changeTab(i){
           this.tops = i;
+          this.$route.params.type = i;
+          this.get_list();
       },
       changeType(i){
           this.op = i;
+          this.get_list();
       },
+      changeOrder(i){
+          if(i == 1){
+               this.orders = 10;
+               this.get_list();
+          }
+          else if(i == 2){
+              this.orders = 1;
+              this.get_list();
+          }
+          else if(i == 3){
+               this.is_true = !this.is_true;
+              if(this.is_true){
+                    this.orders  = 2;
+                    this.get_list();
+              }else{
+                    this.orders  = 3;
+                    this.get_list();
+              }
+          }
+          else{
+               this.is_true = !this.is_true;
+                if(this.is_true){
+                    this.orders  = 4;
+                    this.get_list();
+              }else{
+                    this.orders  = 5;
+                    this.get_list();
+              }
+          }
+      },
+     
   }
 };
 </script>
