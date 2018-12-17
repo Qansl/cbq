@@ -44,7 +44,7 @@
     <div class="g-nav-wrapper">
       <nav v-show="pathHideHav.indexOf(currentRoutePath)==-1" class="g-nav">
         <router-link class="link" to="/home">首页</router-link>
-        <router-link class="link" to="/projectlist">预售项目</router-link>
+        <router-link class="link" to="/projectlist/0">预售项目</router-link>
         <a class="link" href="#/chat" target="_blank">发起项目</a>
         <router-link class="link" to="/proc">参与流程</router-link>
         <router-link class="link" to="/intro">平台介绍</router-link>

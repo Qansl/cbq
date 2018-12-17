@@ -43,9 +43,9 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="tips">预报名需支付100元报名费（可退）预售成功后再缴纳其他费用</div>
-                    <button class="btn" @click="handleOrder">预报名参与</button>
-                    <div class="u-share">
+                    <div class="tips" v-show="jsons.status == 0">预报名需支付100元报名费（可退）预售成功后再缴纳其他费用</div>
+                    <button class="btn" @click="handleOrder(jsons)" v-show="jsons.status == 0">预报名参与</button>
+                    <div class="u-share" v-show="jsons.status == 0">
                         <span class="lb">分享到</span>
                         <ul class="list">
                             <li class="icon icon-weibo"></li>
@@ -55,146 +55,44 @@
                             <li class="icon icon-wechat"></li>
                         </ul>
                     </div>
-                    <a class="star" href="javascript:;">关注</a>
+                    <a class="star" href="javascript:;" v-show="jsons.status == 0">关注</a>
                 </div>
             </div>
             <div class="project-details">
                 <div class="details-main">
                     <ul id="tabProjectDetails" class="u-tabpanel">
                         <li class="item" :class="{active:tab==0}" @click="changeTab(0)">项目介绍</li>
-                        <li class="item" :class="{active:tab==1}" @click="changeTab(1)">项目回报</li>
+                        <li class="item" :class="{active:tab==1}" @click="changeTab(1)" v-show="jsons.status != 2">项目回报</li>
                         <li class="item" :class="{active:tab==2}" @click="changeTab(2)">功能说明</li>
-                        <li class="item" :class="{active:tab==3}" @click="changeTab(3)">项目进展</li>
+                        <li class="item" :class="{active:tab==3}" @click="changeTab(3)" v-show="jsons.status != 2">项目进展</li>
                         <li class="item" :class="{active:tab==4}" @click="changeTab(4)">项目答疑</li>
+                        <li class="item" :class="{active:tab==5}" @click="changeTab(5)" v-show="jsons.status == 2">体验中心</li>
                     </ul>
-                    <div v-show="tab==0" class="proj-intro">
-                        <img src="//pic.iidingyun.com//file/20181122/75576.png" alt="">
+                    <div v-show="tab==0" class="proj-intro" v-html="shop_info.content">
+                        <!-- <img src="//pic.iidingyun.com//file/20181122/75576.png" alt=""> -->
                     </div>
-                    <div v-show="tab==1" class="proj-intro">
-                        从 2015 年 4 月起，Ant Design 在蚂蚁金服中后台产品线迅速推广，对接多条业务线，覆盖系统 800 个以上。定位于中台业务的 Ant Design 兼顾专业和非专业的设计人员，具有学习成本低、上手速度快、实现效果好等特点，并且提供从界面设计到前端开发的全链路生态，可以大大提升设计和开发的效率。
+                    <div v-show="tab==1 && jsons.status != 2" class="proj-intro" v-html="shop_info.content">
+                        
                     </div>
-                    <div v-show="tab==2" class="proj-intro">
-                        从 2015 年 4 月起，Ant Design 在蚂蚁金服中后台产品线迅速推广，对接多条业务线，覆盖系统 800 个以上。定位于中台业务的 Ant Design 兼顾专业和非专业的设计人员，具有学习成本低、上手速度快、实现效果好等特点，并且提供从界面设计到前端开发的全链路生态，可以大大提升设计和开发的效率。
+                    <div v-show="tab==2" class="proj-intro" v-html="shop_info.content">
+                        
                     </div>
-                    <div v-show="tab==3" class="proj-intro">
+                    <div v-show="tab==3 && jsons.status != 2" class="proj-intro">
                         <div class="summary">
                             这里记录了项目发起人更新的项目进展，您可以提问了解更多项目相关细节。
                         </div>
                         <div class="plan_table">
                             <ul>
-                                <li class="item">
+                                <li class="item" v-for="item in shop_plan" :key="item.id">
                                     <div class="option">
-                                        <div class="words">今天</div>
+                                        <div class="words">{{item.create_date}}</div>
                                         <div class="circle"></div>
                                     </div>
                                     <div class="word">
-                                        非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
-                                        在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
-                                        地址：联系人：东方酷音客服部，13692119804退货地址：
-                                        广东省深圳市南山区科技园特发信息科技大厦1802
-                                        （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
-                                        请牢记退换货地址仅此一个）
+                                        {{item.plan_content}}
                                     </div>
                                     <div class="imgs_box">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                    </div>
-                                </li>
-                                <li class="item">
-                                    <div class="option">
-                                        <div class="words">今天</div>
-                                        <div class="circle"></div>
-                                    </div>
-                                    <div class="word">
-                                        非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
-                                        在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
-                                        地址：联系人：东方酷音客服部，13692119804退货地址：
-                                        广东省深圳市南山区科技园特发信息科技大厦1802
-                                        （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
-                                        请牢记退换货地址仅此一个）
-                                    </div>
-                                    <div class="imgs_box">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                    </div>
-                                </li>
-                                <li class="item">
-                                    <div class="option">
-                                        <div class="words">今天</div>
-                                        <div class="circle"></div>
-                                    </div>
-                                    <div class="word">
-                                        非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
-                                        在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
-                                        地址：联系人：东方酷音客服部，13692119804退货地址：
-                                        广东省深圳市南山区科技园特发信息科技大厦1802
-                                        （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
-                                        请牢记退换货地址仅此一个）
-                                    </div>
-                                    <div class="imgs_box">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                    </div>
-                                </li>
-                                <li class="item">
-                                    <div class="option">
-                                        <div class="words">今天</div>
-                                        <div class="circle"></div>
-                                    </div>
-                                    <div class="word">
-                                        非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
-                                        在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
-                                        地址：联系人：东方酷音客服部，13692119804退货地址：
-                                        广东省深圳市南山区科技园特发信息科技大厦1802
-                                        （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
-                                        请牢记退换货地址仅此一个）
-                                    </div>
-                                    <div class="imgs_box">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                    </div>
-                                </li>
-                                <li class="item">
-                                    <div class="option">
-                                        <div class="words">今天</div>
-                                        <div class="circle"></div>
-                                    </div>
-                                    <div class="word">
-                                        非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
-                                        在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
-                                        地址：联系人：东方酷音客服部，13692119804退货地址：
-                                        广东省深圳市南山区科技园特发信息科技大厦1802
-                                        （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
-                                        请牢记退换货地址仅此一个）
-                                    </div>
-                                    <div class="imgs_box">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                                        <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                                        <img  v-for="(its,index) in item.plan_picture" :key="index" :src="its" alt="" class="imgs">
                                     </div>
                                 </li>
                             </ul>
@@ -202,29 +100,14 @@
                     </div>
                     <div v-show="tab==4" class="proj-intro q-a-wrapper">
                         <ul class="q-a">
-                            <li class="item">
-                                <div class="ques">什么时候发货？</div>
-                                <div class="answer">非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！地址：联系人：东方酷音客服部，13692119804退货地址：广东省深圳市南山区科技园特发信息科技大厦1802（请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。请牢记退换货地址仅此一个）</div>
-                            </li>
-                            <li class="item">
-                                <div class="ques">什么时候发货？</div>
-                                <div class="answer">非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！地址：联系人：东方酷音客服部，13692119804退货地址：广东省深圳市南山区科技园特发信息科技大厦1802（请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。请牢记退换货地址仅此一个）</div>
-                            </li>
-                            <li class="item">
-                                <div class="ques">什么时候发货？</div>
-                                <div class="answer">非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！地址：联系人：东方酷音客服部，13692119804退货地址：广东省深圳市南山区科技园特发信息科技大厦1802（请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。请牢记退换货地址仅此一个）</div>
-                            </li>
-                            <li class="item">
-                                <div class="ques">什么时候发货？</div>
-                                <div class="answer">非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！地址：联系人：东方酷音客服部，13692119804退货地址：广东省深圳市南山区科技园特发信息科技大厦1802（请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。请牢记退换货地址仅此一个）</div>
-                            </li>
-                            <li class="item">
-                                <div class="ques">什么时候发货？</div>
-                                <div class="answer">非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！地址：联系人：东方酷音客服部，13692119804退货地址：广东省深圳市南山区科技园特发信息科技大厦1802（请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。请牢记退换货地址仅此一个）</div>
+                            <li class="item" v-for="item in metor" :key="item.id">
+                                <div class="ques">{{item.question}}</div>
+                                <div class="answer">{{item.answer}}</div>
                             </li>
                         </ul>
                     </div>
-                    
+                    <div v-show="tab==5 && jsons.status == 2" class="proj-intro" v-html="shop_info.content">
+                    </div>
                 </div>
                 <aside class="aside">
                     <div class="service-wrapper">
@@ -234,142 +117,91 @@
                         <div class="tips">* 项目最终解释权归平台所有</div>
                     </div>
                     <div class="m-project">
-                        <ul class="list">
-                            <li class="item">
-                                <a class="item-inner" href="javascript:;">
+                        <ul class="list" v-if="jsons.status == 0">
+                            <li class="item" v-for="item in list" :key="item.id" >
+                              <a class="item-inner" :href="'#/projectdetails/'+item.status + '/' + item.id" @click="preinfo(item)">
                                 <div class="cover-wrapper">
-                                    <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
+                                  <img class="cover" :src="item.shop_piture" alt="">
                                 </div>
-                                <h3 class="name">拼多多类APP商城 定制开发</h3>
+                                <h3 class="name">{{item.shop_title}}</h3>
                                 <div class="price-wrapper">
-                                    <div class="price">3000.<span class="decimal">00</span></div>
-                                    <div class="status">满额截标</div>
+                                  <div class="price">{{item.presell_price}}.<span class="decimal">00</span></div>
+                                  <div class="status">满额截标</div>
                                 </div>
                                 <div class="progress-wrapper">
-                                    <progress class="u-progress" value="22" max="100"></progress>
+                                  <progress class="u-progress" :value="item.plenty" :max="item.plenty > 100 ? item.plenty : 100"></progress>
                                 </div>
                                 <ul class="details">
-                                    <li>
-                                    <div class="prog">60%</div>
+                                  <li>
+                                    <div class="prog">{{item.plenty}}%</div>
                                     <div class="desc">完成</div>
-                                    </li>
-                                    <li>
-                                    <div class="prog">6人</div>
-                                    <div class="desc">参与人数</div>
-                                    </li>
-                                    <li>
-                                    <div class="prog">30天</div>
+                                  </li>
+                                  <li>
+                                    <div class="prog">{{item.pre_count}}人</div>
+                                    <div class="desc">预报名人数</div>
+                                  </li>
+                                  <li>
+                                    <div class="prog">{{item.date_time}}天</div>
                                     <div class="desc">剩余时间</div>
-                                    </li>
+                                  </li>
                                 </ul>
-                                <div class="tag">满10人截标</div>
+                                <div class="tag">满{{item.person_count}}人截标</div>
                                 <div class="qrcode-wrapper">
-                                    <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
-                                    <div class="desc">扫码查看样例</div>
+                                  <img class="pic" :src="item.demo_qcode" alt="">
+                                  <div class="desc">扫码查看样例</div>
                                 </div>
-                                </a>
+                              </a>
                             </li>
-                            <li class="item">
-                                <a class="item-inner" href="javascript:;">
+                          </ul>
+                          <ul class="list" v-else-if="jsons.status == 1">
+                            <li class="item" v-for="item in list" :key="item.id" >
+                              <a class="item-inner" :href="'#/projectdetails/'+item.status + '/' + item.id" @click="preinfo(item)">
                                 <div class="cover-wrapper">
-                                    <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
+                                  <img class="cover" :src="item.shop_piture" alt="">
                                 </div>
-                                <h3 class="name">拼多多类APP商城 定制开发</h3>
+                                <h3 class="name">{{item.shop_title}}</h3>
                                 <div class="price-wrapper">
-                                    <div class="price">3000.<span class="decimal">00</span></div>
-                                    <div class="status">满额截标</div>
+                                  <div class="price">{{item.presell_price}}.<span class="decimal">00</span></div>
+                                  <div class="status">开发进度</div>
                                 </div>
                                 <div class="progress-wrapper">
-                                    <progress class="u-progress" value="22" max="100"></progress>
+                                  <progress class="u-progress green" :value="item.plenty" max="100"></progress>
                                 </div>
                                 <ul class="details">
-                                    <li>
-                                    <div class="prog">60%</div>
+                                  <li>
+                                    <div class="prog">{{item.plenty}}%</div>
                                     <div class="desc">完成</div>
-                                    </li>
-                                    <li>
-                                    <div class="prog">6人</div>
-                                    <div class="desc">参与人数</div>
-                                    </li>
-                                    <li>
-                                    <div class="prog">30天</div>
+                                  </li>
+                                  <li>
+                                    <div class="prog"></div>
+                                    <div class="desc"></div>
+                                  </li>
+                                  <li>
+                                    <div class="prog">{{item.date_time}}天</div>
                                     <div class="desc">剩余时间</div>
-                                    </li>
+                                  </li>
                                 </ul>
-                                <div class="tag">满10人截标</div>
-                                <div class="qrcode-wrapper">
-                                    <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
-                                    <div class="desc">扫码查看样例</div>
+                                <div class="modal">
+                                  <a class="link" href="javascript:;" target="_blank">查看进度</a>
                                 </div>
-                                </a>
+                              </a>
                             </li>
-                            <li class="item">
-                                <a class="item-inner" href="javascript:;">
+                          </ul>
+                          <ul class="list" v-else>
+                            <li class="item" v-for="item in list" :key="item.id" >
+                              <a class="item-inner" :href="'#/projectdetails/'+item.status + '/' + item.id" @click="preinfo(item)">
                                 <div class="cover-wrapper">
-                                    <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
+                                  <img class="cover" :src="item.shop_piture" alt="">
                                 </div>
-                                <h3 class="name">拼多多类APP商城 定制开发</h3>
+                                <h3 class="name">{{item.shop_title}}</h3>
                                 <div class="price-wrapper">
-                                    <div class="price">3000.<span class="decimal">00</span></div>
-                                    <div class="status">满额截标</div>
+                                  <div class="price">{{item.dev_standard_price}}.<span class="decimal">00</span></div>
                                 </div>
-                                <div class="progress-wrapper">
-                                    <progress class="u-progress" value="22" max="100"></progress>
-                                </div>
-                                <ul class="details">
-                                    <li>
-                                    <div class="prog">60%</div>
-                                    <div class="desc">完成</div>
-                                    </li>
-                                    <li>
-                                    <div class="prog">6人</div>
-                                    <div class="desc">参与人数</div>
-                                    </li>
-                                    <li>
-                                    <div class="prog">30天</div>
-                                    <div class="desc">剩余时间</div>
-                                    </li>
-                                </ul>
-                                <div class="tag">满10人截标</div>
                                 <div class="qrcode-wrapper">
-                                    <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
-                                    <div class="desc">扫码查看样例</div>
+                                  <img class="pic" :src="item.demo_qcode" alt="">
+                                  <div class="desc">扫码查看样例</div>
                                 </div>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a class="item-inner" href="javascript:;">
-                                <div class="cover-wrapper">
-                                    <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt="">
-                                </div>
-                                <h3 class="name">拼多多类APP商城 定制开发</h3>
-                                <div class="price-wrapper">
-                                    <div class="price">3000.<span class="decimal">00</span></div>
-                                    <div class="status">满额截标</div>
-                                </div>
-                                <div class="progress-wrapper">
-                                    <progress class="u-progress" value="22" max="100"></progress>
-                                </div>
-                                <ul class="details">
-                                    <li>
-                                    <div class="prog">60%</div>
-                                    <div class="desc">完成</div>
-                                    </li>
-                                    <li>
-                                    <div class="prog">6人</div>
-                                    <div class="desc">参与人数</div>
-                                    </li>
-                                    <li>
-                                    <div class="prog">30天</div>
-                                    <div class="desc">剩余时间</div>
-                                    </li>
-                                </ul>
-                                <div class="tag">满10人截标</div>
-                                <div class="qrcode-wrapper">
-                                    <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
-                                    <div class="desc">扫码查看样例</div>
-                                </div>
-                                </a>
+                              </a>
                             </li>
                         </ul>
                     </div>
@@ -395,7 +227,10 @@ export default {
       tab: 0,
       jsons:{},
       contact:{},
-      
+      list:[],
+      shop_info:{},
+      shop_plan:[],
+      metor:[],
     };
   },
   mounted() {
@@ -412,6 +247,7 @@ export default {
       }
     };
     this.get_info();
+    // this.changeTab(0);
   },
   methods: {
     //根据shopid获取信息
@@ -422,35 +258,129 @@ export default {
       param.id = _this.$route.params.shopid;
       request("com.iiding.web.index.shop_detials", param, data => {
         console.log(data);
-        _this.contact = data.constract;
-        _this.jsons = data.detial_data;
-        if(_this.jsons.status == 0){
-          var date1 = new Date();
-          var date2 = new Date(_this.jsons.presell_finish_time.replace(/-/g, "/"))
-          var date = date2.getTime() - date1.getTime();
-          _this.jsons["date_time"] = parseInt(date/(1000*3600*24));
-          var plenty = parseInt((_this.jsons.pre_count / _this.jsons.person_count) * 100);
-          _this.jsons["plenty"] = plenty;
-        }
-        else if(_this.jsons.status == 1){
-          var date1 = new Date();
-          var date2 = new Date(_this.jsons.dev_end_time.replace(/-/g, "/"))
-          var date3 = new Date(_this.jsons.dev_start_time.replace(/-/g, "/"))
-          var date = date2.getTime() - date1.getTime();
-          var dates = date1.getTime() - date3.getTime();
-          _this.jsons["date_time"] = parseInt(date/(1000*3600*24));
-          var plenty = parseInt(( dates / (date2.getTime() - date3.getTime())) * 100);
-          _this.jsons["plenty"] = plenty;
+        if(data.code == "success"){
+          _this.contact = data.constract;
+          _this.jsons = data.detial_data;
+          if(_this.jsons.status == 0){
+            var date1 = new Date();
+            var date2 = new Date(_this.jsons.presell_finish_time.replace(/-/g, "/"))
+            var date = date2.getTime() - date1.getTime();
+            _this.jsons["date_time"] = parseInt(date/(1000*3600*24));
+            var plenty = parseInt((_this.jsons.pre_count / _this.jsons.person_count) * 100);
+            _this.jsons["plenty"] = plenty;
+            _this.list = data.recommend;
+            _this.list.forEach(function(ele){
+              var date1 = new Date();
+              var date2 = new Date(ele.presell_finish_time.replace(/-/g, "/"))
+              var date = date2.getTime() - date1.getTime();
+              ele["date_time"] = parseInt(date/(1000*3600*24));
+              var plenty = parseInt((ele.pre_count / ele.person_count) * 100);
+              ele["plenty"] = plenty;
+            })
+          }
+          else if(_this.jsons.status == 1){
+            var date1 = new Date();
+            var date2 = new Date(_this.jsons.dev_end_time.replace(/-/g, "/"))
+            var date3 = new Date(_this.jsons.dev_start_time.replace(/-/g, "/"))
+            var date = date2.getTime() - date1.getTime();
+            var dates = date1.getTime() - date3.getTime();
+            _this.jsons["date_time"] = parseInt(date/(1000*3600*24));
+            var plenty = parseInt(( dates / (date2.getTime() - date3.getTime())) * 100);
+            _this.jsons["plenty"] = plenty;
+            _this.list = data.recommend;
+            _this.list.forEach(function(ele){
+              var date1 = new Date();
+              var date2 = new Date(ele.dev_end_time.replace(/-/g, "/"))
+              var date3 = new Date(ele.dev_start_time.replace(/-/g, "/"))
+              var date = date2.getTime() - date1.getTime();
+              var dates = date1.getTime() - date3.getTime();
+              ele["date_time"] = parseInt(date/(1000*3600*24));
+              var plenty = parseInt(( dates / (date2.getTime() - date3.getTime())) * 100);
+              ele["plenty"] = plenty;
+            })
+          }else{
+            _this.list = data.recommend;
+          }
+          _this.changeTab(0);
         }
       })
     },
+    //推荐的详情
+    preinfo(val){
+      var _this = this;
+      _this.$route.params.type = val.status;
+      _this.$route.params.shopid = val.id;
+      _this.get_info();
+    },
     changeTab(i) {
       this.tab = i;
+      var _this = this;
+      var param = {};
       document.documentElement.scrollTop = 432;
       document.body.scrollTop = 432;
+      if(i==0){
+        param.shopid = _this.jsons.id;
+        param.type = 0;
+        request("com.iiding.admin.shop_management.shop_info.query",param,data=>{
+          if(data.list.length > 0){
+            _this.shop_info = data.list[0];
+          }else{
+            _this.shop_info.content = "";
+          }
+        })
+      }
+      else if(i==1){
+        param.shopid = _this.jsons.id;
+        param.type = 1;
+        request("com.iiding.admin.shop_management.shop_info.query",param,data=>{
+          if(data.list.length > 0){
+            _this.shop_info = data.list[0];
+          }else{
+            _this.shop_info.content = "";
+          }
+        })
+      }
+      else if(i==2){
+        param.shopid = _this.jsons.id;
+        param.type = 2;
+        request("com.iiding.admin.shop_management.shop_info.query",param,data=>{
+          if(data.list.length > 0){
+            _this.shop_info = data.list[0];
+          }else{
+            _this.shop_info.content = "";
+          }
+        })
+      }
+      else if(i==3){
+        param.shopid = _this.jsons.id;
+        request("com.iiding.admin.project_plans.select",param,data=>{
+          _this.shop_plan = data.list;
+          _this.shop_plan.forEach(function(ele){
+              ele.plan_picture = ele.plan_picture.split(",");
+              ele.create_date = ele.create_date.substring(5);
+          })
+        })
+      }
+      else if(i==4){
+        param.shopid = _this.jsons.id;
+        request("com.iiding.admin.shop_management.shop_mentoring.select",param,data=>{
+          _this.metor = data.list;
+        })
+      }
+      else if(i==5){
+        param.shopid = _this.jsons.id;
+        param.type = 3;
+        request("com.iiding.admin.shop_management.shop_info.query",param,data=>{
+          if(data.list.length > 0){
+            _this.shop_info = data.list[0];
+          }else{
+            _this.shop_info.content = "";
+          }
+        })
+      }
     },
-    handleOrder() {
-      this.$router.push({ path: "/order" });
+    handleOrder(val) {
+      this.$router.push({ path: "/order/" + val.id + "/" + val.status});
     },
     handleOrderM() {
       this.$router.push({ path: "/morder" });

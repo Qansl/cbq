@@ -65,7 +65,7 @@
       <div class="m-project">
         <h1 class="title">
           热门预售
-          <a class="more" href="javascript:;">更多 ></a>
+          <a class="more" href="#/projectlist/0">更多 ></a>
         </h1>
         <ul class="list">
           <li class="item col2">
@@ -117,7 +117,7 @@
       <div class="m-project">
         <h1 class="title">
           正在开发
-          <a class="more" href="javascript:;">更多 ></a>
+          <a class="more" href="#/projectlist/1">更多 ></a>
         </h1>
         <ul class="list">
           <li class="item" v-for="item in dev_list" :key="item.id">
@@ -158,7 +158,7 @@
       <div class="m-project custom">
         <h1 class="title">
           定制开发
-          <a class="more" href="javascript:;">更多 ></a>
+          <a class="more" href="#/projectlist/2">更多 ></a>
         </h1>
         <ul class="list">
           <li class="item col2" >
