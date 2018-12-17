@@ -6,8 +6,8 @@
     <ul class="message-list">
       <li class="item" v-for="(item,index) in list" :key="index">
         <h3 class="title">
-          <span>消费成功提醒</span>
-          <i class="icon-new"></i>
+          <span>{{item.title}}</span>
+          <i class="icon-new" v-if="item.is_new == 2"></i>
         </h3>
         <div class="desc">{{item.content}}</div>
         <span class="time">{{item.send_time}}</span>
@@ -31,11 +31,11 @@ export default {
   methods: {
     getMsgList() {
       request(
-        "com.iiding.web.personal_center.message_manag.query_message_list",
+        "com.iiding.web.instant_messaging.query_system_msg",
         { message_type: 0 },
         res => {
           if (res.code == "success") {
-            this.list = res.data;
+            this.list = res.list;
           }
         }
       );
@@ -50,6 +50,8 @@ export default {
   box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.05);
   .message-list {
     padding: 0 30px;
+    overflow: scroll;
+    height: 806px;
     .item {
       position: relative;
       border-bottom: 2px solid #e7e7e7;
