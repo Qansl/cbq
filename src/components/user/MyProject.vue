@@ -7,30 +7,48 @@
         </ul>
         <div v-show="tab==0" class="proj-list">
             <ul class="proj-list-inner">
-                <li class="item">
+                <li class="item" :key="index" v-for="(item,index) in project_list1">
                     <div class="basic">
                         <div class="item-field">
                             <div class="lb">项目名称：</div>
-                            <div class="disp-txt">拼多多APP商城开发</div>
+                            <div class="disp-txt">{{item.project_name}}</div>
                         </div>
                         <div class="item-field">
                             <div class="lb">报名时间：</div>
-                            <div class="disp-txt">18-11-20 19:10:22</div>
+                            <div class="disp-txt">{{item.participation_time}}</div>
                         </div>
-                        <div class="item-field">
+                        <div class="item-field" v-if="item.status == 1">
                             <div class="lb">开发均摊费：</div>
-                            <div class="disp-txt im">10000</div>
-                            <div class="disp-txt del">开发总费：6000</div>
+                            <div class="disp-txt im">{{item.presell_price}}</div>
+                            <div class="disp-txt del">开发总费：{{item.dev_sum_money}}</div>
                         </div>
-                        <div class="tools">
-                            <button class="btn">预报名参与</button>
-                            <a class="link" href="javascript:;">已关注</a>
+                        <div class="item-field" v-if="item.status == 2">
+                            <div class="lb">开发尾款：</div>
+                            <div class="disp-txt im">{{item.dev_tail_money}}</div>
+                            <div class="disp-txt del">开发总费：{{item.dev_sum_money}}</div>
+                        </div>
+                        <div class="item-field" v-if="item.status == 3">
+                            <div class="disp-txt del">恭喜，你已获得预售名额</div>
+                        </div>
+                        <div class="tools" v-if="item.status == 1">
+                            <button class="btn" @click="go_to_pay(item,1)">预报名参与</button>
+                            <a class="link" href="javascript:;" @click="remove_concerns(item.projectid)">取消关注</a>
+                            <a class="link active" href="javascript:;">项目进度</a>
+                        </div>
+                        <div class="tools" v-if="item.status == 2">
+                            <button class="btn" @click="go_to_pay(item,2)">支付尾款</button>
+                            <a class="link" href="javascript:;">已预报名</a>
+                            <a class="link active" href="javascript:;">项目进度</a>
+                        </div>
+                        <div class="tools" v-if="item.status == 3">
+                            <button class="btn">支付完成</button>
+                            <a class="link" href="javascript:;">支付完成</a>
                             <a class="link active" href="javascript:;">项目进度</a>
                         </div>
                     </div>
                     <div class="other">
-                        <span class="no">5</span>
-                        <span class="deadline">报名截止时间 2018-12-06</span>
+                        <span class="no">{{item.residue_count}}</span>
+                        <span class="deadline">报名截止时间 {{item.presell_finish_time}}</span>
                     </div>
                 </li>
                 <li class="item">
@@ -63,25 +81,25 @@
         </div>
         <div v-show="tab==1" class="proj-list proj-list2">
             <ul class="proj-list-inner">
-                <li class="item">
+                <li class="item" :key="index" v-for="(item,index) in project_list1">
                     <div class="basic">
                         <div class="item-field">
                             <div class="lb">项目名称：</div>
-                            <div class="disp-txt">拼多多APP商城开发</div>
+                            <div class="disp-txt">{{item.project_name}}</div>
                         </div>
                         <div class="item-field">
-                            <div class="lb">报名时间：</div>
-                            <div class="disp-txt">18-11-20 19:10:22</div>
+                            <div class="lb">签约时间：</div>
+                            <div class="disp-txt">{{item.sign_time}}</div>
                         </div>
                         <div class="tools">
-                            <a class="link active" href="javascript:;">开发明细</a>
+                            <a class="link active" :href="item.development_details">开发明细</a>
                             <a class="link active" href="javascript:;">项目进度</a>
-                            <a class="link active" href="javascript:;">预览合同</a>
-                            <a class="link green" href="javascript:;">个性化需求</a>
+                            <a class="link active" :href="item.development_contract">预览合同</a>
+                            <a class="link green" :href="item.personalized_demand">个性化需求</a>
                         </div>
                     </div>
                     <div class="other pre-proj">
-                        <span class="deadline">报名截止时间 2018-12-06</span>
+                        <span class="deadline">开发截止时间 {{item.dev_end_time}}</span>
                     </div>
                 </li>
                 <li class="item">
@@ -109,12 +127,12 @@
         </div>  
         <div v-show="tab==2" class="custom-proj">
             <div class="tools">
-                <el-select v-model="value" placeholder="请选择">
+                <el-select v-model="projectid" placeholder="请选择" @change="get_project_plans">
                     <el-option
                     v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    :key="item.projectid"
+                    :label="item.project_name"
+                    :value="item.projectid">
                     </el-option>
                 </el-select>
                 <a class="link" href="javascript:;">预览合同</a>
@@ -126,7 +144,7 @@
             <h3 class="title">项目进度</h3>
             <div class="plan_table">
                 <ul>
-                    <li class="item">
+                    <li class="item" :key="index" v-for="(iten,index) in plans">
                         <div class="option">
                             <div class="words">今天</div>
                             <div class="circle"></div>
@@ -248,30 +266,89 @@
 </template>
 
 <script>
+import { request,SITEID } from "../../api/api";
 export default {
   data() {
     return {
+      plans:[],
       tab: 0,
+      project_list1:[],
+      projectid:"",
       options: [
         {
-          value: "选项1",
-          label: "拼多多开发平台"
+          projectid: "选项1",
+          project_name: "拼多多开发平台"
         },
         {
-          value: "选项2",
-          label: "拼多多开发平台"
+          projectid: "选项2",
+          project_name: "拼多多开发平台"
         },
         {
-          value: "选项3",
-          label: "拼多多开发平台"
+          projectid: "选项3",
+          project_name: "拼多多开发平台"
         },
-      ],
-      value: ""
+      ]
     };
+  },
+  mounted:function(){
+    this.get_my_project();
   },
   methods: {
     changeTab(i) {
       this.tab = i;
+      this.get_my_project();
+    },
+    //查询我的项目
+    get_my_project:function(){
+      var _this = this;
+      var project_status = 0;
+      if(this.tab == 0){
+        project_status = 0;
+      }else if(this.tab == 1){
+        project_status = 1;
+      }else{
+        project_status = 2;
+      }
+      request("com.iiding.web.personal_center.user_project.query_user_project",{"project_status":project_status},res => {
+        if(res.code == "success"){
+          _this.project_list1 = res.data;
+          if(this.tab == 2){
+              _this.options = res.data;
+              _this.projectid = res.data[0].projectid;
+              _this.get_project_plans()
+          }
+        }
+      })
+    },
+    //去支付页面
+    go_to_pay:function(project,i){
+        sessionStorage.setItem("select_projectid",project.projectid);
+        sessionStorage.setItem("my_projectid",project.id);
+        sessionStorage.setItem("select_type",i);
+        location.href="/#/order";
+    },
+    //取消关注
+    remove_concerns:function(projectid){
+        var _this = this;
+        request("com.iiding.web.personal_center.user_project.delete_project",{"projectid":projectid},result => {
+            if(result.code == "success"){
+                _this.$message.success("取消成功");
+                _this.get_my_project();
+            }else{
+                var msg = result.msg;
+                _this.$message.success(msg);
+            }
+        }) 
+
+    },
+    //根据项目id查询项目进度
+    get_project_plans:function(){
+        var _this = this;
+        request("com.iiding.admin.project_plans.select",{"shopid":_this.projectid},result => {
+            if(result.code == "success"){
+                _this.plans = result.data;
+            }
+        })    
     }
   }
 };
@@ -377,15 +454,19 @@ export default {
             no-repeat;
             position: relative;
             .no {
-            position: absolute;
-            left: 104px;
-            top: 70px;
-            font-size: 70px;
-            font-family: MyFont;
-            font-weight: bold;
-            color: rgba(255, 255, 255, 1);
-            line-height: 82px;
-            text-shadow: 0px 3px 8px rgba(0, 0, 0, 0.26);
+                position: absolute;
+                display: inline-block;
+                width: 80px;
+                text-align: center;
+                align-items: center;
+                left: 77px;
+                top: 70px;
+                font-size: 50px;
+                font-family: MyFont;
+                font-weight: bold;
+                color: white;
+                line-height: 82px;
+                text-shadow: 0px 3px 8px rgba(0, 0, 0, 0.26);
             }
             .deadline {
             position: absolute;

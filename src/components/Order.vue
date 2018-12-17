@@ -13,18 +13,18 @@
                         <div class="form-item">
                             <div class="lb top">开发类型：</div>
                             <div class="u-radio-group1"> 
-                                <label class="u-radio" :class="{ischecked:devType==1}">
-                                    <input v-model="devType" class="u-radio__original" type="radio" tabindex="-1" value="1">
+                                <label class="u-radio" :class="{ischecked:devType==1}" @change="change_quota_number">
+                                    <input v-model="devType" :disabled="devTypeIsTrue" class="u-radio__original" type="radio" tabindex="-1" value="1">
                                     <span class="u-radio__label">1份</span>
                                     <div class="u-radio__desc">软件+10%分红权</div>
                                 </label>
-                                <label class="u-radio" :class="{ischecked:devType==2}">
-                                    <input v-model="devType" class="u-radio__original" type="radio" tabindex="-1" value="2">
+                                <label class="u-radio" :class="{ischecked:devType==2}" @change="change_quota_number">
+                                    <input v-model="devType" :disabled="devTypeIsTrue" class="u-radio__original" type="radio" tabindex="-1" value="2">
                                     <span class="u-radio__label">2份</span>
                                     <div class="u-radio__desc">软件+20%分红权</div>
                                 </label>
-                                <label class="u-radio" :class="{ischecked:devType==3}">
-                                    <input v-model="devType" class="u-radio__original" type="radio" tabindex="-1" value="3">
+                                <label class="u-radio" :class="{ischecked:devType==3}" @change="change_quota_number">
+                                    <input v-model="devType" :disabled="devTypeIsTrue" class="u-radio__original" type="radio" tabindex="-1" value="3">
                                     <span class="u-radio__label">3份</span>
                                     <div class="u-radio__desc">软件+30%分红权</div>
                                 </label>
@@ -32,25 +32,34 @@
                         </div>
                         <div class="form-item">
                             <div class="lb">开发均摊费：</div>
-                            <div class="disp-txt im"> 10000</div>
-                            <div class="del-txt">开发总费：6000</div>
+                            <div class="disp-txt im"> {{projectInfo.presell_price}}</div>
+                            <div class="del-txt">开发总费：{{projectInfo.dev_sum_money}}</div>
                         </div>
                         <div class="form-item">
                             <div class="lb">支付选项：</div>
                             <div class="u-radio-group2"> 
-                                <label class="u-radio down-payment" :class="{ischecked:payWay1==1}">
-                                    <input v-model="payWay1" class="u-radio__original" type="radio" tabindex="-1" value="1">
-                                    <span class="u-radio__label">¥100定金</span>
+                                <label class="u-radio down-payment" :class="{ischecked:payWay1==1}" @change="change_order_type">
+                                    <input v-model="payWay1" :disabled="is_true" class="u-radio__original" type="radio" tabindex="-1" value="1">
+                                    <span class="u-radio__label">¥{{projectInfo.deposit}}定金</span>
                                     <div class="poper">
                                         <span class="im">*</span>预报名需支付100元报名费（可退） 预售成功后再缴纳其他费用
                                     </div>
                                 </label>
-                                <label class="u-radio" :class="{ischecked:payWay1==2}">
-                                    <input v-model="payWay1" class="u-radio__original" type="radio" tabindex="-1" value="2">
+                                <label class="u-radio" :class="{ischecked:payWay1==2}" @change="change_order_type">
+                                    <input v-model="payWay1" :disabled="is_true" class="u-radio__original" type="radio" tabindex="-1" value="2">
+                                    <span class="u-radio__label">支付尾款</span>
+                                </label>
+                                <label class="u-radio" :class="{ischecked:payWay1==3}" @change="change_order_type">
+                                    <input v-model="payWay1" :disabled="is_true" class="u-radio__original" type="radio" tabindex="-1" value="3">
                                     <span class="u-radio__label">全额支付</span>
                                 </label>
                             </div>
                         </div>
+                         <div class="form-item">
+                            <div class="lb">应付金额：</div>
+                            <div class="disp-txt im"> {{pay_money}}</div>
+                            <!-- <div class="del-txt">开发总费：6000</div> -->
+                        </div>                       
                     </div>
                     <div class="ad">
                         <img class="pic" src="//pic.iidingyun.com//file/20181126/75643.png" alt="">
@@ -62,15 +71,15 @@
                     <div class="form-item">
                         <div class="lb">支付方式：</div>
                         <div class="u-radio-group1"> 
-                            <label class="u-radio" :class="{ischecked:payWay2==1}">
+                            <label class="u-radio" :class="{ischecked:payWay2==1}" @change="change_pay_method"> 
                                 <input v-model="payWay2" class="u-radio__original" type="radio" tabindex="-1" value="1">
                                 <span class="u-radio__label">余额支付</span>
                             </label>
-                            <label class="u-radio" :class="{ischecked:payWay2==2}">
+                            <label class="u-radio" :class="{ischecked:payWay2==2}" @change="change_pay_method">
                                 <input v-model="payWay2" class="u-radio__original" type="radio" tabindex="-1" value="2">
                                 <span class="u-radio__label">支付宝支付</span>
                             </label>
-                            <label class="u-radio" :class="{ischecked:payWay2==3}">
+                            <label class="u-radio" :class="{ischecked:payWay2==3}" @change="change_pay_method">
                                 <input v-model="payWay2" class="u-radio__original" type="radio" tabindex="-1" value="3">
                                 <span class="u-radio__label">微信支付</span>
                             </label>
@@ -80,11 +89,14 @@
                         <div class="fieldset">
                             <div class="field-item">
                                 <div class="lb">余额：</div>
-                                <div class="disp-txt im">10000</div>
+                                <div class="disp-txt im">{{userInfo.current_coin}}</div>
                             </div>
                             <div class="field-item">
-                                <div class="tips tips-price">
+                                <div class="tips tips-price" v-if="commit_pay == false">
                                     余额充足可支付
+                                </div>
+                                <div class="tips tips-price" v-else>
+                                    余额不足，请点击此处<a href="javascript:;" class="link">前往充值</a>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +117,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-item">
+                    <!-- <div class="form-item">
                         <label class="u-checkbox">
                             <span class="u-checkbox__input">
                                 <span class="u-checkbox__inner" :class="{ischecked:isAgree}"></span>
@@ -113,7 +125,7 @@
                             </span>
                             <span class="u-checkbox__label">已阅读并同意<a class="link" target="_blank" href="javascript:;">《支付协议》</a></span>
                         </label>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="seperator"></div>
                 <div class="form">
@@ -134,7 +146,7 @@
                         </div>
                     </div>
                     <div class="tools">
-                        <button class="btn disabled" @click="handlePay">立即支付</button>
+                        <button class="btn" :class="{isDisabled:commit_pay==false,disabled:commit_pay==true}" :disabled="commit_pay" @click="commit_pay_button">立即支付</button>
                     </div>
                 </div>
             </div>
@@ -143,6 +155,7 @@
 </template>
 
 <script>
+import { request,SITEID } from "../api/api";
 export default {
   name: "Service",
   data() {
@@ -150,12 +163,168 @@ export default {
       payWay1: 1, //支付选项
       payWay2: 1, //支付方式
       devType: 1, //开发类型
-      isAgree: false
+      devTypeIsTrue:false,
+      isAgree: false,
+      is_true:false,
+      commit_pay:false,
+      projectInfo:{},
+      userInfo:{},
+      pay_money:0
     };
   },
-  methods: {
-    handlePay() {
-      this.$router.push("/paysuccess");
+  mounted:function(){
+     this.get_product_price();
+     this.getUserInfo();
+  },
+  methods:{
+    // handlePay() {
+    //   this.$router.push("/paysuccess");
+    // },
+    //改变购买数量
+    change_quota_number(){
+        var _this = this;
+        if(_this.payWay1 == 1){
+              _this.pay_money = Number(_this.projectInfo.deposit);
+          }else if(_this.payWay1 == 2){
+              var deposit_money = Number(_this.projectInfo.deposit);
+              var presell_price = Number(_this.projectInfo.presell_price) * _this.devType;
+              _this.pay_money = presell_price - deposit_money;
+          }else{
+              _this.pay_money = Number(_this.projectInfo.presell_price) * _this.devType;
+          } 
+        var current_coin = Number(_this.userInfo.current_coin);
+        var pay_money = Number(_this.pay_money);
+        var num = current_coin - pay_money;
+        if(num > 0){
+            _this.commit_pay = false;
+        }else{
+            _this.commit_pay = true;
+        }
+    },
+    //改变订单类型
+    change_order_type(){
+        var _this = this;
+        if(_this.payWay1 == 1){
+              _this.pay_money = Number(_this.projectInfo.deposit);
+              _this.devTypeIsTrue = true;
+          }else if(_this.payWay1 == 2){
+              var deposit_money = Number(_this.projectInfo.deposit);
+              var presell_price = Number(_this.projectInfo.presell_price) * _this.devType;
+              _this.pay_money = presell_price - deposit_money;
+              _this.devTypeIsTrue = false;
+          }else{
+              _this.pay_money = Number(_this.projectInfo.presell_price) * _this.devType;
+              _this.devTypeIsTrue = false;
+          }
+        var current_coin = Number(_this.userInfo.current_coin);
+        var pay_money = Number(_this.pay_money);
+        var num = current_coin - pay_money;
+        if(num > 0){
+            _this.commit_pay = false;
+        }else{
+            _this.commit_pay = true;
+        }
+    },
+    //改变支付方式
+    change_pay_method(){
+        var _this = this;
+        if(_this.payWay2 == 1){
+            var current_coin = Number(_this.userInfo.current_coin);
+            var pay_money = Number(_this.pay_money);
+            var num = current_coin - pay_money;
+            if(num > 0){
+                _this.commit_pay = false;
+            }else{
+                _this.commit_pay = true;
+            }
+          }else if(_this.payWay2 == 2){
+              _this.commit_pay = false;
+          }else{
+              _this.commit_pay = false;
+          }
+    },
+    //获取产品价格以及产品信息
+    get_product_price(){
+      var _this = this;
+      var projectid = sessionStorage.getItem("select_projectid");
+      var select_type = sessionStorage.getItem("select_type");
+      request("com.iiding.web.personal_center.user_project.get_product_price",{"projectid":projectid},res => {
+        if(res.code == "success"){
+          _this.projectInfo = res.data;
+          if(select_type == 1){
+              _this.payWay1 = 1;
+              _this.is_true = true;
+              _this.pay_money = Number(res.data.deposit);
+              _this.devTypeIsTrue = true;
+          }else if(select_type == 2){
+              _this.payWay1 = 2;
+              _this.is_true = true;
+              var deposit_money = Number(res.data.deposit);
+              var presell_price = Number(res.data.presell_price);
+              _this.pay_money = presell_price - deposit_money;
+              _this.devTypeIsTrue = false;
+          }else{
+              _this.is_true = false;
+              _this.payWay1 = 1;
+              _this.pay_money = Number(res.data.deposit);
+              _this.devTypeIsTrue = true;
+          }
+        }
+      })
+    },
+    //获取用户余额
+    getUserInfo(){
+        var _this = this;
+        request("com.iiding.common.user.get_user_detail",{},res => {
+            if(res.code == "success"){
+                _this.userInfo = res.data;
+                setTimeout(function(){
+                    var num = Number(_this.userInfo.current_coin) - Number(_this.pay_money);
+                    if(num > 0){
+                        _this.commit_pay = false;
+                    }else{
+                        _this.commit_pay = true;
+                    }
+                },300);
+             }
+         })
+    },
+    //确认支付
+    commit_pay_button(){
+        var postData = {};
+        var projectid = sessionStorage.getItem("select_projectid");
+        postData.projectid = _this.projectid;
+        //支付方式
+        if(_this.payWay2 == 3){
+            postData.pay_method = 1;
+        }else if(_this.payWay2 == 2){
+            postData.pay_method = 2;
+        }else{
+            postData.pay_method = 3;
+        }
+        //操作类型，1预报名，2支付尾款，3支付全额
+        if(_this.payWay1 == 1){
+            postData.op = "participate";
+        }else if(_this.payWay1 == 2){
+            var id = sessionStorage.getItem("my_projectid");
+            postData.op = "signing";
+            postData.quota_number = _this.devType;
+            postData.pay_type = 1;
+            postData.id = id;
+        }else{
+            postData.op = "signing";
+            quota_number = _this.devType;
+            postData.pay_type = 2;
+        }
+        var _this = this;
+        request("com.iiding.web.personal_center.user_project.add_project",postData,res => {
+            if(res.code == "success"){
+                _this.$router.push("/paysuccess");
+             }else{
+                 var msg = res.msg;
+                _this.$message.error(msg);
+             }
+         })
     }
   }
 };
@@ -323,6 +492,9 @@ export default {
           box-sizing: border-box;
           &.disabled {
             background: rgba(255, 80, 0, 0.6);
+          }
+          &.isDisabled{
+              cursor: pointer;
           }
         }
       }

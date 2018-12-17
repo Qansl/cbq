@@ -5,14 +5,14 @@
             <div class="stat-con">
                 <ul class="list">
                     <li class="item">
-                        <div class="no">0.00</div>
+                        <div class="no">{{user_sum_income}}</div>
                         <div class="desc">总收入
                             <a class="link" href="javascript:;">详情</a>
                         </div>
                         
                     </li>
                     <li class="item">
-                        <div class="no">0.00</div>
+                        <div class="no">{{userInfo.current_coin}}</div>
                         <div class="desc">余额</div>
                     </li>
                 </ul>
@@ -27,16 +27,16 @@
                 <li class="item" :class="{active:tab==2}" @click="changeTab(2)">平台退费</li>
             </ul>
             <div v-show="tab==0" class="myconsume">
-                <table class="u-table">
+                <table class="u-table" :key="index" v-for="(item,index) in history_record">
                     <caption>
-                        <span class="time">2018-11-11 11:11:00</span>
+                        <span class="time">{{item.create_time}}</span>
                         <span class="order">订单号：</span>
-                        <span class="orderid">123456</span>
+                        <span class="orderid">{{item.order_number}}</span>
                     </caption>
                     <thead>
                         <tr>
                             <th>项目</th>
-                            <th>规格</th>
+                            <th>订单类型</th>
                             <th>分红权</th>
                             <th>金额</th>
                             <th>支付方式</th>
@@ -48,47 +48,13 @@
                             <td>
                                 <div class="cover-wrapper">
                                     <img class="cover" src="http://pic.iidingyun.com//file/20181120/75487.png" alt="">
-                                    <span>类拼多多APP商城</span>
+                                    <span>{{item.product_name}}</span>
                                 </div>
                             </td>
-                            <td>开发定金</td>
-                            <td>无</td>
-                            <td>1000</td>
-                            <td>微信支付</td>
-                            <td>
-                                <a class="link" href="javascript:;">退定金</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="u-table">
-                    <caption>
-                        <span class="time">2018-11-11 11:11:00</span>
-                        <span class="order">订单号：</span>
-                        <span class="orderid">123456</span>
-                    </caption>
-                    <thead>
-                        <tr>
-                            <th>项目</th>
-                            <th>规格</th>
-                            <th>分红权</th>
-                            <th>金额</th>
-                            <th>支付方式</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="cover-wrapper">
-                                    <img class="cover" src="http://pic.iidingyun.com//file/20181120/75487.png" alt="">
-                                    <span>类拼多多APP商城</span>
-                                </div>
-                            </td>
-                            <td>开发定金</td>
-                            <td>无</td>
-                            <td>1000</td>
-                            <td>微信支付</td>
+                            <td>{{item.order_type==1?'充值':item.order_type==2?'项目预报名':item.order_type==3?'项目分红收入':item.order_type==4?'参与项目购买名额':item.order_type==5?'平台退款':'购买二次预售项目'}}</td>
+                            <td>{{item.is_dividend_right==1?item.dividend_right:'无'}}</td>
+                            <td>{{item.order_money}}</td>
+                            <td>{{item.payment_method==1?'微信支付':item.payment_method==2?'支付宝支付':'余额支付'}}</td>
                             <td>
                                 <a class="link" href="javascript:;">退定金</a>
                             </td>
@@ -96,16 +62,17 @@
                     </tbody>
                 </table>
             </div>
+
             <div v-show="tab==1" class="myincome">
                 <div class="form">
                     <div class="form-item">
                         <div class="lb">选择项目：</div>
-                        <el-select v-model="projid" placeholder="请选择">
+                        <el-select v-model="order_product" placeholder="请选择" @change="change_project_query_rocord">
                             <el-option
-                            v-for="item in proj"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                            v-for="item in my_project"
+                            :key="item.projectid"
+                            :label="item.project_name"
+                            :value="item.projectid">
                             </el-option>
                         </el-select>
                     </div>
@@ -114,10 +81,10 @@
                     </div>
                 </div>
                 <div class="stat-list">
-                    <div class="item">总浏览人数：<span class="no">500</span></div>
-                    <div class="item">总购买人数：<span class="no">10</span></div>
-                    <div class="item">项目收入：<span class="no">3000.00</span></div>
-                    <div class="item">利润分红：<span class="no">3000.00</span></div>
+                    <div class="item">总浏览人数：<span class="no">{{number_of_visitors}}</span></div>
+                    <div class="item">总购买人数：<span class="no">{{number_of_buyers}}</span></div>
+                    <div class="item">项目收入：<span class="no">{{total_income}}</span></div>
+                    <div class="item">利润分红：<span class="no">{{project_bonus}}</span></div>
                 </div>
                 <div class="u-el-table-wrapper">
                     <div class="table-head">
@@ -128,38 +95,43 @@
                         border
                         style="width: 100%">
                         <el-table-column
-                        prop="col1"
+                        prop="create_time"
                         label="日期"
                         align="center"
                         width="180">
                         </el-table-column>
                         <el-table-column
-                        prop="col2"
-                        label="姓名"
+                        prop="order_number"
+                        label="订单号"
                         align="center"
                         width="180">
                         </el-table-column>
                         <el-table-column
-                        prop="col3"
-                        label="地址"
+                        prop="order_money"
+                        label="购买价格"
                         align="center">
                         </el-table-column>
                         <el-table-column
-                        prop="col4"
-                        label="地址"
+                        prop="dividend_right"
+                        label="利润分红"
                         align="center">
                         </el-table-column>
                         <el-table-column
-                        prop="col5"
-                        label="地址"
+                        prop="product_type"
+                        label="购买类型"
                         align="center">
+                            <template slot-scope="scope">
+                              <div v-show="scope.row.product_type==1">标准版</div>
+                              <div v-show="scope.row.product_type==2">外观定制版</div>
+                              <div v-show="scope.row.product_type==3">高级定制版</div>
+                            </template>
                         </el-table-column>
                     </el-table>
                     <div class="pager-wrapper">
                         <el-pagination
                             background
                             layout="prev, pager, next"
-                            :total="1000">
+                            :total="totalCount">
                         </el-pagination>
                     </div>
                 </div>
@@ -171,17 +143,17 @@
                         border
                         style="width: 100%">
                         <el-table-column
-                        prop="col1"
+                        prop="creat_time"
                         label="时间"
                         align="center">
                         </el-table-column>
                         <el-table-column
-                        prop="col2"
+                        prop="product_name"
                         label="项目"
                         align="center">
                         </el-table-column>
                         <el-table-column
-                        prop="col3"
+                        prop="order_money"
                         label="退费金额"
                         align="center">
                         </el-table-column>
@@ -193,78 +165,137 @@
 </template>
 
 <script>
+import { request,SITEID } from "../../api/api";
 export default {
   data() {
     return {
+      history_record:[],
       tab: 0,
-      proj: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        }
-      ],
-      projid: "",
-      purchaseDetails: [
-        {
-          col1: "2018-11-06 19:00:00",
-          col2: "D23456",
-          col3: "123456",
-          col4: "300.00",
-          col5: "100.00"
-        },
-        {
-          col1: "2018-11-06 19:00:00",
-          col2: "D23456",
-          col3: "123456",
-          col4: "300.00",
-          col5: "100.00"
-        },
-        {
-          col1: "2018-11-06 19:00:00",
-          col2: "D23456",
-          col3: "123456",
-          col4: "300.00",
-          col5: "100.00"
-        }
-      ],
+      order_product:'',
+      my_project:[],
+      totalCount:0,
+      total_income:0,
+      project_bonus:0,
+      number_of_buyers:0,
+      number_of_visitors:0,
+      userInfo:{},
+      user_sum_income:0,
+      purchaseDetails: [],
       chartData: {
-        columns: ["时间", "人数"],
-        rows: [
-          { 时间: "2018-11-06", 人数: 14 },
-          { 时间: "2018-11-07", 人数: 28 },
-          { 时间: "2018-11-08", 人数: 16 },
-          { 时间: "2018-11-09", 人数: 39 },
-          { 时间: "2018-11-10", 人数: 60 },
-          { 时间: "2018-11-11", 人数: 80 }
-        ],
+        columns: ["时间", "人数","分红收入"],
+        rows: [],
         yAxisName: "fdaf"
       },
-      payBack: [
-        {
-          col1: "2018-11-06 19:00:00",
-          col2: "拼多多app商城开发",
-          col3: "100"
-        },
-        {
-          col1: "2018-11-06 19:00:00",
-          col2: "拼多多app商城开发",
-          col3: "100"
-        },
-        {
-          col1: "2018-11-06 19:00:00",
-          col2: "拼多多app商城开发",
-          col3: "100"
-        }
-      ]
+      payBack: []
     };
   },
+  mounted:function(){
+    this.query_history_record();
+    this.get_my_project();
+    this.get_user_details();
+    this.get_user_sum_income();
+  },
   methods: {
-    changeTab(i) {
-      this.tab = i;
+    changeTab(i) { 
+      var _this = this;
+      _this.tab = i;   
+      // _this.get_my_project();
+      _this.query_chart_data();
+      if(i == 0 || i == 2){
+        _this.query_history_record();
+      }else if(i == 1){
+        _this.query_income_order();
+      }
+    },
+    //切换项目进行查询财务信息
+    change_project_query_rocord:function(){
+      this.query_chart_data();
+      this.query_history_record();
+    },
+    //查询图标数据和统计数据
+    query_chart_data:function(){
+      var _this = this;
+      var postData = {};
+      postData.projectid = _this.order_product;
+      request("com.iiding.web.personal_center.money_manage.query_chart_data",postData,res => {
+        if(res.code == "success"){
+            _this.chartData.rows = res.data;
+            _this.total_income = res.total_income;
+            _this.project_bonus = res.project_bonus;
+            _this.number_of_buyers = res.number_of_buyers;
+            _this.number_of_visitors = res.number_of_visitors;
+        }
+      })
+    },
+    //获取用户详细信息
+    get_user_details:function(){
+      var _this = this;
+      request("com.iiding.common.user.get_user_detail",{},res => {
+        if(res.code == "success"){
+          _this.userInfo = res.data;
+        }
+      })
+    },
+    //查询用户总收入
+    get_user_sum_income:function(){
+      var _this = this;
+      request("com.iiding.web.personal_center.user_manage.get_all_income",{},res => {
+        if(res.code == "success"){
+          _this.user_sum_income = res.data;
+        }
+      })
+    },
+    //查询收入订单记录
+    query_income_order:function(){
+      var _this = this;
+      var postData = {};
+      postData.order_type = 6;
+      postData.order_product = _this.order_product;
+      request("com.iiding.web.personal_center.query_income_order",postData,res => {
+          if(res.code == "success"){
+            _this.purchaseDetails = res.list;
+            _this.totalCount = res.totalCount;
+          }else{
+            var msg = res.msg;
+            _this.$message.error(msg);
+          }
+      })
+    },
+    //查询用户所有具有分红权的项目
+    get_my_project:function(){
+      var _this = this;
+      request("com.iiding.web.personal_center.user_project.query_all_project",{},res => {
+        if(res.code == "success"){
+            _this.my_project = res.data;
+            _this.order_product = res.data[0].projectid;
+        }
+      })
+    },
+    //查询订单
+    query_history_record:function(){
+      var _this = this;
+      var postData = {};
+				if(_this.tab == 2){
+					postData.order_type = "(5)";
+				}else if(_this.tab == 1){
+          postData.order_type = "(3)";
+          postData.order_product = _this.order_product;
+				}else{
+					postData.order_type = "(2,4,6)";
+        }
+      request("com.iiding.web.personal_center.money_manage.historical_record", postData, res => {
+          if(res.code == "success"){
+            if(_this.tab == 0){
+             _this.history_record = res.list;
+            }else{
+              _this.payBack = res.list;
+            }
+
+          }else{
+            var msg = res.msg;
+            _this.$message.error(msg);
+          }
+      });
     }
   },
   watch: {
