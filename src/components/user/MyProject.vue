@@ -51,32 +51,6 @@
                         <span class="deadline">报名截止时间 {{item.presell_finish_time}}</span>
                     </div>
                 </li>
-                <li class="item">
-                    <div class="basic">
-                        <div class="item-field">
-                            <div class="lb">项目名称：</div>
-                            <div class="disp-txt">拼多多APP商城开发</div>
-                        </div>
-                        <div class="item-field">
-                            <div class="lb">报名时间：</div>
-                            <div class="disp-txt">18-11-20 19:10:22</div>
-                        </div>
-                        <div class="item-field">
-                            <div class="lb">开发尾款：</div>
-                            <div class="disp-txt im">10000</div>
-                            <div class="disp-txt del">开发总费：6000</div>
-                        </div>
-                        <div class="tools">
-                            <button class="btn">支付尾款</button>
-                            <a class="link disabled" href="javascript:;">已预报名</a>
-                            <a class="link active" href="javascript:;">项目进度</a>
-                        </div>
-                    </div>
-                    <div class="other">
-                        <span class="no">5</span>
-                        <span class="deadline">报名截止时间 2018-12-06</span>
-                    </div>
-                </li>
             </ul>
         </div>
         <div v-show="tab==1" class="proj-list proj-list2">
@@ -102,27 +76,7 @@
                         <span class="deadline">开发截止时间 {{item.dev_end_time}}</span>
                     </div>
                 </li>
-                <li class="item">
-                    <div class="basic">
-                        <div class="item-field">
-                            <div class="lb">项目名称：</div>
-                            <div class="disp-txt">拼多多APP商城开发</div>
-                        </div>
-                        <div class="item-field">
-                            <div class="lb">报名时间：</div>
-                            <div class="disp-txt">18-11-20 19:10:22</div>
-                        </div>
-                        <div class="tools">
-                            <a class="link active" href="javascript:;">开发明细</a>
-                            <a class="link active" href="javascript:;">项目进度</a>
-                            <a class="link active" href="javascript:;">预览合同</a>
-                            <a class="link green" href="javascript:;">个性化需求</a>
-                        </div>
-                    </div>
-                    <div class="other pre-proj">
-                        <span class="deadline">报名截止时间 2018-12-06</span>
-                    </div>
-                </li>
+
             </ul>
         </div>  
         <div v-show="tab==2" class="custom-proj">
@@ -325,7 +279,7 @@ export default {
         sessionStorage.setItem("select_projectid",project.projectid);
         sessionStorage.setItem("my_projectid",project.id);
         sessionStorage.setItem("select_type",i);
-        location.href="/#/order";
+        location.href="/#/order/9905420/0";
     },
     //取消关注
     remove_concerns:function(projectid){

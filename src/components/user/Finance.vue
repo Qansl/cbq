@@ -7,7 +7,7 @@
                     <li class="item">
                         <div class="no">{{user_sum_income}}</div>
                         <div class="desc">总收入
-                            <a class="link" href="javascript:;">详情</a>
+                            <!-- <a class="link" href="javascript:;">详情</a> -->
                         </div>
                         
                     </li>
