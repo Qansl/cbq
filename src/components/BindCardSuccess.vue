@@ -1,17 +1,27 @@
 <template>
     <div>
+      
         <div class="main">
+          
             <h3 class="title">绑定银行卡</h3>
+            <div style="font-size: 18px;margin-top: 20px;margin-left: 20px;cursor: pointer;" @click="backspace"><< 返回</div>
             <div class="result">
                 <i class="icon icon-success"></i>
                 <p class="desc">绑定成功</p>
             </div>
+            
         </div>
     </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods:{
+    backspace(){
+      this.$router.push("/user/info");
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
