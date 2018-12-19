@@ -380,6 +380,7 @@ export default {
       }
     },
     handleOrder(val) {
+      sessionStorage.setItem("select_projectid",val.id);
       this.$router.push({ path: "/order/" + val.id + "/" + val.status});
     },
     handleOrderM() {

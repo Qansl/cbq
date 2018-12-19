@@ -13,7 +13,7 @@
                         <div class="form-item">
                             <div class="lb top">开发类型：</div>
                             <div class="u-radio-group1"> 
-                                <label class="u-radio" :class="{ischecked:devType==1}" @change="change_quota_number">
+                                <!-- <label class="u-radio" :class="{ischecked:devType==1}" @change="change_quota_number">
                                     <input v-model="devType" :disabled="devTypeIsTrue" class="u-radio__original" type="radio" tabindex="-1" value="1">   
                                     <span class="u-radio__label">1份</span>
                                     <div class="u-radio__desc">软件+10%分红权</div>
@@ -27,9 +27,9 @@
                                     <input v-model="devType" :disabled="devTypeIsTrue" class="u-radio__original" type="radio" tabindex="-1" value="3">
                                     <span class="u-radio__label">3份</span>
                                     <div class="u-radio__desc">软件+30%分红权</div>
-                                </label> 
+                                </label>  -->
                                 <label class="u-radio" v-for="item in dev_list" :key="item.id" :class="{ischecked:devType==item.dev_count}">
-                                    <input v-model="devType" class="u-radio__original" type="radio" tabindex="-1" :value="item.dev_count">
+                                    <input v-model="devType" class="u-radio__original" :class="{ischecked:devType==3}" @change="change_quota_number(item.dev_count)" type="radio" tabindex="-1" :value="item.dev_count">
                                     <span class="u-radio__label">{{item.dev_count}}份</span>
                                     <div class="u-radio__desc">{{item.mark}}</div>
                                 </label>
@@ -107,7 +107,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-show="payWay2==2" class="form-item">
+                    <div  class="form-item" v-show="showAlipayQrcode">
                         <div class="fieldset">
                             <div class="qrcode">
                                 <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
@@ -115,7 +115,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-show="payWay2==3" class="form-item">
+                    <div  class="form-item" v-show="showWxpayQrcode">
                         <div class="fieldset">
                             <div class="qrcode">
                                 <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
@@ -134,15 +134,15 @@
                     </div> -->
                 </div>
                 <div class="seperator"></div>
-                <div class="form">
-                    <div class="form-item">
+                <div class="form" >
+                    <div class="form-item" v-show="showPhoneValidCode">
                         <div class="lb">手机验证：</div>
                         <div class="disp-txt im">{{phone}}</div>
                     </div>
-                    <div class="form-item valid">
+                    <div class="form-item valid" v-show="showPhoneValidCode">
                         <div class="validcode">
-                            <input class="u-input" type="text" placeholder="验证码">
-                            <button class="u-btn u-btn-goast">获取验证码</button>
+                            <input class="u-input" type="text" v-model="validCode3" placeholder="验证码" >
+                            <button class="u-btn u-btn-goast" @click="getEditPwdValidCode">{{codeBtnTxt}}</button>
                         </div>
                     </div>
                     <div class="form-item">
@@ -152,7 +152,7 @@
                         </div>
                     </div>
                     <div class="tools">
-                        <button class="btn" :class="{isDisabled:commit_pay==false,disabled:commit_pay==true}" :disabled="commit_pay" @click="commit_pay_button">立即支付</button>
+                        <button class="btn" :class="{isDisabled:commit_pay==false,disabled:commit_pay==true}" :disabled="commit_pay" @click="onEditPwdCodeChange">立即支付</button>
                     </div>
                 </div>
             </div>
@@ -172,13 +172,18 @@ export default {
       payWay2: 1, //支付方式
       devType: 1, //开发类型
       devTypeIsTrue:false,
+      showPhoneValidCode:true,
       isAgree: false,
       is_true:false,
       commit_pay:false,
+      codeBtnTxt:"获取验证码",
+      validCode3:"",
       projectInfo:{},
       userInfo:{},
       pay_money:0,
       isAgree: false,
+      showWxpayQrcode:false,
+      showAlipayQrcode:false,
       status:'',
       dev_list:[],
       jsons:{},
@@ -202,7 +207,7 @@ export default {
     //   this.$router.push("/paysuccess");
     // },
     //改变购买数量
-    change_quota_number(){
+    change_quota_number(i){
         var _this = this;
         if(_this.payWay1 == 1){
               _this.pay_money = Number(_this.projectInfo.deposit);
@@ -258,10 +263,41 @@ export default {
             }else{
                 _this.commit_pay = true;
             }
+            _this.showPhoneValidCode = true;
           }else if(_this.payWay2 == 2){
               _this.commit_pay = false;
+              _this.showPhoneValidCode = false;
+            var postData = {};
+            if(_this.payWay1 == 1){
+                postData.op = "participate";
+            }else{
+                postData.op = "signing";
+            }
+            postData.pay_method = "alipayweb";
+            var projectid = sessionStorage.getItem("select_projectid");
+            postData.projectid = projectid;
+            postData.quota_number = _this.devType;
+            request("com.iiding.web.personal_center.user_project.get_product_price",postData,res => {
+                console.log("返回值",res);
+                _this.showAlipayQrcode = true;
+            })
           }else{
               _this.commit_pay = false;
+              _this.showPhoneValidCode = false;
+                var postData = {};
+                if(_this.payWay1 == 1){
+                    postData.op = "participate";
+                }else{
+                    postData.op = "signing";
+                }
+                postData.pay_method = "wxweb";
+                var projectid = sessionStorage.getItem("select_projectid");
+                postData.projectid = projectid;
+                postData.quota_number = _this.devType;
+                request("com.iiding.web.personal_center.user_project.get_product_price",postData,res => {
+                    console.log("返回值",res);
+                    _this.showWxpayQrcode = true;
+                })
           }
     },
     //获取产品价格以及产品信息
@@ -310,8 +346,61 @@ export default {
              }
          })
     },
+    //校验验证码
+    onEditPwdCodeChange() {
+      let reg = /^\d{6}$/;
+      if (reg.test(this.validCode3)) {
+        request(
+          "com.iiding.common.user.user_phone_check",
+          {
+            phone: this.userInfo.phone,
+            verify_code: this.validCode3
+          },
+          res => {
+            if (res.code == "success") {
+                this.commit_pay_button();
+            } else {
+              this.$message.error("请输入正确的验证码");
+            }
+          }
+        );
+      } else {
+          this.$message.error("请输入正确的验证码");
+      }
+    },
+    //获取验证码
+    getEditPwdValidCode() {
+      if (this.codeBtnTxt != "获取验证码") {
+        return;
+      }
+      let reg1 = /^1\d{10}$/;
+      console.log(this.userInfo.phone);
+      if (!reg1.test(this.userInfo.phone)) {
+        this.$message.error("请输入正确的手机号");
+        return;
+      }
+      request(
+        "com.iiding.common.user.verify_code",
+        { phone: this.userInfo.phone },
+        res => {
+          if (res.code == "success") {
+            this.codeBtnTxt = 60;
+            this.codeInterval = setInterval(() => {
+              if (this.codeBtnTxt > 1) {
+                this.codeBtnTxt--;
+              } else {
+                this.codeInterval = null;
+                clearInterval(this.codeInterval);
+                this.codeBtnTxt = "获取验证码";
+              }
+            }, 1000);
+          }
+        }
+      );
+    },
     //确认支付
     commit_pay_button(){
+        var _this = this;
         var postData = {};
         var projectid = sessionStorage.getItem("select_projectid");
         postData.projectid = _this.projectid;
@@ -334,10 +423,9 @@ export default {
             postData.id = id;
         }else{
             postData.op = "signing";
-            quota_number = _this.devType;
+            postData.quota_number = _this.devType;
             postData.pay_type = 2;
         }
-        var _this = this;
         request("com.iiding.web.personal_center.user_project.add_project",postData,res => {
             if(res.code == "success"){
                 _this.$router.push("/paysuccess");

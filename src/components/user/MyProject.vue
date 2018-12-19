@@ -279,7 +279,7 @@ export default {
         sessionStorage.setItem("select_projectid",project.projectid);
         sessionStorage.setItem("my_projectid",project.id);
         sessionStorage.setItem("select_type",i);
-        location.href="/#/order/9905420/0";
+        location.href="/#/order/" + project.projectid + "/" + 0;
     },
     //取消关注
     remove_concerns:function(projectid){
