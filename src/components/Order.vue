@@ -92,7 +92,21 @@
                 <div class="form pay-methods">
                     <div class="form-item">
                         <div class="lb">支付方式：</div>
-                        <div class="u-radio-group1"> 
+                        <div class="u-radio-group1" v-show="jsons.status == 0"> 
+                            <label class="u-radio" :class="{ischecked:payWay2==1}" @change="change_pay_method"> 
+                                <input v-model="payWay2" class="u-radio__original" type="radio" tabindex="-1" value="1">
+                                <span class="u-radio__label">余额支付</span>
+                            </label>
+                            <label class="u-radio" :class="{ischecked:payWay2==2}" @change="change_pay_method">
+                                <input v-model="payWay2" class="u-radio__original" type="radio" tabindex="-1" value="2">
+                                <span class="u-radio__label">支付宝支付</span>
+                            </label>
+                            <label class="u-radio" :class="{ischecked:payWay2==3}" @change="change_pay_method">
+                                <input v-model="payWay2" class="u-radio__original" type="radio" tabindex="-1" value="3">
+                                <span class="u-radio__label">微信支付</span>
+                            </label>
+                        </div>
+                        <div class="u-radio-group1" v-show="jsons.status == 2"> 
                             <label class="u-radio" :class="{ischecked:payWay2==1}" @change="change_pay_method"> 
                                 <input v-model="payWay2" class="u-radio__original" type="radio" tabindex="-1" value="1">
                                 <span class="u-radio__label">余额支付</span>
@@ -167,7 +181,10 @@
                             <div class="con">开发项目与阳光保险签订担保合同，项目预售不成功，所有费用原路退回。支付完尾款后，我们会将开发合同与财产险合同，发到你的个人中心与邮箱。</div>
                         </div>
                     </div>
-                    <div class="tools">
+                    <div class="tools" v-show="jsons.status == 0">
+                        <button class="btn" :class="{isDisabled:commit_pay==false,disabled:commit_pay==true}" :disabled="commit_pay" @click="onEditPwdCodeChange">立即支付</button>
+                    </div>
+                    <div class="tools" v-show="jsons.status == 2">
                         <button class="btn" :class="{isDisabled:commit_pay==false,disabled:commit_pay==true}" :disabled="commit_pay" @click="onEditPwdCodeChange">立即支付</button>
                     </div>
                 </div>
@@ -204,6 +221,8 @@ export default {
       showWxpayQrcode:false,
       showAlipayQrcode:false,
       status:'',
+      order_number:"",
+      payDialogVisible:0,
       my_project_status:"",
       my_project_id:"",
       dev_list:[],
@@ -291,15 +310,20 @@ export default {
             _this.showAlipayQrcode = false;
             _this.showWxpayQrcode = false;
           }else if(_this.payWay2 == 2){
-              _this.commit_pay = false;
-              _this.showPhoneValidCode = false;
-              _this.showWxpayQrcode = false;
+            _this.commit_pay = false;
+            _this.showPhoneValidCode = false;
+            _this.showWxpayQrcode = false;
+            var loading = _this.$loading({
+                lock: true,
+                text: '正在拉起支付...',
+            });
             var postData = {};
             if(_this.payWay1 == 1){
                 postData.op = "participate";
             }else if(_this.payWay1 == 2){
                 postData.op = "signing";
                 postData.pay_type = 2;
+                postData.id = _this.my_project_id;
             }else{
                 postData.op = "signing";
                 postData.pay_type = 1;
@@ -311,19 +335,34 @@ export default {
              console.log("参数",postData);
             request("com.iiding.web.personal_center.money_manage.pay_interface",postData,res => {
                 console.log("返回值",res);
-                _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.payinfo;
-                _this.showAlipayQrcode = true;
+                if(res.payinfo){
+                    loading.close();
+                    _this.order_number = res.tradeno;
+                    _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.payinfo;
+                    _this.showAlipayQrcode = true;
+                    _this.get_payResult();
+                }else{
+                    loading.close();
+                    _this.showAlipayQrcode = false;
+                    var msg = res.msg;
+                    _this.$message.error(msg)
+                }
             })
           }else{
                 _this.commit_pay = false;
                 _this.showPhoneValidCode = false;
                 _this.showAlipayQrcode = false;
+                var loading = _this.$loading({
+                    lock: true,
+                    text: '正在拉起支付...',
+                });
                 var postData = {};
                 if(_this.payWay1 == 1){
                     postData.op = "participate";
                 }else if(_this.payWay1 == 2){
                     postData.op = "signing";
                     postData.pay_type = 2;
+                    postData.id = _this.my_project_id;
                 }else{
                     postData.op = "signing";
                     postData.pay_type = 1;
@@ -335,10 +374,51 @@ export default {
                 console.log("参数",postData);
                 request("com.iiding.web.personal_center.money_manage.pay_interface",postData,res => {
                     console.log("返回值",res);
-                    _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.payinfo;
-                    _this.showWxpayQrcode = true;
+                    if(res.payinfo){
+                        loading.close();
+                        _this.order_number = res.tradeno;
+                        _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.payinfo;
+                        _this.showWxpayQrcode = true;
+                        _this.get_payResult();
+                    }else{
+                        loading.close();
+                        _this.showWxpayQrcode = false;
+                        var msg = res.msg;
+                        _this.$message.error(msg)
+                    }
+                   
                 })
           }
+    },
+    //获取支付结果
+    get_payResult: function () {
+        this.payDialogVisible++;
+        console.log("payDialogVisible",this.payDialogVisible);
+        var _this = this;
+        var url = "com.iiding.web.personal_center.money_manage.get_order_info";
+        var param = {order_number:_this.order_number};
+        request(url, param, result => {
+            console.log("get_payResult",result);
+            if (result.code == "order_not_exist"){
+
+            }else if(result.code == 'success') {
+                 _this.$router.push("/paysuccess");
+                 return true;
+            }else{
+                _this.$message({ type: 'error', message: "支付失败"});
+            }
+            if(_this.payDialogVisible >= 100){
+                _this.payDialogVisible = false;
+                _this.$message({ type: 'error', message: "支付失败"});
+                setTimeout(function(){
+				    _this.$router.push('/home');
+			    },1000)
+                return false;
+            }
+            setTimeout(function(){
+                _this.get_payResult();
+            },1200)
+        });
     },
     //获取产品价格以及产品信息
     get_product_price(){
@@ -395,8 +475,10 @@ export default {
               _this.is_true1 = true;
               _this.is_true2 = true;
               _this.is_true3 = true;
-              _this.$messsage.error("此项目您已经签约");
+              _this.$message.error("此项目您已经签约");
               _this.commit_pay = true;
+              var urls = "/projectdetails/0/" + projectid;
+              _this.$router.push(urls);
           }else{
           }
         }

@@ -278,7 +278,26 @@ export default {
   methods: {
     //下一步
     step(val){
-      this.$router.push({ path: "/order/" + val.id + "/" + val.status + "/2"});
+      var _this = this;
+      request("com.iiding.web.personal_center.user_project.get_product_price",{"projectid":val.id},res => {
+        if(res.code == "success"){
+          _this.projectInfo = res.data;
+          if(res.my_project_status == "project_not_exist"){
+              sessionStorage.setItem("select_projectid",val.id);
+              _this.$router.push({ path: "/order/" + val.id + "/" + val.status + "/2"});
+          }else if(res.my_project_status == "project_exist_follow"){
+              sessionStorage.setItem("select_projectid",val.id);
+              _this.$router.push({ path: "/order/" + val.id + "/" + val.status + "/2"});
+          }else if(res.my_project_status == "project_exist_participate"){
+              sessionStorage.setItem("select_projectid",val.id);
+              _this.$router.push({ path: "/order/" + val.id + "/" + val.status + "/2"});
+          }else if(res.my_project_status == "project_exist_signing"){
+              _this.$message.error("此项目您已经签约");
+          }else{
+          }
+        }
+      })
+
     },
     //联系客服
     constract(){
@@ -287,7 +306,26 @@ export default {
     },
     //定制开发的跳转
     changeSale(val){
-      this.$router.push({ path: "/order/" + val.id + "/" + val.status + "/" + this.tcps});
+      var _this = this;
+      request("com.iiding.web.personal_center.user_project.get_product_price",{"projectid":val.id},res => {
+        if(res.code == "success"){
+          _this.projectInfo = res.data;
+          if(res.my_project_status == "project_not_exist"){
+              sessionStorage.setItem("select_projectid",val.id);
+              _this.$router.push({ path: "/order/" + val.id + "/" + val.status + "/" + this.tcps});
+          }else if(res.my_project_status == "project_exist_follow"){
+              sessionStorage.setItem("select_projectid",val.id);
+              _this.$router.push({ path: "/order/" + val.id + "/" + val.status + "/" + this.tcps});
+          }else if(res.my_project_status == "project_exist_participate"){
+              sessionStorage.setItem("select_projectid",val.id);
+              _this.$router.push({ path: "/order/" + val.id + "/" + val.status + "/" + this.tcps});
+          }else if(res.my_project_status == "project_exist_signing"){
+              _this.$message.error("此项目您已经签约");
+          }else{
+          }
+        }
+      })
+
     },
     //选择不同的版本
     changeCards(i){
@@ -426,9 +464,44 @@ export default {
       }
     },
     handleOrder(val) {
-      sessionStorage.setItem("select_projectid",val.id);
-      this.$router.push({ path: "/order/" + val.id + "/" + val.status +"/5"});
+      var _this = this;
+      request("com.iiding.web.personal_center.user_project.get_product_price",{"projectid":val.id},res => {
+        if(res.code == "success"){
+          _this.projectInfo = res.data;
+          if(res.my_project_status == "project_not_exist"){
+              sessionStorage.setItem("select_projectid",val.id);
+              _this.$router.push({ path: "/order/" + val.id + "/" + val.status +"/5"});
+          }else if(res.my_project_status == "project_exist_follow"){
+              sessionStorage.setItem("select_projectid",val.id);
+              _this.$router.push({ path: "/order/" + val.id + "/" + val.status +"/5"});
+          }else if(res.my_project_status == "project_exist_participate"){
+              _this.$message.error("此项目您已经签约");
+          }else if(res.my_project_status == "project_exist_signing"){
+              _this.$message.error("此项目您已经签约");
+          }else{
+          }
+        }
+      })
+
     },
+    // //查询此项目是否已经签约
+    // query_project_is_exist(){
+    //   var _this = this;
+    //   var projectid = sessionStorage.getItem("select_projectid");
+    //   var select_type = sessionStorage.getItem("select_type");
+    //   request("com.iiding.web.personal_center.user_project.get_product_price",{"projectid":projectid},res => {
+    //     if(res.code == "success"){
+    //       _this.projectInfo = res.data;
+    //       if(res.my_project_status == "project_not_exist"){
+    //       }else if(res.my_project_status == "project_exist_follow"){
+    //       }else if(res.my_project_status == "project_exist_participate"){
+    //       }else if(res.my_project_status == "project_exist_signing"){
+    //           _this.$message.error("此项目您已经签约");
+    //       }else{
+    //       }
+    //     }
+    //   })
+    // },
     handleOrderM() {
       this.$router.push({ path: "/morder" });
     }
