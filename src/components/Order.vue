@@ -74,13 +74,17 @@
                         </div> 
                         <div class="form-item" v-show="jsons.status == 2 && tcps == 2">
                             <div class="lb">购买数量：</div>
-                            <div class="disp-txt im"> {{jsons.dev_special_unit_price}}</div>
+                            <div class="disp-txt im">
+                                <template>
+                                    <el-input-number class="numbers" v-model="num1" @change="handleChange" :min="1" label="描述文字"></el-input-number>
+                                </template>
+                            </div>
                         </div> 
                         <div class="form-item" v-show="jsons.status == 2">
                             <div class="lb">定制价格：</div>
                             <div class="disp-txt im" v-show="tcps == 0"> {{jsons.dev_standard_price}}</div>
                             <div class="disp-txt im" v-show="tcps == 1"> {{jsons.dev_custom_price}}</div>
-                            <div class="disp-txt im" v-show="tcps == 2"> {{jsons.dev_special_unit_price}}</div>
+                            <div class="disp-txt im" v-show="tcps == 2"> {{jsons.dev_special_unit_price * num1}}</div>
                         </div>                      
                     </div>
                     <div class="ad">
@@ -192,6 +196,26 @@
         </div>
     </div>
 </template>
+<style>
+    .numbers {
+
+    }
+    .el-input-number__decrease{
+        border-right: 1px solid transparent; 
+    }
+    .el-input-number__decrease, .el-input-number__increase{
+        background:rgba(255,255,255,1)
+    }
+    .el-input-number__increase{
+        border-left: 1px solid transparent; 
+    }
+    .el-input__inner {
+        color:rgba(255,80,0,1)
+    }
+    .el-input__inner:hover{
+        border-color:#dcdfe6;
+    }
+</style>
 
 <script>
 
@@ -228,6 +252,7 @@ export default {
       dev_list:[],
       jsons:{},
       tcps:'',
+      num1:1,
     };
   },
   mounted:function(){
@@ -245,6 +270,11 @@ export default {
       }
   },
   methods:{
+    //计数器
+    handleChange(v){
+        console.log(v);
+        this.num1 = v;
+    },
     // handlePay() {
     //   this.$router.push("/paysuccess");
     // },
