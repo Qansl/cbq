@@ -45,18 +45,18 @@
                             <div class="lb">支付选项：</div>
                             <div class="u-radio-group2"> 
                                 <label class="u-radio down-payment" :class="{ischecked:payWay1==1}" @change="change_order_type">
-                                    <input v-model="payWay1" :disabled="is_true" class="u-radio__original" type="radio" tabindex="-1" value="1">
+                                    <input v-model="payWay1" :disabled="is_true1" class="u-radio__original" type="radio" tabindex="-1" value="1">
                                     <span class="u-radio__label">¥{{projectInfo.deposit}}定金</span>
                                     <div class="poper">
                                         <span class="im">*</span>预报名需支付{{jsons.deposit * devType}}元报名费（可退） 预售成功后再缴纳其他费用
                                     </div>
                                 </label>
                                 <label class="u-radio" :class="{ischecked:payWay1==2}" @change="change_order_type">
-                                    <input v-model="payWay1" :disabled="is_true" class="u-radio__original" type="radio" tabindex="-1" value="2">
+                                    <input v-model="payWay1" :disabled="is_true2" class="u-radio__original" type="radio" tabindex="-1" value="2">
                                     <span class="u-radio__label">支付尾款</span>
                                 </label>
                                 <label class="u-radio" :class="{ischecked:payWay1==3}" @change="change_order_type">
-                                    <input v-model="payWay1" :disabled="is_true" class="u-radio__original" type="radio" tabindex="-1" value="3">
+                                    <input v-model="payWay1" :disabled="is_true2" class="u-radio__original" type="radio" tabindex="-1" value="3">
                                     <span class="u-radio__label">全额支付</span>
                                 </label>
                             </div>
@@ -126,7 +126,7 @@
                     <div  class="form-item" v-show="showAlipayQrcode">
                         <div class="fieldset">
                             <div class="qrcode">
-                                <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
+                                <img class="pic" :src="qr_code" alt="">
                                 <div class="desc">请用支付宝扫码支付</div>
                             </div>
                         </div>
@@ -134,7 +134,7 @@
                     <div  class="form-item" v-show="showWxpayQrcode">
                         <div class="fieldset">
                             <div class="qrcode">
-                                <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt="">
+                                <img class="pic" :src="qr_code" alt="">
                                 <div class="desc">请用微信扫码支付</div>
                             </div>
                         </div>
@@ -190,7 +190,10 @@ export default {
       devTypeIsTrue:false,
       showPhoneValidCode:true,
       isAgree: false,
-      is_true:false,
+      is_true1:false,
+      is_true2:false,
+      is_true3:false,
+      qr_code:"",
       commit_pay:false,
       codeBtnTxt:"获取验证码",
       validCode3:"",
@@ -201,6 +204,8 @@ export default {
       showWxpayQrcode:false,
       showAlipayQrcode:false,
       status:'',
+      my_project_status:"",
+      my_project_id:"",
       dev_list:[],
       jsons:{},
       tcps:'',
@@ -249,13 +254,14 @@ export default {
     change_order_type(){
         var _this = this;
         if(_this.payWay1 == 1){
-              _this.pay_money = Number(_this.projectInfo.deposit);
-              _this.devTypeIsTrue = true;
+            _this.pay_money = Number(_this.projectInfo.deposit);
+            _this.devTypeIsTrue = true;
           }else if(_this.payWay1 == 2){
               var deposit_money = Number(_this.projectInfo.deposit);
               var presell_price = Number(_this.projectInfo.presell_price) * _this.devType;
               _this.pay_money = presell_price - deposit_money;
               _this.devTypeIsTrue = false;
+
           }else{
               _this.pay_money = Number(_this.projectInfo.presell_price) * _this.devType;
               _this.devTypeIsTrue = false;
@@ -282,38 +288,54 @@ export default {
                 _this.commit_pay = true;
             }
             _this.showPhoneValidCode = true;
+            _this.showAlipayQrcode = false;
+            _this.showWxpayQrcode = false;
           }else if(_this.payWay2 == 2){
               _this.commit_pay = false;
               _this.showPhoneValidCode = false;
+              _this.showWxpayQrcode = false;
             var postData = {};
             if(_this.payWay1 == 1){
                 postData.op = "participate";
+            }else if(_this.payWay1 == 2){
+                postData.op = "signing";
+                postData.pay_type = 2;
             }else{
                 postData.op = "signing";
+                postData.pay_type = 1;
             }
             postData.pay_method = "alipayweb";
             var projectid = sessionStorage.getItem("select_projectid");
             postData.projectid = projectid;
             postData.quota_number = _this.devType;
-            request("com.iiding.web.personal_center.user_project.get_product_price",postData,res => {
+             console.log("参数",postData);
+            request("com.iiding.web.personal_center.money_manage.pay_interface",postData,res => {
                 console.log("返回值",res);
+                _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.payinfo;
                 _this.showAlipayQrcode = true;
             })
           }else{
-              _this.commit_pay = false;
-              _this.showPhoneValidCode = false;
+                _this.commit_pay = false;
+                _this.showPhoneValidCode = false;
+                _this.showAlipayQrcode = false;
                 var postData = {};
                 if(_this.payWay1 == 1){
                     postData.op = "participate";
+                }else if(_this.payWay1 == 2){
+                    postData.op = "signing";
+                    postData.pay_type = 2;
                 }else{
                     postData.op = "signing";
+                    postData.pay_type = 1;
                 }
                 postData.pay_method = "wxweb";
                 var projectid = sessionStorage.getItem("select_projectid");
                 postData.projectid = projectid;
                 postData.quota_number = _this.devType;
-                request("com.iiding.web.personal_center.user_project.get_product_price",postData,res => {
+                console.log("参数",postData);
+                request("com.iiding.web.personal_center.money_manage.pay_interface",postData,res => {
                     console.log("返回值",res);
+                    _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.payinfo;
                     _this.showWxpayQrcode = true;
                 })
           }
@@ -328,21 +350,54 @@ export default {
           _this.projectInfo = res.data;
           if(select_type == 1){
               _this.payWay1 = 1;
-              _this.is_true = true;
+              _this.is_true1 = true;
+              _this.is_true2 = true;
+              _this.is_true3 = true;
               _this.pay_money = Number(res.data.deposit);
               _this.devTypeIsTrue = true;
           }else if(select_type == 2){
               _this.payWay1 = 2;
-              _this.is_true = true;
+              _this.is_true1 = true;
+              _this.is_true2 = true;
+              _this.is_true3 = true;
               var deposit_money = Number(res.data.deposit);
               var presell_price = Number(res.data.presell_price);
               _this.pay_money = presell_price - deposit_money;
               _this.devTypeIsTrue = false;
           }else{
-              _this.is_true = false;
+              _this.is_true1 = false;
+              _this.is_true2 = true;
+              _this.is_true3 = false;
               _this.payWay1 = 1;
               _this.pay_money = Number(res.data.deposit);
               _this.devTypeIsTrue = true;
+          }
+          if(res.my_project_status == "project_not_exist"){
+              _this.payWay1 = 1;
+              _this.is_true1 = false;
+              _this.is_true2 = true;
+              _this.is_true3 = false;
+          }else if(res.my_project_status == "project_exist_follow"){
+              _this.my_project_id = res.id;
+              _this.payWay1 = 1;
+              _this.is_true1 = false;
+              _this.is_true2 = true;
+              _this.is_true3 = false;
+          }else if(res.my_project_status == "project_exist_participate"){
+              _this.my_project_id = res.id;
+              _this.payWay1 = 2;
+              _this.is_true1 = true;
+              _this.is_true2 = false;
+              _this.is_true3 = true;
+          }else if(res.my_project_status == "project_exist_signing"){
+              _this.my_project_id = res.id;
+              _this.payWay1 = "";
+              _this.is_true1 = true;
+              _this.is_true2 = true;
+              _this.is_true3 = true;
+              _this.$messsage.error("此项目您已经签约");
+              _this.commit_pay = true;
+          }else{
           }
         }
       })
@@ -435,6 +490,7 @@ export default {
             postData.op = "participate";
         }else if(_this.payWay1 == 2){
             var id = sessionStorage.getItem("my_projectid");
+
             postData.op = "signing";
             postData.quota_number = _this.devType;
             postData.pay_type = 1;
