@@ -107,17 +107,17 @@
       <div class="u-form-item card-wrapper">
         <div class="lb">绑定的银行卡：</div>
         <div class="card-con">
-          <div class="add" @click="toBindCard">
+          <div class="add" @click="toBindCard" v-if="!userInfo.card_id">
             <i class="icon-add"></i>
             <div class="desc">添加银行卡</div>
           </div>
-          <div class="upload-img">
+          <div class="upload-img" v-else>
             <!-- <img class="pic" src="http://pic.iidingyun.com//file/20181120/75487.png" alt> -->
-            <div class="pic">
+            <div class="pic" >
               <div class="card-icon"></div>
               <div class="card-info">
-                <div class="name">广发银行</div>
-                <div class="id">**** **** **** 1111</div>
+                <div class="name">{{userInfo.card_name}}</div>
+                <div class="id">{{userInfo.card_id}}</div>
               </div>
             </div>
             <a class="link" href="#/bindcard">修改</a>
@@ -465,7 +465,7 @@ export default {
           { userid: userInfo.userid,type:1 },
           res => {
             this.userInfo = res.data;
-
+            this.$store.commit("changeUserInfo", this.userInfo );
             request("com.iiding.common.label.type_select", {}, res => {
               this.hobby = [];
               res.data.forEach(v => {
@@ -776,6 +776,10 @@ export default {
     },
 
     toBindCard(){
+      if(!this.userInfo.auth.idcard){
+        this.$message.error("你还未通过实名认证");
+        return;
+      }
       this.$router.push('/bindcard');
     },
   }
