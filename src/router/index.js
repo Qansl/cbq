@@ -67,7 +67,7 @@ export default new Router({
       component: Service
     },
     {
-      path: '/order/:shopid/:status',
+      path: '/order/:shopid/:status/:tcps',
       component: Order
     },
     {

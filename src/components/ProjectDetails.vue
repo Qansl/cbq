@@ -12,10 +12,14 @@
                     <div class="desc">{{jsons.shop_next_title}}</div>
                     <ul class="stat" :class="{afters:jsons.status != 2}">
                         <li class="item">
-                            <div class="lb">参与费用：</div>
+                            <div class="lb" v-show="jsons.status != 2">参与费用：</div>
+                            <div class="lb" v-show="jsons.status == 2 && tcps != 2">费用：</div>
+                            <div class="lb" v-show="jsons.status == 2 && tcps == 2">单价：</div>
                             <div class="num">
                                 <span class="unit-price">¥</span>
-                                <span>{{jsons.presell_price}}</span>
+                                <span v-if="tcps == 0">{{jsons.dev_standard_price}}</span>
+                                <span v-else-if="tcps == 1">{{jsons.dev_custom_price}}</span>
+                                <span v-else>{{jsons.dev_special_unit_price}}</span>
                             </div>
                         </li>
                         <li class="item" v-show="jsons.status != 2">
@@ -45,11 +49,14 @@
                     </div>
                     <div class="special" v-show="jsons.status == 2">
                         <div class="car-list">
-                            <div class="cards">标准版</div>
-                            <div class="cards">标准版</div>
-                            <div class="cards">标准版</div>
+                            <div class="cards" :class="{isselect:tcps==0}" @click="changeCards(0)">标准版</div>
+                            <div class="cards" :class="{isselect:tcps==1}" @click="changeCards(1)">外观定制</div>
+                            <div class="card" :class="{isselect:tcps==2}" @click="changeCards(2)">高级定制
+                              <div class="rot"></div>
+                            </div>
+                            
                         </div>
-                        <button class="sales">购买</button>
+                        <button class="sales" @click="changeSale(jsons)">购买</button>
                     </div>
                     <div class="tips" v-show="jsons.status == 0">预报名需支付100元报名费（可退）预售成功后再缴纳其他费用</div>
                     <button class="btn" @click="handleOrder(jsons)" v-show="jsons.status == 0">预报名参与</button>
@@ -215,7 +222,15 @@
                     </div>
                 </aside>
             </div>
-
+            <el-dialog title="注意" center :modal="true" :visible.sync="dialogVisible" width="400px" :close-on-click-modal="false">
+              <span class="tip-words">总价格务必请联系客服进行确认,否则付款立即退回！</span>
+              <span slot="footer" class="dialog-footer">
+                <el-button class="buttons" @click="constract">联系客服</el-button>
+                <el-button class="steps" @click="step(jsons)">下一步
+                   <div class="tipcs">(已确定金额)</div>
+                </el-button>
+              </span>
+            </el-dialog>
             <dir class="fixed-tool-mobile">
                 <i class="icon icon-tel"></i>
                 <i class="icon icon-star"></i>
@@ -239,6 +254,9 @@ export default {
       shop_info:{},
       shop_plan:[],
       metor:[],
+      tcps:0,
+      dialogVisible:false,
+
     };
   },
   mounted() {
@@ -258,6 +276,26 @@ export default {
     // this.changeTab(0);
   },
   methods: {
+    //下一步
+    step(val){
+      this.$router.push({ path: "/order/" + val.id + "/" + val.status + "/2"});
+    },
+    //联系客服
+    constract(){
+      // this.$router.push({ path: "/chat" });
+      window.open("#/chat");
+    },
+    //定制开发的跳转
+    changeSale(val){
+      this.$router.push({ path: "/order/" + val.id + "/" + val.status + "/" + this.tcps});
+    },
+    //选择不同的版本
+    changeCards(i){
+      this.tcps = i;
+      if(this.tcps == 2){
+        this.dialogVisible = true;
+      }
+    },
     //根据shopid获取信息
     get_info(){
       var _this = this;
@@ -389,7 +427,7 @@ export default {
     },
     handleOrder(val) {
       sessionStorage.setItem("select_projectid",val.id);
-      this.$router.push({ path: "/order/" + val.id + "/" + val.status});
+      this.$router.push({ path: "/order/" + val.id + "/" + val.status +"/5"});
     },
     handleOrderM() {
       this.$router.push({ path: "/morder" });
@@ -397,6 +435,69 @@ export default {
   }
 };
 </script>
+<style>
+  .el-dialog__header {
+    background:rgba(231,231,231,1);
+    border-radius:2px 2px 0px 0px;
+  }
+  .el-dialog__title {
+    color:rgba(228,57,60,1)
+  }
+  .tip-words {
+    width:340px;
+    height:20px;
+    font-size:14px;
+    font-family:MicrosoftYaHeiUI;
+    color:rgba(51,51,51,1);
+    line-height:18px;
+    text-indent: 2em;
+  }
+  .buttons {
+    width: 96px;
+    height: 30px;
+    background:rgba(255,80,0,1);
+    border-radius:2px;
+    font-size:14px;
+    font-family:MicrosoftYaHeiUI;
+    color:rgba(255,255,255,1);
+    line-height:14px;
+    text-align:center;
+    padding-top:8px;
+  }
+  .buttons:hover {
+    background:rgba(255,80,0,.9);
+    border-radius:2px;
+    color:rgba(255,255,255,1);
+  }
+  .steps{
+    display: inline-block;
+    width: 96px;
+    height: 30px;
+    font-size:14px;
+    font-family:MicrosoftYaHeiUI;
+    color:rgba(153,153,153,1);
+    line-height:14px;
+    text-align:center;
+    padding-top:8px;
+    position: relative;
+  }
+  .steps:hover {
+    background:rgba(255,255,255,1);
+    border-radius:2px;
+    color:rgba(153,153,153,1);
+  }
+  .tipcs {
+      width:69px;
+      height:13px;
+      font-size:10px;
+      font-family:MicrosoftYaHeiUI;
+      color:rgba(228,57,60,1);
+      line-height:13px;
+      position: absolute;
+      right:-70px;
+      bottom:0px;
+    }
+</style>
 
 <style lang="scss" scoped>
 @import "../styles/vars.scss";
@@ -512,16 +613,83 @@ export default {
                 font-family:MicrosoftYaHeiUI;
                 color:rgba(153,153,153,1);
                 text-align:center;
-                padding-top:6px;  
+                padding-top:6px;
               }
               .cards:hover {
                 cursor:pointer;
+              }
+              .card {
+                float:left;
+                width:92px;
+                height:26px;
+                line-height: 18px;
+                margin-right: 20px;
+                border-radius:2px;
+                border:1px solid rgba(176,176,176,1);
+                font-size:14px;
+                font-family:MicrosoftYaHeiUI;
+                color:rgba(153,153,153,1);
+                text-align:center;
+                padding-top:6px;
+                position:relative;
+                .rot{
+                  width:16px;
+                  height: 0px;
+                  padding-top:16px;
+                  background-image: url(http://pic.iidingyun.com//file/20181219/76256.png);
+                  background-size: 16px 16px;
+                  position: absolute;
+                  right:-8px;
+                  top:-10px;
+                }  
+              }
+              .card:hover {
+                cursor:pointer;
+              }
+              .isselect {
+                width:92px;
+                height:26px;
+                border-radius:2px;
+                border:1px solid rgba(255,80,0,1);
+                font-size:14px;
+                font-family:MicrosoftYaHeiUI;
+                color:rgba(255,80,0,1);
+                line-height:18px;
+                text-align:center;
+                padding-top:6px; 
+                position:relative;
+                &::before{
+                    content: "";
+                    width: 0px;
+                    height: 0px;
+                    border-right:8px solid rgba(255,80,0,1);
+                    border-bottom:8px solid rgba(255,80,0,1);
+                    border-top:8px solid transparent;
+                    border-left:8px solid transparent;
+                    position: absolute;
+                    right: 0;
+                    bottom: 0;
+                }
+                &::after {
+                    content: "";
+                    width: 4px;
+                    height: 8px;
+                    border: 1px solid #ffffff;
+                    border-top: 0;
+                    border-left: 0;
+                    -webkit-transform: rotate(45deg);
+                    transform: rotate(45deg);
+                    position:absolute;
+                    right: 2px;
+                    bottom:1px;
+                }
               }
               &::after {
                 content:"";
                 display: block;
                 clear:both;
               }
+              
           }
           .sales {
             display: inline-block;

@@ -10,7 +10,7 @@
                             <div class="lb">项目名称：</div>
                             <div class="disp-txt">{{jsons.shop_title}}</div>
                         </div>
-                        <div class="form-item">
+                        <div class="form-item" v-show="jsons.status == 0">
                             <div class="lb top">开发类型：</div>
                             <div class="u-radio-group1"> 
                                 <!-- <label class="u-radio" :class="{ischecked:devType==1}" @change="change_quota_number">
@@ -35,13 +35,13 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-item">
+                        <div class="form-item" v-show="jsons.status == 0">
                             <div class="lb">开发均摊费：</div>
                             <div class="disp-txt im"> {{projectInfo.presell_price}}</div>
                             <div class="del-txt">开发总费：{{projectInfo.dev_sum_money}}</div>
 
                         </div>
-                        <div class="form-item">
+                        <div class="form-item" v-show="jsons.status == 0">
                             <div class="lb">支付选项：</div>
                             <div class="u-radio-group2"> 
                                 <label class="u-radio down-payment" :class="{ischecked:payWay1==1}" @change="change_order_type">
@@ -61,11 +61,27 @@
                                 </label>
                             </div>
                         </div>
-                         <div class="form-item">
+                         <div class="form-item" v-show="jsons.status == 0">
                             <div class="lb">应付金额：</div>
                             <div class="disp-txt im"> {{pay_money}}</div>
                             <!-- <div class="del-txt">开发总费：6000</div> -->
-                        </div>                       
+                        </div> 
+                        <div class="form-item" v-show="jsons.status == 2">
+                            <div class="lb">定制类型：</div>
+                            <div class="disp-txt" v-show="tcps == 0">标准版</div>
+                            <div class="disp-txt" v-show="tcps == 1">外观定制</div>
+                            <div class="disp-txt" v-show="tcps == 2">高级定制</div>
+                        </div> 
+                        <div class="form-item" v-show="jsons.status == 2 && tcps == 2">
+                            <div class="lb">购买数量：</div>
+                            <div class="disp-txt im"> {{jsons.dev_special_unit_price}}</div>
+                        </div> 
+                        <div class="form-item" v-show="jsons.status == 2">
+                            <div class="lb">定制价格：</div>
+                            <div class="disp-txt im" v-show="tcps == 0"> {{jsons.dev_standard_price}}</div>
+                            <div class="disp-txt im" v-show="tcps == 1"> {{jsons.dev_custom_price}}</div>
+                            <div class="disp-txt im" v-show="tcps == 2"> {{jsons.dev_special_unit_price}}</div>
+                        </div>                      
                     </div>
                     <div class="ad">
                         <img class="pic" src="//pic.iidingyun.com//file/20181126/75643.png" alt="">
@@ -187,13 +203,15 @@ export default {
       status:'',
       dev_list:[],
       jsons:{},
+      tcps:'',
     };
   },
   mounted:function(){
     this.get_product_price();
     this.getUserInfo();
     this.status = this.$route.params.status;
-    console.log(this.status);
+    this.tcps = this.$route.params.tcps;
+    console.log(this.tcps);
     this.get_dev_type();
     this.get_shop_info();
   },
