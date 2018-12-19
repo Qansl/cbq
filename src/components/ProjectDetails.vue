@@ -10,7 +10,7 @@
                 <div class="intro-details">
                     <h2 class="title">{{jsons.shop_title}}</h2>
                     <div class="desc">{{jsons.shop_next_title}}</div>
-                    <ul class="stat">
+                    <ul class="stat" :class="{afters:jsons.status != 2}">
                         <li class="item">
                             <div class="lb">参与费用：</div>
                             <div class="num">
@@ -18,7 +18,7 @@
                                 <span>{{jsons.presell_price}}</span>
                             </div>
                         </li>
-                        <li class="item">
+                        <li class="item" v-show="jsons.status != 2">
                             <div class="lb">参与名额：</div>
                             <div class="num">
                                 <span>{{jsons.person_count}}</span>
@@ -26,7 +26,7 @@
                             </div>
                         </li>
                     </ul>
-                    <div class="prog-wrapper">
+                    <div class="prog-wrapper" v-show="jsons.status != 2">
                         <progress class="u-progress" :value="jsons.plenty" :max="jsons.plenty > 100 ? jsons.plenty : 100"></progress>
                         <ul class="prog-details">
                             <li>
@@ -43,9 +43,17 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="special" v-show="jsons.status == 2">
+                        <div class="car-list">
+                            <div class="cards">标准版</div>
+                            <div class="cards">标准版</div>
+                            <div class="cards">标准版</div>
+                        </div>
+                        <button class="sales">购买</button>
+                    </div>
                     <div class="tips" v-show="jsons.status == 0">预报名需支付100元报名费（可退）预售成功后再缴纳其他费用</div>
                     <button class="btn" @click="handleOrder(jsons)" v-show="jsons.status == 0">预报名参与</button>
-                    <div class="u-share" v-show="jsons.status == 0">
+                    <div class="u-share" v-show="jsons.status != 1">
                         <span class="lb">分享到</span>
                         <ul class="list">
                             <li class="icon icon-weibo"></li>
@@ -472,6 +480,9 @@ export default {
             }
           }
         }
+        
+      }
+      .afters {
         &::after {
           content: "";
           width: 1px;
@@ -482,6 +493,51 @@ export default {
           top: 50%;
           transform: translateY(-50%);
         }
+      }
+      .special {
+          padding-left:10px;
+          padding-top:31px;
+          .car-list{
+              margin-bottom:30px;
+              .cards {
+                float:left;
+                width:92px;
+                height:26px;
+                line-height: 18px;
+                margin-right: 20px;
+                border-radius:2px;
+                border:1px solid rgba(176,176,176,1);
+                font-size:14px;
+                font-family:MicrosoftYaHeiUI;
+                color:rgba(153,153,153,1);
+                text-align:center;
+                padding-top:6px;  
+              }
+              .cards:hover {
+                cursor:pointer;
+              }
+              &::after {
+                content:"";
+                display: block;
+                clear:both;
+              }
+          }
+          .sales {
+            display: inline-block;
+            width:170px;
+            height:40px;
+            background:rgba(255,80,0,1);
+            border-radius:2px;
+            font-size:16px;
+            font-family:MicrosoftYaHeiUI;
+            color:rgba(255,255,255,1);
+            line-height:20px;
+            text-align:center;
+            padding-top:2px
+          }
+          .sales:hover{
+              cursor:pointer;
+          }
       }
       .prog-wrapper {
         width: 100%;
@@ -556,6 +612,9 @@ export default {
       .u-share {
         margin-left: 10px;
         margin-top: 30px;
+        position:absolute;
+        left:0px;
+        bottom:0px;
       }
       .star {
         position: absolute;

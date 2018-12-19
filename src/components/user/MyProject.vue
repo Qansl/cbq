@@ -98,119 +98,16 @@
             <h3 class="title">项目进度</h3>
             <div class="plan_table">
                 <ul>
-                    <li class="item" :key="index" v-for="(iten,index) in plans">
+                    <li class="item" v-for="item in plans" :key="item.id">
                         <div class="option">
-                            <div class="words">今天</div>
+                            <div class="words">{{item.create_date}}</div>
                             <div class="circle"></div>
                         </div>
                         <div class="word">
-                            非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
-                            在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
-                            地址：联系人：东方酷音客服部，13692119804退货地址：
-                            广东省深圳市南山区科技园特发信息科技大厦1802
-                            （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
-                            请牢记退换货地址仅此一个）
+                            {{item.plan_content}}
                         </div>
                         <div class="imgs_box">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="option">
-                            <div class="words">今天</div>
-                            <div class="circle"></div>
-                        </div>
-                        <div class="word">
-                            非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
-                            在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
-                            地址：联系人：东方酷音客服部，13692119804退货地址：
-                            广东省深圳市南山区科技园特发信息科技大厦1802
-                            （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
-                            请牢记退换货地址仅此一个）
-                        </div>
-                        <div class="imgs_box">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="option">
-                            <div class="words">今天</div>
-                            <div class="circle"></div>
-                        </div>
-                        <div class="word">
-                            非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
-                            在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
-                            地址：联系人：东方酷音客服部，13692119804退货地址：
-                            广东省深圳市南山区科技园特发信息科技大厦1802
-                            （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
-                            请牢记退换货地址仅此一个）
-                        </div>
-                        <div class="imgs_box">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="option">
-                            <div class="words">今天</div>
-                            <div class="circle"></div>
-                        </div>
-                        <div class="word">
-                            非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
-                            在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
-                            地址：联系人：东方酷音客服部，13692119804退货地址：
-                            广东省深圳市南山区科技园特发信息科技大厦1802
-                            （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
-                            请牢记退换货地址仅此一个）
-                        </div>
-                        <div class="imgs_box">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="option">
-                            <div class="words">今天</div>
-                            <div class="circle"></div>
-                        </div>
-                        <div class="word">
-                            非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
-                            在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
-                            地址：联系人：东方酷音客服部，13692119804退货地址：
-                            广东省深圳市南山区科技园特发信息科技大厦1802
-                            （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
-                            请牢记退换货地址仅此一个）
-                        </div>
-                        <div class="imgs_box">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
-                            <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt="" class="imgs">
+                            <img  v-for="(its,index) in item.plan_picture" :key="index" :src="its" alt="" class="imgs">
                         </div>
                     </li>
                 </ul>
@@ -300,7 +197,12 @@ export default {
         var _this = this;
         request("com.iiding.admin.project_plans.select",{"shopid":_this.projectid},result => {
             if(result.code == "success"){
-                _this.plans = result.data;
+                _this.plans = result.list;
+                _this.plans.forEach(function(ele){
+                    ele.plan_picture = ele.plan_picture.split(",");
+                    ele.create_date = ele.create_date.substring(5);
+                })
+                // console.log(_this.plans)
             }
         })    
     }
@@ -530,7 +432,6 @@ export default {
         }
         .word {
         width: 664px;
-        height: 86px;
         font-size: 14px;
         line-height: 21px;
         }

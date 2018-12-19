@@ -42,7 +42,7 @@
             <div class="m-project">
                 <ul class="list" v-if="tops == 0">
                     <li class="item" v-for="item in list" :key="item.id" >
-                        <a class="item-inner" :href="'#/projectdetails/'+item.status + '/' + item.id" @click="preinfo(item)">
+                        <a class="item-inner" :href="'#/projectdetails/'+item.status + '/' + item.id" >
                             <div class="cover-wrapper">
                                 <img class="cover" :src="item.shop_piture" alt="">
                             </div>
@@ -78,7 +78,7 @@
                     </ul>
                     <ul class="list" v-else-if="tops == 1">
                     <li class="item" v-for="item in list" :key="item.id" >
-                        <a class="item-inner" :href="'#/projectdetails/'+item.status + '/' + item.id" @click="preinfo(item)">
+                        <a class="item-inner" :href="'#/projectdetails/'+item.status + '/' + item.id" >
                             <div class="cover-wrapper">
                                 <img class="cover" :src="item.shop_piture" alt="">
                             </div>
@@ -112,7 +112,7 @@
                     </ul>
                     <ul class="list" v-else>
                     <li class="item" v-for="item in list" :key="item.id" >
-                        <a class="item-inner" :href="'#/projectdetails/'+item.status + '/' + item.id" @click="preinfo(item)">
+                        <a class="item-inner" :href="'#/projectdetails/'+item.status + '/' + item.id" >
                             <div class="cover-wrapper">
                                 <img class="cover" :src="item.shop_piture" alt="">
                             </div>
