@@ -57,6 +57,10 @@ export default new Router({
       component: ProjectDetails
     },
     {
+      path: '/rechargeMoney',
+      component: RechargeMoney
+    },
+    {
       path: '/proc',
       component: Proc
     },
@@ -109,10 +113,6 @@ export default new Router({
           component: Info
         }
       ]
-    },
-    {
-      path:'RechargeMoney',
-      component:RechargeMoney
     },
     {
       path: '/bindcard',
