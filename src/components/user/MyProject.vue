@@ -165,7 +165,11 @@ export default {
           _this.project_list1 = res.data;
           if(this.tab == 2){
               _this.options = res.data;
-              _this.projectid = res.data[0].projectid;
+              if(res.data != [] && res.data.length > 0){
+                  _this.projectid = res.data[0].projectid;
+              }else{
+                  _this.projectid = -0.01;
+              }
               _this.get_project_plans()
           }
         }
