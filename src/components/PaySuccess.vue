@@ -16,7 +16,7 @@
 export default {
     methods:{
         handleBack(){
-            history.go(-1);
+            history.go(-2);
         }
     }
 };
