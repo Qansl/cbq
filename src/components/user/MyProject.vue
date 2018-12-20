@@ -163,7 +163,8 @@ export default {
       request("com.iiding.web.personal_center.user_project.query_user_project",{"project_status":project_status},res => {
         if(res.code == "success"){
           _this.project_list1 = res.data;
-          if(this.tab == 2){
+          console.log("dad",_this.project_list1);
+          if(_this.tab == 2){
               _this.options = res.data;
               if(res.data != [] && res.data.length > 0){
                   _this.projectid = res.data[0].projectid;

@@ -172,7 +172,12 @@ export default {
       history_record:[],
       tab: 0,
       order_product:'',
-      my_project:[],
+      my_project:[
+        {
+          "projectid":-0.01,
+          "project_name":"请选择"
+        }
+      ],
       totalCount:0,
       total_income:0,
       project_bonus:0,
@@ -267,7 +272,12 @@ export default {
       request("com.iiding.web.personal_center.user_project.query_all_project",{},res => {
         if(res.code == "success"){
             _this.my_project = res.data;
-            _this.order_product = res.data[0].projectid;
+            if(res.data != [] && res.data.length > 0){
+              _this.order_product = res.data[0].projectid;
+            }else{
+                _this.order_product = -0.01;
+            }
+            
         }
       })
     },
