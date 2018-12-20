@@ -10,7 +10,7 @@
                             <div class="lb">我的余额：</div>
                             <div class="disp-txt">{{userInfo.current_coin}}</div>
                         </div>
-                        <div class="form-item" v-show="jsons.status == 0">
+                        <div class="form-item" >
                             <div class="lb">充值金额：</div>
                            <input class="u-input" type="text" v-model="recharge_money" placeholder="请输入充值金额" >
                         </div>                     
@@ -25,11 +25,11 @@
                     <div class="form-item">
                         <div class="lb">支付方式：</div>
                         <div class="u-radio-group1"> 
-                            <label class="u-radio" :class="{ischecked:payWay2==2}" @change="change_pay_method">
+                            <label class="u-radio" :class="{ischecked:payWay2==1}" @change="change_pay_method">
                                 <input v-model="payWay2" class="u-radio__original" type="radio" tabindex="-1" value="1">
                                 <span class="u-radio__label">支付宝支付</span>
                             </label>
-                            <label class="u-radio" :class="{ischecked:payWay2==3}" @change="change_pay_method">
+                            <label class="u-radio" :class="{ischecked:payWay2==2}" @change="change_pay_method">
                                 <input v-model="payWay2" class="u-radio__original" type="radio" tabindex="-1" value="2">
                                 <span class="u-radio__label">微信支付</span>
                             </label>
@@ -75,13 +75,14 @@ export default {
   name: "RechargeMoney",
   data() {
     return {
-      payWay2: 1, //支付方式
+      payWay2: "", //支付方式
       showWxpayQrcode:false,
-      showAlipayQrcode:true,
+      showAlipayQrcode:false,
       recharge_money:"",
       userInfo:{
           "current_coin":0
       },
+      qr_code:"",
       order_number:""
     };
   },
@@ -91,15 +92,19 @@ export default {
   methods:{
     //改变购买数量
     change_pay_method(){
+        var _this = this;
         if(_this.payWay2 == 1){
-            var _this = this;
+            var loading = _this.$loading({
+                lock: true,
+                text: '正在拉起支付...',
+            });
             var url = "com.iiding.web.personal_center.money_manage.recharge.recharge_my_money";
             var param = {money:_this.recharge_money,pay_method:"alipayweb"};
             request(url, param, result => {
-                if(res.payinfo){
+                if(result.payinfo){
                     loading.close();
-                    _this.order_number = res.tradeno;
-                    _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.payinfo;
+                    _this.order_number = result.tradeno;
+                    _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + result.payinfo;
                     _this.showAlipayQrcode = true;
                     _this.showWxpayQrcode = false;
                     _this.get_payResult();
@@ -107,19 +112,22 @@ export default {
                     loading.close();
                     _this.showWxpayQrcode = false;
                     _this.showAlipayQrcode = false;
-                    var msg = res.msg;
-                    _this.$message.error(msg)
+                    var msg = result.msg;
+                    _this.$message.error(msg);
                 }
             })
         }else{
-            var _this = this;
+            var loading = _this.$loading({
+                lock: true,
+                text: '正在拉起支付...',
+            });
             var url = "com.iiding.web.personal_center.money_manage.recharge.recharge_my_money";
             var param = {money:_this.recharge_money,pay_method:"wxweb"};
             request(url, param, result => {
-                if(res.payinfo){
+                if(result.payinfo){
                     loading.close();
-                    _this.order_number = res.tradeno;
-                    _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.payinfo;
+                    _this.order_number = result.tradeno;
+                    _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + result.payinfo;
                     _this.showWxpayQrcode = true;
                     _this.showAlipayQrcode = false;
                     _this.get_payResult();
@@ -127,10 +135,10 @@ export default {
                     loading.close();
                     _this.showWxpayQrcode = false;
                     _this.showAlipayQrcode = false;
-                    var msg = res.msg;
-                    _this.$message.error(msg)
+                    var msg = result.msg;
+                    _this.$message.error(msg);
                 }
-            })
+          })
         }
     },
     //获取支付结果

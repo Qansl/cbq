@@ -202,7 +202,9 @@ export default {
   },
   methods: {
     //去充值
-    
+    go_recharge(){
+      this.$router.push('/rechargeMoney');
+    },
     changeTab(i) { 
       var _this = this;
       _this.tab = i;   
@@ -293,7 +295,7 @@ export default {
           postData.order_type = "(3)";
           postData.order_product = _this.order_product;
 				}else{
-					postData.order_type = "(2,4,6)";
+					postData.order_type = "(1,2,4,6)";
         }
       request("com.iiding.web.personal_center.money_manage.historical_record", postData, res => {
           if(res.code == "success"){
