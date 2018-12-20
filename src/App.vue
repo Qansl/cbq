@@ -1335,6 +1335,7 @@ textarea {
   overflow: auto;
   margin: 0;
   background: rgba(0, 0, 0, 0.5);
+  z-index:2;
   .u-dialog {
     position: relative;
     margin: 0 auto 50px;
