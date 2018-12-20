@@ -12,12 +12,14 @@ import Chat from '@/components/Chat'
 import User from '@/components/user/User.vue'
 import UserHome from '@/components/user/Home.vue'
 import UserProfile from '@/components/user/Profile.vue'
+import RechargeMoney from '@/components/user/RechargeMoney.vue'
 import MyProject from '@/components/user/MyProject.vue'
 import Finance from '@/components/user/Finance.vue'
 import Message from '@/components/user/Message.vue'
 import Info from '@/components/user/Info.vue'
 import BindCard from '@/components/BindCard.vue'
 import BindCardSuccess from '@/components/BindCardSuccess.vue'
+
 
 import MOrder from '@/components/m/Order'
 import MOrderPay from '@/components/m/OrderPay'
@@ -109,6 +111,10 @@ export default new Router({
       ]
     },
     {
+      path:'RechargeMoney',
+      component:RechargeMoney
+    },
+    {
       path: '/bindcard',
       component: BindCard
     },
@@ -164,6 +170,7 @@ export default new Router({
           path: 'myproject',
           component: MMyProject
         },
+
       ]
     },
   ]
