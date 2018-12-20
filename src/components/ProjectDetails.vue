@@ -79,6 +79,7 @@
                         </div>
                     </div>
                     <a class="star" href="javascript:;" v-show="jsons.status == 0 && attentions == 0" @click="attention">关注</a>
+                    <a class="starg" href="javascript:;" v-show="jsons.status == 0 && attentions == 1" @click="cancel_attention">已关注</a>
                 </div>
             </div>
             <div class="project-details">
@@ -241,7 +242,8 @@
             </el-dialog>
             <dir class="fixed-tool-mobile">
                 <i class="icon icon-tel"></i>
-                <i class="icon icon-star"></i>
+                <i class="icon icon-star" v-show="jsons.status == 0 && attentions == 0" @click="attention"></i>
+                <i class="icon icon-star active" v-show="jsons.status == 0 && attentions == 1" @click="cancel_attention"></i>
                 <span style="flex:1"></span>
                 <button class="btn" @click="handleOrderM">预报名参与</button>
             </dir>
@@ -269,6 +271,8 @@ export default {
     };
   },
   mounted() {
+    document.documentElement.scrollTop=0;
+    document.body.scrollTop=0;
     window.onscroll = function() {
       var topScroll =
         document.documentElement.scrollTop || document.body.scrollTop;
@@ -305,6 +309,26 @@ export default {
         }
       })
     },
+    //取消关注
+    cancel_attention(){
+      var _this = this;
+      var param = {}
+          param.projectid = _this.$route.params.shopid;
+      request("com.iiding.web.personal_center.user_project.delete_project",param,res => {
+        if(res.code == "success"){
+            _this.$message({
+              message: '关注成功',
+              type: 'success'
+            }); 
+            _this.follows();
+        }else{
+          _this.$message({
+              message: res.msg,
+              type: 'eroor'
+            });
+        }
+      })
+    },
     //关注
     attention(){
       var _this = this;
@@ -313,7 +337,11 @@ export default {
           param.op = "follow";
       request("com.iiding.web.personal_center.user_project.add_project",param,res => {
         if(res.code == "success"){
-            console.log(res);
+           _this.$message({
+              message: '关注成功',
+              type: 'success'
+            });
+           _this.follows();
         }
       })
     },
@@ -944,6 +972,27 @@ export default {
             no-repeat;
         }
       }
+      .starg {
+        position: absolute;
+        right: 20px;
+        bottom: 56px;
+        padding-left: 26px;
+        font-size: 12px;
+        color: rgba(153, 153, 153, 1);
+        height: 22px;
+        line-height: 22px;
+        display: block;
+        &::before {
+          content: "";
+          width: 22px;
+          height: 22px;
+          position: absolute;
+          left: 0;
+          top: 0;
+          background: url("//pic.iidingyun.com//file/20181220/76312.png")
+            no-repeat;
+        }
+      }
     }
   }
   .project-details {
@@ -1206,6 +1255,14 @@ export default {
         }
         .star {
           display: none;
+        }
+        .starg {
+          display: none;
+        }
+        .special {
+           .sales {
+             display: none;
+           }
         }
       }
     }
