@@ -197,9 +197,6 @@
     </div>
 </template>
 <style>
-    .numbers {
-
-    }
     .el-input-number__decrease{
         border-right: 1px solid transparent; 
     }
