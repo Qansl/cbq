@@ -69,7 +69,7 @@
 
 <script>
 
-import { request,SITEID } from "../api/api";
+import { request,SITEID } from "../../api/api";
 
 export default {
   name: "RechargeMoney",
@@ -154,8 +154,8 @@ export default {
                 _this.payDialogVisible = false;
                 _this.$message({ type: 'error', message: "支付失败"});
                 setTimeout(function(){
-				    _this.$router.push('/home');
-			    },1000)
+                      _this.$router.push('/home');
+                },1000)
                 return false;
             }
             setTimeout(function(){
@@ -177,7 +177,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/vars.scss";
+@import "../../styles/vars.scss";
 .main {
   width: 1200px;
   margin: 0 auto;

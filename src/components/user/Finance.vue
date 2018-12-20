@@ -17,7 +17,7 @@
                     </li>
                 </ul>
                 <button class="btn">提现</button>
-                <button class="btn green">充值</button>
+                <button class="btn green" @click="go_recharge">充值</button>
             </div>
         </div>
         <div class="finance-con">
@@ -201,6 +201,8 @@ export default {
     this.get_user_sum_income();
   },
   methods: {
+    //去充值
+    
     changeTab(i) { 
       var _this = this;
       _this.tab = i;   
