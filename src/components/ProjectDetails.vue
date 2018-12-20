@@ -62,15 +62,23 @@
                     <button class="btn" @click="handleOrder(jsons)" v-show="jsons.status == 0">预报名参与</button>
                     <div class="u-share" v-show="jsons.status != 1">
                         <span class="lb">分享到</span>
-                        <ul class="list">
+                        <!-- <ul class="list">
                             <li class="icon icon-weibo"></li>
                             <li class="icon icon-qq"></li>
                             <li class="icon icon-dou"></li>
                             <li class="icon icon-ren"></li>
                             <li class="icon icon-wechat"></li>
-                        </ul>
+                        </ul> -->
+                        <div class="bdsharebuttonbox bdshare-button-style0-16">
+                            <a href="#" class="bds_more" data-cmd="more"></a>
+                            <a href="#" class="bds_qzone" data-cmd="qzone"></a>
+                            <a href="#" class="bds_tsina" data-cmd="tsina"></a>
+                            <a href="#" class="bds_tqq" data-cmd="tqq"></a>
+                            <a href="#" class="bds_renren" data-cmd="renren"></a>
+                            <a href="#" class="bds_weixin" data-cmd="weixin"></a>
+                        </div>
                     </div>
-                    <a class="star" href="javascript:;" v-show="jsons.status == 0">关注</a>
+                    <a class="star" href="javascript:;" v-show="jsons.status == 0 && attentions == 0" @click="attention">关注</a>
                 </div>
             </div>
             <div class="project-details">
@@ -256,7 +264,8 @@ export default {
       metor:[],
       tcps:0,
       dialogVisible:false,
-
+      show_name:'',
+      attentions:'',
     };
   },
   mounted() {
@@ -273,9 +282,63 @@ export default {
       }
     };
     this.get_info();
-    // this.changeTab(0);
+    // this.show_name = "11111";
+    // setTimeout(()=>{
+    //      this.setup();
+    //  },500)
+    console.log(window.location.href);
+    this.follows();
   },
   methods: {
+    //判断是否已关注
+    follows(){
+      var _this = this;
+      var param = {}
+          param.projectid = _this.$route.params.shopid;
+      request("com.iiding.web.personal_center.user_project.get_product_price",param,res => {
+        if(res.code == "success"){
+           if(res.my_project_status == "project_not_exist"){
+              _this.attentions = 0;
+           }else{
+              _this.attentions = 1;
+           }
+        }
+      })
+    },
+    //关注
+    attention(){
+      var _this = this;
+      var param = {}
+          param.projectid = _this.$route.params.shopid;
+          param.op = "follow";
+      request("com.iiding.web.personal_center.user_project.add_project",param,res => {
+        if(res.code == "success"){
+            console.log(res);
+        }
+      })
+    },
+    //分享
+    setup(){  
+      var _this = this; 
+      console.log("qqq"+_this.show_name);
+         window._bd_share_config={
+             "common":{
+                 "bdSnsKey":{},
+                 "bdText":_this.show_name,
+                 "bdUrl":"http://www.baidu.com",
+                 "bdSize":"16"
+             },
+             "share":{},
+             "selectShare":{
+                 "bdContainerClass":null,
+                 "bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]
+             }
+         };
+         const s = document.createElement('script');
+         s.type = 'text/javascript';
+         s.src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5);
+         document.body.appendChild(s);
+     },
     //下一步
     step(val){
       var _this = this;
@@ -345,6 +408,8 @@ export default {
         if(data.code == "success"){
           _this.contact = data.constract;
           _this.jsons = data.detial_data;
+          _this.show_name = data.detial_data.shop_title;
+          _this.setup();
           if(_this.jsons.status == 0){
             var date1 = new Date();
             var date2 = new Date(_this.jsons.presell_finish_time.replace(/-/g, "/"))
