@@ -596,6 +596,7 @@ export default {
     //     }
     //   })
     // },
+    //移动端跳转
     handleOrderM() {
       this.$router.push({ path: "/morder" });
     }
