@@ -644,8 +644,9 @@ export default {
               _this.is_true3 = true;
               _this.$message.error("此项目您已经签约");
               _this.commit_pay = true;
-              var urls = "/projectdetails/0/" + projectid;
-              _this.$router.push(urls);
+              history.go(-2);
+            //   var urls = "/projectdetails/0/" + projectid;
+            //   _this.$router.push(urls);
           }else{
           }
         }

@@ -9,270 +9,209 @@
     <div class="main">
       <div v-show="tab==0">
         <ul class="proj-list">
-          <li class="form">
+          <li class="form" :key="index" v-for="(item,index) in project_list1">
             <div class="form-item">
               <span class="lb">商品名称：</span>
-              <span class="disp-txt">类拼多多APP商城</span>
+              <span class="disp-txt">{{item.project_name}}</span>
             </div>
             <div class="form-item">
               <span class="lb">报名时间：</span>
-              <span class="disp-txt">18-11-11 19:22:22</span>
+              <span class="disp-txt">{{item.participation_time}}</span>
             </div>
-            <div class="form-item">
+            <div class="form-item" v-if="item.status == 1">
               <span class="lb">开发均摊费用：</span>
               <span class="disp-txt">
-                <span class="im">1000</span>
-                <span class="del">开发总费：6000</span>
+                <span class="im">{{item.presell_price}}</span>
+                <span class="del">开发总费：{{item.dev_sum_money}}</span>
               </span>
             </div>
-            <div class="form-tool">
-              <button class="btn active">预报名</button>
-              <button class="btn">项目进度</button>
-              <span style="flex:1"></span>
-              <button class="btn small">取消关注</button>
-            </div>
-            <div class="tips">
-              <i class="icon-clock"></i>
-              <div class="txt">只剩5个名额 12月30日截止</div>
-            </div>
-          </li>
-          <li class="form">
-            <div class="form-item">
-              <span class="lb">商品名称：</span>
-              <span class="disp-txt">类拼多多APP商城</span>
-            </div>
-            <div class="form-item">
-              <span class="lb">报名时间：</span>
-              <span class="disp-txt">18-11-11 19:22:22</span>
-            </div>
-            <div class="form-item">
-              <span class="lb">开发均摊费用：</span>
+            <div class="form-item" v-if="item.status == 2">
+              <span class="lb">开发尾款：</span>
               <span class="disp-txt">
-                <span class="im">1000</span>
-                <span class="del">开发总费：6000</span>
+                <span class="im">{{item.dev_tail_money}}</span>
+                <span class="del">开发总费：{{item.dev_sum_money}}</span>
               </span>
             </div>
-            <div class="form-tool">
-              <button class="btn active">支付尾款</button>
+            <div class="form-item" v-if="item.status == 3">
+                  <div class="disp-txt del">恭喜，你已获得预售名额</div>
+            </div>
+            <div class="form-tool" v-if="item.status == 1">
+              <button class="btn active" @click="go_to_pay(item,1)">预报名参与</button>
               <button class="btn">项目进度</button>
               <span style="flex:1"></span>
-              <button class="btn small">取消关注</button>
+              <button class="btn small" @click="remove_concerns(item.projectid)">取消关注</button>
             </div>
-          </li>
-          <li class="form">
-            <div class="form-item">
-              <span class="lb">商品名称：</span>
-              <span class="disp-txt">类拼多多APP商城</span>
-            </div>
-            <div class="form-item">
-              <span class="lb">报名时间：</span>
-              <span class="disp-txt">18-11-11 19:22:22</span>
-            </div>
-            <div class="form-item">
-              <span class="lb">开发均摊费用：</span>
-              <span class="disp-txt">
-                <span class="im">1000</span>
-                <span class="del">开发总费：6000</span>
-              </span>
-            </div>
-            <div class="form-tool">
-              <button class="btn active">支付尾款</button>
+            <div class="form-tool" v-if="item.status == 2">
+              <button class="btn active" @click="go_to_pay(item,2)">支付尾款</button>
               <button class="btn">项目进度</button>
               <span style="flex:1"></span>
-              <button class="btn small">取消关注</button>
+            </div>
+            <div class="form-tool" v-if="item.status == 3">
+              <button class="btn active" >支付完成</button>
+              <button class="btn">项目进度</button>
+              <span style="flex:1"></span>
             </div>
           </li>
         </ul>
       </div>
       <div v-show="tab==1">
         <ul class="proj-list">
-          <li class="form">
+          <li class="form" :key="index" v-for="(item,index) in project_list1">
             <div class="form-item">
               <span class="lb">商品名称：</span>
-              <span class="disp-txt">类拼多多APP商城</span>
+              <span class="disp-txt">{{item.project_name}}</span>
             </div>
             <div class="form-item">
-              <span class="lb">报名时间：</span>
-              <span class="disp-txt">18-11-11 19:22:22</span>
+              <span class="lb">签约时间：</span>
+              <span class="disp-txt">{{item.sign_time}}</span>
             </div>
             <div class="form-item">
-              <span class="lb">开发均摊费用：</span>
+              <span class="lb">开发截止时间：</span>
               <span class="disp-txt">
-                <span class="im">1000</span>
-                <span class="del">开发总费：6000</span>
+                <span class="im">{{item.dev_end_time}}</span>
+                <!-- <span class="del">开发总费：6000</span> -->
               </span>
             </div>
             <div class="form-tool">
-              <button class="btn2">支付尾款</button>
-              <button class="btn2 active">项目进度</button>
-              <button class="btn2 active">项目进度</button>
+              <button class="btn2"><a class="link active" :href="item.development_details">开发明细</a></button>
+              <button class="btn2 active"><a class="link active" href="javascript:;">项目进度</a></button>
+              <button class="btn2 active"><a class="link active" :href="item.development_contract">预览合同</a></button>
               <span style="flex:1"></span>
-              <button class="btn2 green">取消关注</button>
-            </div>
-          </li>
-          <li class="form">
-            <div class="form-item">
-              <span class="lb">商品名称：</span>
-              <span class="disp-txt">类拼多多APP商城</span>
-            </div>
-            <div class="form-item">
-              <span class="lb">报名时间：</span>
-              <span class="disp-txt">18-11-11 19:22:22</span>
-            </div>
-            <div class="form-item">
-              <span class="lb">开发均摊费用：</span>
-              <span class="disp-txt">
-                <span class="im">1000</span>
-                <span class="del">开发总费：6000</span>
-              </span>
-            </div>
-            <div class="form-tool">
-              <button class="btn2">支付尾款</button>
-              <button class="btn2 active">项目进度</button>
-              <button class="btn2 active">项目进度</button>
-              <span style="flex:1"></span>
-              <button class="btn2 green">取消关注</button>
+              <button class="btn2 green"> <a class="link green" :href="item.personalized_demand">个性化需求</a></button>
             </div>
           </li>
         </ul>
       </div>
       <div v-show="tab==2" class="plan_table-wrapper">
-        <div class="plan_table">
-          <ul>
-            <li class="item">
-              <div class="option">
-                <div class="words">今天</div>
-                <div class="circle"></div>
-              </div>
-              <div class="word">
-                非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
-                在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
-                地址：联系人：东方酷音客服部，13692119804退货地址：
-                广东省深圳市南山区科技园特发信息科技大厦1802
-                （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
-                请牢记退换货地址仅此一个）
-              </div>
-              <div class="imgs_box">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-              </div>
-            </li>
-            <li class="item">
-              <div class="option">
-                <div class="words">今天</div>
-                <div class="circle"></div>
-              </div>
-              <div class="word">
-                非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
-                在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
-                地址：联系人：东方酷音客服部，13692119804退货地址：
-                广东省深圳市南山区科技园特发信息科技大厦1802
-                （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
-                请牢记退换货地址仅此一个）
-              </div>
-              <div class="imgs_box">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-              </div>
-            </li>
-            <li class="item">
-              <div class="option">
-                <div class="words">今天</div>
-                <div class="circle"></div>
-              </div>
-              <div class="word">
-                非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
-                在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
-                地址：联系人：东方酷音客服部，13692119804退货地址：
-                广东省深圳市南山区科技园特发信息科技大厦1802
-                （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
-                请牢记退换货地址仅此一个）
-              </div>
-              <div class="imgs_box">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-              </div>
-            </li>
-            <li class="item">
-              <div class="option">
-                <div class="words">今天</div>
-                <div class="circle"></div>
-              </div>
-              <div class="word">
-                非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
-                在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
-                地址：联系人：东方酷音客服部，13692119804退货地址：
-                广东省深圳市南山区科技园特发信息科技大厦1802
-                （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
-                请牢记退换货地址仅此一个）
-              </div>
-              <div class="imgs_box">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-              </div>
-            </li>
-            <li class="item">
-              <div class="option">
-                <div class="words">今天</div>
-                <div class="circle"></div>
-              </div>
-              <div class="word">
-                非常感谢大家的支持，截止到目前众筹已经突破800万，其中难免有一些售后问题，
-                在此声明我们的售后地址只有一个，以下是唯一退换货地址，请大家不要寄错！
-                地址：联系人：东方酷音客服部，13692119804退货地址：
-                广东省深圳市南山区科技园特发信息科技大厦1802
-                （请大家在包裹里备注退换货信息，订单编号，回寄地址和联系人信息。
-                请牢记退换货地址仅此一个）
-              </div>
-              <div class="imgs_box">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-                <img src="http://pic.iidingyun.com/1000//file/20181122/75592.png" alt class="imgs">
-              </div>
-            </li>
-          </ul>
-        </div>
+              <div class="tools" style="margin-top:0px">
+                <div style="padding-top:15px;padding-left:10px">
+                <el-select  v-model="projectid" placeholder="请选择" @change="get_project_plans">
+                    <el-option
+                    v-for="item in options"
+                    :key="item.projectid"
+                    :label="item.project_name"
+                    :value="item.projectid">
+                    </el-option>
+                </el-select>
+                </div>
+                <!-- <a class="link" href="javascript:;">预览合同</a>
+                <a class="contact" href="#/chat" target="_blank">
+                    <i class="icon"></i>
+                    <div class="txt">联系客服，提交个性化需求</div>
+                </a> -->
+            </div>
+            <h3 class="title" style="margin-left:15px">项目进度</h3>
+            <div class="plan_table">
+                <ul>
+                    <li class="item" v-for="item in plans" :key="item.id">
+                        <div class="option">
+                            <div class="words">{{item.create_date}}</div>
+                            <div class="circle"></div>
+                        </div>
+                        <div class="word">
+                            {{item.plan_content}}
+                        </div>
+                        <div class="imgs_box">
+                            <img  v-for="(its,index) in item.plan_picture" :key="index" :src="its" alt="" class="imgs">
+                        </div>
+                    </li>
+                </ul>
+            </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { request,SITEID } from "../../../api/api";
 export default {
   data() {
     return {
-      tab: 0
+            plans:[],
+      tab: 0,
+      project_list1:[],
+      projectid:"",
+      options: [
+        {
+          "projectid":-0.01,
+          "project_name":"请选择"
+        }
+        
+      ]
     };
+  },
+   mounted:function(){
+    this.get_my_project();
   },
   methods: {
     changeTab(i) {
       this.tab = i;
+      this.get_my_project();
+    },
+    //查询我的项目
+    get_my_project:function(){
+      var _this = this;
+      var project_status = 0;
+      if(this.tab == 0){
+        project_status = 0;
+      }else if(this.tab == 1){
+        project_status = 1;
+      }else{
+        project_status = 2;
+      }
+      request("com.iiding.web.personal_center.user_project.query_user_project",{"project_status":project_status},res => {
+        if(res.code == "success"){
+          _this.project_list1 = res.data;
+          console.log("dad",_this.project_list1);
+          if(_this.tab == 2){
+              _this.options = res.data;
+              if(res.data != [] && res.data.length > 0){
+                  _this.projectid = res.data[0].projectid;
+              }else{
+                  _this.projectid = -0.01;
+              }
+              _this.get_project_plans()
+          }
+        }
+      })
+    },
+    //去支付页面
+    go_to_pay:function(project,i){
+        sessionStorage.setItem("select_projectid",project.projectid);
+        sessionStorage.setItem("my_projectid",project.id);
+        sessionStorage.setItem("select_type",i);
+        location.href="/#/morder/" + project.projectid + "/0/" + 0;
+    },
+    //取消关注
+    remove_concerns:function(projectid){
+        var _this = this;
+        request("com.iiding.web.personal_center.user_project.delete_project",{"projectid":projectid},result => {
+            if(result.code == "success"){
+                _this.$message.success("取消成功");
+                _this.get_my_project();
+            }else{
+                var msg = result.msg;
+                _this.$message.success(msg);
+            }
+        }) 
+
+    },
+    //根据项目id查询项目进度
+    get_project_plans:function(){
+        var _this = this;
+        request("com.iiding.admin.project_plans.select",{"shopid":_this.projectid},result => {
+            if(result.code == "success"){
+                _this.plans = result.list;
+                _this.plans.forEach(function(ele){
+                    ele.plan_picture = ele.plan_picture.split(",");
+                    ele.create_date = ele.create_date.substring(5);
+                })
+                // console.log(_this.plans)
+            }
+        })    
     }
   }
+
 };
 </script>
 
@@ -463,7 +402,7 @@ export default {
 
   .plan_table {
     background: #ffffff;
-    margin: 0px 0px 0px 39px;
+    margin: 0px 0px 0px 60px;
     padding: 5px 0px 0px 21px;
     .item {
       .word {
