@@ -4,26 +4,44 @@
       <i class="icon-back" onclick="history.back()"></i>消息中心
     </h1>
     <ul class="message-list">
-      <li class="item">
+      <li class="item" v-for="(item,index) in list" :key="index">
         <h3 class="title">
-          <span>消费成功提醒</span>
-          <i class="icon-new"></i>
+          <span>{{item.title}}</span>
+          <i class="icon-new" v-if="item.is_new == 2"></i>
         </h3>
-        <div class="desc">（3期免息）您于 10月8日打白条279.00元（订单尾号 0975）。前往白条主页查看更多 btm.jd.com</div>
-      </li>
-      <li class="item">
-        <h3 class="title">
-          <span>消费成功提醒</span>
-          <i class="icon-new"></i>
-        </h3>
-        <div class="desc">（3期免息）您于 10月8日打白条279.00元（订单尾号 0975）。前往白条主页查看更多 btm.jd.com</div>
+        <div class="desc">{{item.content}}</div>
+        <span class="time">{{item.send_time}}</span>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-export default {};
+import { request } from "../../../api/api";
+export default {
+  data() {
+    return {
+      list: []
+    };
+  },
+  mounted() {
+    this.getMsgList();
+  },
+  methods: {
+    getMsgList() {
+      request(
+        "com.iiding.web.instant_messaging.query_system_msg",
+        { message_type: 0 },
+        res => {
+          if (res.code == "success") {
+            this.list = res.list;
+          }
+        }
+      );
+    }
+  }
+
+};
 </script>
 
 <style lang="scss" scoped>

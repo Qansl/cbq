@@ -136,7 +136,7 @@
                                     余额充足可支付
                                 </div>
                                 <div class="tips tips-price" v-else>
-                                    余额不足，请点击此处<a href="javascript:;" class="link">前往充值</a>
+                                    余额不足，请点击此处<a href="javascript:;" class="link" @click="goRrechargeMoney">前往充值</a>
                                 </div>
                             </div>
                         </div>
@@ -268,6 +268,10 @@ export default {
       }
   },
   methods:{
+    //去充值
+    goRrechargeMoney(){
+        this.$router.push('/rrechargeMoney');
+    },
     //计数器
     handleChange(v){
         console.log(v);
