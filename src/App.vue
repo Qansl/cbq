@@ -1443,8 +1443,8 @@ textarea {
     border: 1px solid #e8e8e8;
     border-bottom: 0;
     text-align: left;
-    height: 33px;
-    line-height: 33px;
+    // height: 33px;
+    line-height: 20px;
     background: $gray-bg;
     border-radius: 4px 4px 0px 0px;
     color: #999999;
