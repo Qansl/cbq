@@ -441,7 +441,31 @@ export default {
           }
         );
       } else {
-        this.$router.push("/home");
+        //获取游客身份进行登录
+          request("com.iiding.web.instant_messaging.create_customer",{},res => {
+              if (res.code == "success") {
+                //将token存入cookie
+                cookie.set("Authorization", res.token, res.expires);
+                sessionStorage.setItem("userInfo", JSON.stringify(res));
+                this.userInfo = res;
+                this.loginDialogVisible = false;
+                this.$store.commit("changeLogin", true);
+                this.$store.commit("changeUserInfo", res);
+                // if (this.autoLogin) {
+                //   localStorage.setItem("autoLogin", true);
+                //   localStorage.setItem(
+                //     "loginInfo",
+                //     JSON.stringify({ account: para.account, password: para.password })
+                //   );
+                // } else {
+                //   localStorage.removeItem("autoLogin");
+                // }
+              } else {
+                this.$message.error(res.msg);
+              }
+            }
+          );
+        // this.$router.push("/home");
       }
     }
   },

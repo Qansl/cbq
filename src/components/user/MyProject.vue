@@ -127,17 +127,10 @@ export default {
       projectid:"",
       options: [
         {
-          projectid: "选项1",
-          project_name: "拼多多开发平台"
-        },
-        {
-          projectid: "选项2",
-          project_name: "拼多多开发平台"
-        },
-        {
-          projectid: "选项3",
-          project_name: "拼多多开发平台"
-        },
+          "projectid":-0.01,
+          "project_name":"请选择"
+        }
+        
       ]
     };
   },
