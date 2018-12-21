@@ -231,11 +231,15 @@
                     </div>
                 </aside>
             </div>
-            <el-dialog title="注意" center :modal="true" :visible.sync="dialogVisible" width="347px" :close-on-click-modal="false">
+            <el-dialog title="注意" center :modal="true" :visible.sync="dialogVisible" width="360px" :close-on-click-modal="false">
               <span class="tip-words">总价格务必请联系客服进行确认,否则付款立即退回！</span>
               <span slot="footer" class="dialog-footer">
                 <el-button class="buttons" @click="constract">联系客服</el-button>
+                <el-button class="buttong" @click="constracts">联系客服</el-button>
                 <el-button class="steps" @click="step(jsons)">下一步
+                  <div class="tipcs">(已确定金额)</div>
+                </el-button>
+                <el-button class="stepp" @click="stepsM(jsons)">下一步
                    <div class="tipcs">(已确定金额)</div>
                 </el-button>
               </span>
@@ -246,7 +250,7 @@
                 <i class="icon icon-star active" v-show="jsons.status == 0 && attentions == 1" @click="cancel_attention"></i>
                 <span style="flex:1"></span>
                 <button class="btn" @click="handleOrderM(jsons)" v-show="jsons.status == 0">预报名参与</button>
-                <button class="btn" @click="changeSale(jsons)" v-show="jsons.status == 2">购买</button>
+                <button class="btn" @click="changeSaleM(jsons)" v-show="jsons.status == 2">购买</button>
             </dir>
         </div>
     </div>
@@ -599,7 +603,19 @@ export default {
     //移动端预参与
     handleOrderM(val) {
       this.$router.push({ path: "/morder/" + val.id + "/" + val.status + "/5"});
-    }
+    },
+    //移动端定制
+    changeSaleM(val){
+      this.$router.push({ path: "/morder/" + val.id + "/" + val.status + "/" + this.tcps});
+    },
+    //移动端下一步
+    stepsM(val){
+      this.$router.push({ path: "/morder/" + val.id + "/" + val.status + "/2"});
+    },
+    //移动端联系客服
+    constracts(){
+       this.$router.push({ path: "/chat" });
+    },
   }
 };
 </script>
@@ -665,6 +681,48 @@ export default {
       right:-70px;
       bottom:0px;
     }
+@media (max-width: 767px){
+    .steps{
+      display:none;
+    }
+    .buttons{
+      display:none;
+    }
+    .stepp{
+      display: inline-block;
+      width: 96px;
+      height: 30px;
+      font-size:14px;
+      font-family:MicrosoftYaHeiUI;
+      color:rgba(153,153,153,1);
+      line-height:14px;
+      text-align:center;
+      padding-top:8px;
+      position: relative;
+    }
+    .stepp:hover {
+      background:rgba(255,255,255,1);
+      border-radius:2px;
+      color:rgba(153,153,153,1);
+    }
+    .buttong {
+      width: 96px;
+      height: 30px;
+      background:rgba(255,80,0,1);
+      border-radius:2px;
+      font-size:14px;
+      font-family:MicrosoftYaHeiUI;
+      color:rgba(255,255,255,1);
+      line-height:14px;
+      text-align:center;
+      padding-top:8px;
+    }
+    .buttong:hover {
+      background:rgba(255,80,0,.9);
+      border-radius:2px;
+      color:rgba(255,255,255,1);
+    }
+}
 </style>
 
 <style lang="scss" scoped>
@@ -748,6 +806,12 @@ export default {
             .num {
               margin-left: 45px;
             }
+          }
+        }
+        .actives{
+          flex-direction: row;
+          .lb {
+            margin-top: 16px;
           }
         }
         
@@ -1241,9 +1305,6 @@ export default {
             & + .item {
               align-items: flex-end;
             }
-          }
-          .actives {
-            display:flex;
           }
           &:after {
             display: none;
