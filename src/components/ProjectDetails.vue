@@ -245,7 +245,8 @@
                 <i class="icon icon-star" v-show="jsons.status == 0 && attentions == 0" @click="attention"></i>
                 <i class="icon icon-star active" v-show="jsons.status == 0 && attentions == 1" @click="cancel_attention"></i>
                 <span style="flex:1"></span>
-                <button class="btn" @click="handleOrderM">预报名参与</button>
+                <button class="btn" @click="handleOrderM" v-show="jsons.status == 0">预报名参与</button>
+                <button class="btn" @click="changeSale(jsons)" v-show="jsons.status == 2">购买</button>
             </dir>
         </div>
     </div>
@@ -317,7 +318,7 @@ export default {
       request("com.iiding.web.personal_center.user_project.delete_project",param,res => {
         if(res.code == "success"){
             _this.$message({
-              message: '关注成功',
+              message: '取消成功',
               type: 'success'
             }); 
             _this.follows();
