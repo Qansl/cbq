@@ -123,7 +123,7 @@ export default new Router({
       component: BindCardSuccess
     },
     {
-      path: '/morder',
+      path: '/morder/:shopid/:status/:tcps',
       component: MOrder
     },
     {

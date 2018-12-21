@@ -1,7 +1,7 @@
 import axios from 'axios';
 import cookie from 'js-cookie/src/js.cookie'
 const SERVICE_URL = "https://s3.iidingyun.com/api/get_service_to_json.vm";
-export const SITEID = '73393';//73393 73413
+export const SITEID = SITEID_2;//73393 73413
 
 axios.defaults.headers.Authorization = cookie.get('Authorization');
 if (window.MicroserviceEnv) {

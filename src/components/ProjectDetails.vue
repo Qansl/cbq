@@ -11,7 +11,7 @@
                     <h2 class="title">{{jsons.shop_title}}</h2>
                     <div class="desc">{{jsons.shop_next_title}}</div>
                     <ul class="stat" :class="{afters:jsons.status != 2}">
-                        <li class="item">
+                        <li class="item" :class="{actives:jsons.status == 2}">
                             <div class="lb" v-show="jsons.status != 2">参与费用：</div>
                             <div class="lb" v-show="jsons.status == 2 && tcps != 2">费用：</div>
                             <div class="lb" v-show="jsons.status == 2 && tcps == 2">单价：</div>
@@ -231,7 +231,7 @@
                     </div>
                 </aside>
             </div>
-            <el-dialog title="注意" center :modal="true" :visible.sync="dialogVisible" width="400px" :close-on-click-modal="false">
+            <el-dialog title="注意" center :modal="true" :visible.sync="dialogVisible" width="347px" :close-on-click-modal="false">
               <span class="tip-words">总价格务必请联系客服进行确认,否则付款立即退回！</span>
               <span slot="footer" class="dialog-footer">
                 <el-button class="buttons" @click="constract">联系客服</el-button>
@@ -245,7 +245,7 @@
                 <i class="icon icon-star" v-show="jsons.status == 0 && attentions == 0" @click="attention"></i>
                 <i class="icon icon-star active" v-show="jsons.status == 0 && attentions == 1" @click="cancel_attention"></i>
                 <span style="flex:1"></span>
-                <button class="btn" @click="handleOrderM" v-show="jsons.status == 0">预报名参与</button>
+                <button class="btn" @click="handleOrderM(jsons)" v-show="jsons.status == 0">预报名参与</button>
                 <button class="btn" @click="changeSale(jsons)" v-show="jsons.status == 2">购买</button>
             </dir>
         </div>
@@ -596,9 +596,9 @@ export default {
     //     }
     //   })
     // },
-    //移动端跳转
-    handleOrderM() {
-      this.$router.push({ path: "/morder" });
+    //移动端预参与
+    handleOrderM(val) {
+      this.$router.push({ path: "/morder/" + val.id + "/" + val.status + "/5"});
     }
   }
 };
@@ -1242,6 +1242,9 @@ export default {
               align-items: flex-end;
             }
           }
+          .actives {
+            display:flex;
+          }
           &:after {
             display: none;
           }
@@ -1262,6 +1265,9 @@ export default {
           display: none;
         }
         .special {
+            .car-list{
+              display:flex;
+            }
            .sales {
              display: none;
            }

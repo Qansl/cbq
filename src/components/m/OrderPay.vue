@@ -11,15 +11,15 @@
                     <div class="u-radio-group1"> 
                         <label class="u-radio" :class="{ischecked:payWay2==1}">
                             <input v-model="payWay2" class="u-radio__original" type="radio" tabindex="-1" value="1">
-                            <span class="u-radio__label">余额支付</span>
+                            <span class="u-radio__label">支付宝支付</span>
                         </label>
                         <label class="u-radio" :class="{ischecked:payWay2==2}">
                             <input v-model="payWay2" class="u-radio__original" type="radio" tabindex="-1" value="2">
-                            <span class="u-radio__label">支付宝支付</span>
+                            <span class="u-radio__label">微信支付</span>
                         </label>
                         <label class="u-radio" :class="{ischecked:payWay2==3}">
                             <input v-model="payWay2" class="u-radio__original" type="radio" tabindex="-1" value="3">
-                            <span class="u-radio__label">微信支付</span>
+                            <span class="u-radio__label">余额支付</span>
                             <div class="desc1">余额：<span class="im">1000</span></div>
                             <div class="desc2">余额充足可支付</div>
                         </label>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-item valid">
                     <h3 class="title">手机验证</h3>
-                    <input class="u-input" type="text" maxlength="11">
+                    {{phone}}
                     <div class="validcode-wrapper">
                         <div class="validcode">
                             <input class="u-input" type="text" maxlength="6">
@@ -57,9 +57,17 @@
 export default {
   data() {
     return {
-      payWay2: 1,
-      isAgree: false
+      payWay2: 3,
+      isAgree: true,
     };
+  },
+  computed:{
+      phone:function(){
+          return this.$store.state.userInfo.phone.substr(0,3) + "****" + this.$store.state.userInfo.phone.substr(7);
+      }
+  },
+  mounted(){
+
   },
   methods:{
       handleSubmit(){
