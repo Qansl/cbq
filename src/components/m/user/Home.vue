@@ -15,11 +15,11 @@
       <div class="stat-con">
         <ul class="list">
           <li class="item">
-            <div class="no">0.00</div>
+            <div class="no">{{user_sum_income}}</div>
             <div class="desc">总收入</div>
           </li>
           <li class="item">
-            <div class="no">{{$store.state.userInfo.current_coin.toFixed(2)}}</div>
+            <div class="no">{{userInfo.current_coin}}</div>
             <div class="desc">余额</div>
           </li>
         </ul>
@@ -55,8 +55,37 @@
 </template>
 
 <script>
+import { request,SITEID } from "../../../api/api";
 export default {
+    data() {
+      return {
+        userInfo:{},
+        user_sum_income:0.00
+      }
+    },
+    mounted:function(){
+     this.get_user_details();
+     this.get_user_sum_income();
+    },
   methods: {
+    //获取用户详细信息
+    get_user_details:function(){
+      var _this = this;
+      request("com.iiding.common.user.get_user_detail",{},res => {
+        if(res.code == "success"){
+          _this.userInfo = res.data;
+        }
+      })
+    },
+        //查询用户总收入
+    get_user_sum_income:function(){
+      var _this = this;
+      request("com.iiding.web.personal_center.user_manage.get_all_income",{},res => {
+        if(res.code == "success"){
+          _this.user_sum_income = res.data;
+        }
+      })
+    },
     transferMobile(v) {
       return v.substr(0, 3) + "****" + v.substr(7, 4);
     },
