@@ -257,9 +257,10 @@ export default {
     this.getUserInfo();
     this.status = this.$route.params.status;
     this.tcps = this.$route.params.tcps;
-    console.log(this.tcps);
+    console.log(SITEID);
     this.get_dev_type();
     this.get_shop_info();
+    
   },
     computed:{
       phone:function(){
