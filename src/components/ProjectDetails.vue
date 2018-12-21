@@ -235,7 +235,6 @@
               <span class="tip-words">总价格务必请联系客服进行确认,否则付款立即退回！</span>
               <span slot="footer" class="dialog-footer">
                 <el-button class="buttons" @click="constract">联系客服</el-button>
-                <el-button class="buttong" @click="constracts">联系客服</el-button>
                 <el-button class="steps" @click="step(jsons)">下一步
                   <div class="tipcs">(已确定金额)</div>
                 </el-button>
@@ -278,18 +277,24 @@ export default {
   mounted() {
     document.documentElement.scrollTop=0;
     document.body.scrollTop=0;
-    window.onscroll = function() {
-      var topScroll =
-        document.documentElement.scrollTop || document.body.scrollTop;
-      var bignav = document.getElementById("tabProjectDetails");
-      if (bignav) {
-        if (topScroll > 210) {
-          bignav.style.display = "flex";
-        } else {
-          bignav.style.display = "none";
+    var w=window.innerWidth|| document.documentElement.clientWidth|| document.body.clientWidth;
+    console.log(w)
+    if(w > 767){
+
+    }else{
+      window.onscroll = function() {
+        var topScroll =
+          document.documentElement.scrollTop || document.body.scrollTop;
+        var bignav = document.getElementById("tabProjectDetails");
+        if (bignav) {
+          if (topScroll > 210) {
+            bignav.style.display = "flex";
+          } else {
+            bignav.style.display = "none";
+          }
         }
-      }
-    };
+      };
+    } 
     this.get_info();
     // this.show_name = "11111";
     // setTimeout(()=>{
@@ -397,8 +402,8 @@ export default {
     },
     //联系客服
     constract(){
-      // this.$router.push({ path: "/chat" });
-      window.open("#/chat");
+      this.$router.push({ path: "/chat" });
+      // window.open("#/chat");
     },
     //定制开发的跳转
     changeSale(val){
@@ -612,10 +617,6 @@ export default {
     stepsM(val){
       this.$router.push({ path: "/morder/" + val.id + "/" + val.status + "/2"});
     },
-    //移动端联系客服
-    constracts(){
-       this.$router.push({ path: "/chat" });
-    },
   }
 };
 </script>
@@ -681,12 +682,29 @@ export default {
       right:-70px;
       bottom:0px;
     }
-@media (max-width: 767px){
+  .stepp {
+    display:none;
+  }
+@media (max-width:767px){
     .steps{
       display:none;
     }
-    .buttons{
-      display:none;
+    .buttons {
+      width: 96px;
+      height: 30px;
+      background:rgba(255,80,0,1);
+      border-radius:2px;
+      font-size:14px;
+      font-family:MicrosoftYaHeiUI;
+      color:rgba(255,255,255,1);
+      line-height:14px;
+      text-align:center;
+      padding-top:8px;
+    }
+    .buttons:hover {
+      background:rgba(255,80,0,.9);
+      border-radius:2px;
+      color:rgba(255,255,255,1);
     }
     .stepp{
       display: inline-block;
@@ -705,23 +723,7 @@ export default {
       border-radius:2px;
       color:rgba(153,153,153,1);
     }
-    .buttong {
-      width: 96px;
-      height: 30px;
-      background:rgba(255,80,0,1);
-      border-radius:2px;
-      font-size:14px;
-      font-family:MicrosoftYaHeiUI;
-      color:rgba(255,255,255,1);
-      line-height:14px;
-      text-align:center;
-      padding-top:8px;
-    }
-    .buttong:hover {
-      background:rgba(255,80,0,.9);
-      border-radius:2px;
-      color:rgba(255,255,255,1);
-    }
+    
 }
 </style>
 
