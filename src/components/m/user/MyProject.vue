@@ -83,8 +83,9 @@
         </ul>
       </div>
       <div v-show="tab==2" class="plan_table-wrapper">
-                    <div class="tools">
-                <el-select v-model="projectid" placeholder="请选择" @change="get_project_plans">
+              <div class="tools" style="margin-top:0px">
+                <div style="padding-top:15px;padding-left:10px">
+                <el-select  v-model="projectid" placeholder="请选择" @change="get_project_plans">
                     <el-option
                     v-for="item in options"
                     :key="item.projectid"
@@ -92,13 +93,14 @@
                     :value="item.projectid">
                     </el-option>
                 </el-select>
-                <a class="link" href="javascript:;">预览合同</a>
+                </div>
+                <!-- <a class="link" href="javascript:;">预览合同</a>
                 <a class="contact" href="#/chat" target="_blank">
                     <i class="icon"></i>
                     <div class="txt">联系客服，提交个性化需求</div>
-                </a>
+                </a> -->
             </div>
-            <h3 class="title">项目进度</h3>
+            <h3 class="title" style="margin-left:15px">项目进度</h3>
             <div class="plan_table">
                 <ul>
                     <li class="item" v-for="item in plans" :key="item.id">
@@ -400,7 +402,7 @@ export default {
 
   .plan_table {
     background: #ffffff;
-    margin: 0px 0px 0px 39px;
+    margin: 0px 0px 0px 60px;
     padding: 5px 0px 0px 21px;
     .item {
       .word {
