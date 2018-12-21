@@ -43,7 +43,6 @@
                             <div class="lb">开发均摊费：</div>
                             <div class="disp-txt im"> {{jsons.presell_price}}</div>
                             <div class="del-txt">开发总费：{{jsons.presell_price * jsons.person_count}}</div>
-
                         </div>
                         <div class="form-item" v-show="jsons.status == 0">
                             <div class="lb">支付选项：</div>
@@ -150,6 +149,14 @@ export default {
       this.num1 = v;
     },
     handlePay() {
+        //将开发价格存起来
+        sessionStorage.setItem("m_presell_price",this.jsons.presell_price);
+        //将支付选项存起来
+        sessionStorage.setItem("m_payWay1",this.payWay1);
+        //将开发类型存起来
+        sessionStorage.setItem("m_devType",this.devType);
+        //将产品类型存起来
+        sessionStorage.setItem("m_devType",this.jsons.status);
         this.$router.push("/morderpay");
     },
     //获取开发类型
