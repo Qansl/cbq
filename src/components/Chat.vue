@@ -58,6 +58,8 @@ export default {
       this.get_customer_service_msg();
   },
   methods: {
+    //获取登录信息，校验用户是否登录
+    
     //滚动条固定在下面
     init_Below_scroll_bar:function(){
         var scopll = document.getElementById("iidd");
