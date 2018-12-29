@@ -156,7 +156,7 @@ export default {
         //将开发类型存起来
         sessionStorage.setItem("m_devType",this.devType);
         //将产品类型存起来
-        sessionStorage.setItem("m_devType",this.jsons.status);
+        sessionStorage.setItem("m_product_type",this.jsons.status);
         this.$router.push("/morderpay");
     },
     //获取开发类型

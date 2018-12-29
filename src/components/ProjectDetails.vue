@@ -92,16 +92,16 @@
                         <li class="item" :class="{active:tab==4}" @click="changeTab(4)">项目答疑</li>
                         <li class="item" :class="{active:tab==5}" @click="changeTab(5)" v-show="jsons.status == 2">体验中心</li>
                     </ul>
-                    <div v-show="tab==0" class="proj-intro" v-html="shop_info.content">
+                    <div v-show="tab==0" class="proj-intro" id="project-details-img" v-html="shop_info.content">
                         <!-- <img src="//pic.iidingyun.com//file/20181122/75576.png" alt=""> -->
                     </div>
-                    <div v-show="tab==1 && jsons.status != 2" class="proj-intro" v-html="shop_info.content">
+                    <div v-show="tab==1 && jsons.status != 2" id="" class="proj-intro" v-html="shop_info.content">
                         
                     </div>
-                    <div v-show="tab==2" class="proj-intro" v-html="shop_info.content">
+                    <div v-show="tab==2" class="proj-intro" id="" v-html="shop_info.content">
                         
                     </div>
-                    <div v-show="tab==3 && jsons.status != 2" class="proj-intro">
+                    <div v-show="tab==3 && jsons.status != 2" id="" class="proj-intro">
                         <div class="summary">
                             这里记录了项目发起人更新的项目进展，您可以提问了解更多项目相关细节。
                         </div>
@@ -181,7 +181,7 @@
                             <li class="item" v-for="item in list" :key="item.id" >
                               <a class="item-inner" :href="'#/projectdetails/'+item.status + '/' + item.id" @click="preinfo(item)">
                                 <div class="cover-wrapper">
-                                  <img class="cover" :src="item.shop_piture" alt="">
+                                  <img class="cover" :src="item.shop_piture" alt="" >
                                 </div>
                                 <h3 class="name">{{item.shop_title}}</h3>
                                 <div class="price-wrapper">
@@ -621,6 +621,10 @@ export default {
 };
 </script>
 <style>
+
+.project-details .details-main .proj-intro img{
+  width: 750px;
+}
   .el-dialog__header {
     background:rgba(231,231,231,1);
     border-radius:2px 2px 0px 0px;
@@ -729,7 +733,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/vars.scss";
-
 .main {
   width: 1200px;
   margin: 20px auto 100px auto;
@@ -1063,6 +1066,7 @@ export default {
       }
     }
   }
+  
   .project-details {
     display: flex;
     margin-top: 50px;
@@ -1071,12 +1075,17 @@ export default {
       box-shadow: 0px 0px 40px 0px rgba(216, 216, 216, 0.5);
       border-radius: 2px;
       background: #ffffff;
+      width: 750px;
       .proj-intro {
-        padding: 20px 40px 60px;
+        padding: 20px 30px 60px;
         box-sizing: border-box;
         overflow: hidden;
         font-size: 16px;
         line-height: 24px;
+        img {
+          max-width: 100%;
+          // width: 750px;
+        }
         &.q-a-wrapper {
           padding: 0 20px 60px;
         }
@@ -1185,9 +1194,6 @@ export default {
           .item:last-child {
             margin-bottom: -20px;
           }
-        }
-        img {
-          max-width: 100%;
         }
       }
     }

@@ -148,9 +148,9 @@
                   <div class="desc">剩余时间</div>
                 </li>
               </ul>
-              <div class="modal">
+              <!-- <div class="modal">
                 <a class="link" href="javascript:;" target="_blank">查看进度</a>
-              </div>
+              </div> -->
             </a>
           </li>
         </ul>
@@ -480,7 +480,7 @@ export default {
   }
   &:hover {
     .arr {
-      background: rgba(0, 0, 0, 0.4);
+      // background: rgba(0, 0, 0, 0.4);
     }
   }
 }
@@ -491,6 +491,7 @@ export default {
   height: 111px;
   box-shadow: 0px 0px 40px 0px rgba(216, 216, 216, 0.5);
   border-radius: 0px 0px 4px 4px;
+  background:hsl(0, 0%, 100%);
   display: flex;
   .item {
     flex: 1;
