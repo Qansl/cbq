@@ -667,9 +667,16 @@ export default {
       localStorage.removeItem("autoLogin");
       localStorage.removeItem("loginInfo");
       this.$store.commit("changeLogin", false);
+      this.setCookie("Authorization","","-1");
       this.$router.push("/home");
     },
-
+    //清除cookie
+    setCookie:function(cname, cvalue, exdays) {  
+      var d = new Date();  
+      d.setTime(d.getTime() + (exdays*24*60*60*1000));  
+      var expires = "expires="+d.toUTCString();  
+      document.cookie = cname + "=" + cvalue + ";expires=" + expires + ";path=/";  
+    },
     //找回密码
     findPwdSubmit() {
       let reg1 = /^1\d{10}$/;
