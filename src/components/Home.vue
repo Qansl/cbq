@@ -1,33 +1,33 @@
  
 <template>
   <div>
-    <div class="banner-wrapper">
-      <div class="banner-inner">
-        <div class="banner" >
-          <img class="pic" v-for="item in banner_list" :key="item.id" :src="item.advertise_piture" alt="" v-show="item.visible">
-          <div class="arr left" @click="tetch('left')"></div>
-          <div class="arr right" @click="tetch('right')"></div>
-          <ul class="dot" >
-            <li v-for="item in banner_list" :key="item.id" :class="{active:item.visible}"></li>
-          </ul>
-        </div>
-        <div class="intro">
-          <div class="title">预定截止日期</div>
-          <div class="date">
-            <span class="month">11</span>月
-            <span class="day">30</span>日
+        <div class="banner-wrapper" :style="{background:background_color}">
+          <div class="banner-inner">
+            <div class="banner" >
+              <img class="pic" v-for="item in banner_list" :key="item.id" :src="item.advertise_piture" alt="" v-show="item.visible">
+              <div class="arr left" @click="tetch('left')"></div>
+              <div class="arr right" @click="tetch('right')"></div>
+              <ul class="dot" >
+                <li v-for="item in banner_list" :key="item.id" :class="{active:item.visible}"></li>
+              </ul>
+            </div>
+            <div class="intro">
+              <div class="title" :style="{background:background_color}">预定截止日期</div>
+              <div class="date">
+                <span class="month">{{sales_off_month}}</span>月
+                <span class="day">{{sales_off_day}}</span>日
+              </div>
+              <ul class="seperator">
+                <li></li><li></li><li></li><li></li><li></li><li></li>
+                <li></li><li></li><li></li><li></li><li></li>
+              </ul>
+              <div class="desc">{{advertise_title}}</div>
+              <a class="ad-wrapper" href="javascript:;">
+                <img class="ad"  alt="" :src="advertise_min_piture">
+              </a>
+            </div>
           </div>
-          <ul class="seperator">
-            <li></li><li></li><li></li><li></li><li></li><li></li>
-            <li></li><li></li><li></li><li></li><li></li>
-          </ul>
-          <div class="desc">拼多多类APP商城定制开发</div>
-          <a class="ad-wrapper" href="javascript:;">
-            <img class="ad" src="//pic.iidingyun.com/1000//file/20181120/75484.png" alt="">
-          </a>
         </div>
-      </div>
-    </div>
   
     <ul class="stat">
       <li class="item">
@@ -209,7 +209,9 @@
 </template>
 
 <script>
+import {formatDate} from "../api/moment.js";
 import { request } from "../api/api";
+var timer = null;
 export default {
   name: "Home",
   data() {
@@ -220,10 +222,17 @@ export default {
       pre_list:[],
       dev_list:[],
       red_list:[],
+      background_color:"",
+      sales_off_month:"11",
+      sales_off_day:"30",
+      advertise_min_piture:"",
+      advertise_title:"",
     };
   },
   mounted(){
     var _this = this;
+    clearInterval(timer);
+    _this.slideAuto();
     request("com.iiding.web.index.select", {}, data => {
       _this.banner_list = data.banner_data.filter(function(ele){
           return ele.advertise_place == 0 ? ele : '';
@@ -241,6 +250,15 @@ export default {
           ele["visible"] = false;
         }
       })
+      if(_this.banner_list.length && _this.banner_list.length != ''){
+          if(_this.banner_list.length > 0){
+            _this.background_color = _this.banner_list[0].background_color;
+            _this.sales_off_month = formatDate(new Date(_this.banner_list[0].sales_off_date),"MM");
+            _this.sales_off_day = formatDate(new Date(_this.banner_list[0].sales_off_date),"dd");
+            _this.advertise_min_piture = _this.banner_list[0].advertise_min_piture;
+            _this.advertise_title = _this.banner_list[0].advertise_title;
+          }
+      }
       _this.banner_prelist.forEach(function(ele,index,self){
         if(index == 0){
           ele["visible"] = true;
@@ -282,6 +300,7 @@ export default {
     });
   },
   methods:{
+
     tetch(val){
       var _this = this;
       // try{
@@ -310,30 +329,147 @@ export default {
 
       // }
       for(var i = 0 ; i < _this.banner_list.length ; i++){
-          if(_this.banner_list[i].visible){
+        if(_this.banner_list[i].visible){
             _this.banner_list[i].visible = false;
             if(val == "right"){
                 if(i < _this.banner_list.length - 1){
                   _this.banner_list[i + 1].visible = true;
-                  _this.$set(_this.banner_list,i+1,_this.banner_list[i + 1])
+                  _this.$set(_this.banner_list,i+1,_this.banner_list[i + 1]);
+                  _this.background_color = _this.banner_list[i + 1].background_color;
+                  _this.advertise_min_piture = _this.banner_list[i + 1].advertise_min_piture;
+                  if(_this.banner_list[i + 1].sales_off_date && _this.banner_list[i + 1].sales_off_date != ''){
+                      _this.sales_off_month = formatDate(new Date(_this.banner_list[i + 1].sales_off_date),"MM");
+                      _this.sales_off_day = formatDate(new Date(_this.banner_list[i + 1].sales_off_date),"dd");
+                  }else{
+                    _this.sales_off_month = 11;
+                    _this.sales_off_day = 30;
+                  }
+                  _this.advertise_title = _this.banner_list[i+1].advertise_title;
                 }else{
                   _this.banner_list[0].visible = true;
                   _this.$set(_this.banner_list,0,_this.banner_list[0])
+                  _this.background_color = _this.banner_list[0].background_color;
+                  _this.advertise_min_piture = _this.banner_list[0].advertise_min_piture;
+                  if(_this.banner_list[0].sales_off_date && _this.banner_list[0].sales_off_date != ''){
+                      _this.sales_off_month = formatDate(new Date(_this.banner_list[0].sales_off_date),"MM");
+                      _this.sales_off_day = formatDate(new Date(_this.banner_list[0].sales_off_date),"dd");
+                  }else{
+                    _this.sales_off_month = 11;
+                    _this.sales_off_day = 30;
+                  }
+                  _this.advertise_title = _this.banner_list[0].advertise_title;
                 }
             }else{
                 if(i > 0){
                   _this.banner_list[i - 1].visible = true;
                   _this.$set(_this.banner_list,i-1,_this.banner_list[i - 1])
+                  _this.background_color = _this.banner_list[i - 1].background_color;
+                  _this.advertise_min_piture = _this.banner_list[i - 1].advertise_min_piture;
+                  if(_this.banner_list[i - 1].sales_off_date && _this.banner_list[i - 1].sales_off_date != ''){
+                      _this.sales_off_month = formatDate(new Date(_this.banner_list[i - 1].sales_off_date),"MM");
+                      _this.sales_off_day = formatDate(new Date(_this.banner_list[i - 1].sales_off_date),"dd");
+                  }else{
+                    _this.sales_off_month = 11;
+                    _this.sales_off_day = 30;
+                  }
+                  _this.advertise_title = _this.banner_list[i - 1].advertise_title;
                 }else{
                   _this.banner_list[_this.banner_list.length - 1].visible = true;
                   _this.$set(_this.banner_list,_this.banner_list.length - 1,_this.banner_list[_this.banner_list.length - 1])
+                  _this.background_color = _this.banner_list[_this.banner_list.length - 1].background_color;
+                  _this.advertise_min_piture = _this.banner_list[_this.banner_list.length - 1].advertise_min_piture;
+                  if(_this.banner_list[_this.banner_list.length - 1].sales_off_date && _this.banner_list[_this.banner_list.length - 1].sales_off_date != ''){
+                      _this.sales_off_month = formatDate(new Date(_this.banner_list[_this.banner_list.length - 1].sales_off_date),"MM");
+                      _this.sales_off_day = formatDate(new Date(_this.banner_list[_this.banner_list.length - 1].sales_off_date),"dd");
+                  }else{
+                    _this.sales_off_month = 11;
+                    _this.sales_off_day = 30;
+                  }
+                  _this.advertise_title = _this.banner_list[_this.banner_list.length - 1].advertise_title;
                 }
             }
             break;
           }
       }
-      console.log(_this.banner_list);
+      clearInterval(timer);
+      // setTimeout(function(){
+        _this.slideAuto();
+      // },3000);
     },
+    tetch2(val){
+      var _this = this;
+      for(var i = 0 ; i < _this.banner_list.length ; i++){
+        if(_this.banner_list[i].visible){
+            _this.banner_list[i].visible = false;
+            if(val == "right"){
+                if(i < _this.banner_list.length - 1){
+                  _this.banner_list[i + 1].visible = true;
+                  _this.$set(_this.banner_list,i+1,_this.banner_list[i + 1]);
+                  _this.background_color = _this.banner_list[i + 1].background_color;
+                  _this.advertise_min_piture = _this.banner_list[i + 1].advertise_min_piture;
+                  if(_this.banner_list[i + 1].sales_off_date && _this.banner_list[i + 1].sales_off_date != ''){
+                      _this.sales_off_month = formatDate(new Date(_this.banner_list[i + 1].sales_off_date),"MM");
+                      _this.sales_off_day = formatDate(new Date(_this.banner_list[i + 1].sales_off_date),"dd");
+                  }else{
+                    _this.sales_off_month = 11;
+                    _this.sales_off_day = 30;
+                  }
+                  _this.advertise_title = _this.banner_list[i+1].advertise_title;
+                }else{
+                  _this.banner_list[0].visible = true;
+                  _this.$set(_this.banner_list,0,_this.banner_list[0])
+                  _this.background_color = _this.banner_list[0].background_color;
+                  _this.advertise_min_piture = _this.banner_list[0].advertise_min_piture;
+                  if(_this.banner_list[0].sales_off_date && _this.banner_list[0].sales_off_date != ''){
+                      _this.sales_off_month = formatDate(new Date(_this.banner_list[0].sales_off_date),"MM");
+                      _this.sales_off_day = formatDate(new Date(_this.banner_list[0].sales_off_date),"dd");
+                  }else{
+                    _this.sales_off_month = 11;
+                    _this.sales_off_day = 30;
+                  }
+                  _this.advertise_title = _this.banner_list[0].advertise_title;
+                }
+            }else{
+                if(i > 0){
+                  _this.banner_list[i - 1].visible = true;
+                  _this.$set(_this.banner_list,i-1,_this.banner_list[i - 1])
+                  _this.background_color = _this.banner_list[i - 1].background_color;
+                  _this.advertise_min_piture = _this.banner_list[i - 1].advertise_min_piture;
+                  if(_this.banner_list[i - 1].sales_off_date && _this.banner_list[i - 1].sales_off_date != ''){
+                      _this.sales_off_month = formatDate(new Date(_this.banner_list[i - 1].sales_off_date),"MM");
+                      _this.sales_off_day = formatDate(new Date(_this.banner_list[i - 1].sales_off_date),"dd");
+                  }else{
+                    _this.sales_off_month = 11;
+                    _this.sales_off_day = 30;
+                  }
+                  _this.advertise_title = _this.banner_list[i - 1].advertise_title;
+                }else{
+                  _this.banner_list[_this.banner_list.length - 1].visible = true;
+                  _this.$set(_this.banner_list,_this.banner_list.length - 1,_this.banner_list[_this.banner_list.length - 1])
+                  _this.background_color = _this.banner_list[_this.banner_list.length - 1].background_color;
+                  _this.advertise_min_piture = _this.banner_list[_this.banner_list.length - 1].advertise_min_piture;
+                  if(_this.banner_list[_this.banner_list.length - 1].sales_off_date && _this.banner_list[_this.banner_list.length - 1].sales_off_date != ''){
+                      _this.sales_off_month = formatDate(new Date(_this.banner_list[_this.banner_list.length - 1].sales_off_date),"MM");
+                      _this.sales_off_day = formatDate(new Date(_this.banner_list[_this.banner_list.length - 1].sales_off_date),"dd");
+                  }else{
+                    _this.sales_off_month = 11;
+                    _this.sales_off_day = 30;
+                  }
+                  _this.advertise_title = _this.banner_list[_this.banner_list.length - 1].advertise_title;
+                }
+            }
+            break;
+          }
+      }
+    },
+    //定时轮播
+    slideAuto:function () { 
+      var that=this; 
+      timer=setInterval(function(){  
+          that.tetch2("right");    
+      },3500) 
+    //clearInterval(timer); 
+   }, 
 
   },
 };
@@ -342,6 +478,15 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "../styles/vars.scss";
+    .show-enter-active,.show-leave-active{
+        transition:all 2s;
+    }
+    .show-enter,.show-leave-to{
+        margin-left: 100px;
+    }
+    .show-enter-to,.show-leave{
+        margin-left:0px;
+    }
 .banner-wrapper {
   height: 456px;
   background: #ea7a20;
