@@ -12,7 +12,7 @@
               </ul>
             </div>
             <div class="intro">
-              <div class="title" :style="{background:background_color}">预定截止日期</div>
+              <div class="title" >预定截止日期</div>
               <div class="date">
                 <span class="month">{{sales_off_month}}</span>月
                 <span class="day">{{sales_off_day}}</span>日

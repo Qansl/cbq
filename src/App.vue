@@ -34,22 +34,24 @@
         </a>
       </div>
     </header>
-
+<!-- 
     <header v-show="pathHideHav.indexOf(currentRoutePath)==-1" class="header2">
-      <div class="header2-inner">
-        <a class="logo" href="#/home"></a>
-      </div>
-    </header>
 
-    <div class="g-nav-wrapper">
-      <nav v-show="pathHideHav.indexOf(currentRoutePath)==-1" class="g-nav">
-        <router-link class="link" to="/home">首页</router-link>
-        <router-link class="link" to="/projectlist/0">预售项目</router-link>
-        <a class="link" href="#/chat" target="_blank">发起项目</a>
-        <router-link class="link" to="/proc">参与流程</router-link>
-        <router-link class="link" to="/intro">平台介绍</router-link>
-        <router-link class="link" to="/service">客服中心</router-link>
-      </nav>
+    </header> -->
+    <div>
+              <!-- <div class="header2-inner-new" style="background: url('//pic.iidingyun.com//file/20181229/76583.png')no-repeat;width:155px;height:75px"></div> -->
+      <div class="g-nav-wrapper">
+        <nav v-show="pathHideHav.indexOf(currentRoutePath)==-1" class="g-nav">
+          <span class="header2-inner-new" style="background: url('//pic.iidingyun.com//file/20181229/76583.png')no-repeat;width:155px;height:75px"></span>
+          <!-- <a class="logo" href="#/home" style="background: url('//pic.iidingyun.com//file/20181229/76583.png')no-repeat;"></a> -->
+          <router-link class="link" to="/home" style="margin-left:20px">首页</router-link>
+          <router-link class="link" to="/projectlist/0">预售项目</router-link>
+          <a class="link" href="#/chat" target="_blank">发起项目</a>
+          <router-link class="link" to="/proc">参与流程</router-link>
+          <router-link class="link" to="/intro">平台介绍</router-link>
+          <router-link class="link" to="/service">客服中心</router-link>
+        </nav>
+      </div>
     </div>
 
     <!-- 手机底部导航 -->
@@ -1912,26 +1914,30 @@ textarea {
       display: block;
       width: 172px;
       height: 70px;
-      background: url("http://pic.iidingyun.com//file/20181120/75480.png")
+      background: url("//pic.iidingyun.com//file/20181229/76583.png")
         no-repeat;
     }
   }
 }
 .g-nav-wrapper {
+  padding-top: 10px;
   background: #ffffff;
+  padding-bottom: 5px;
   .g-nav {
     width: 1200px;
     margin: 0 auto;
     display: flex;
     .link {
-      width: 123px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      display: block;
-      font-size: 16px;
-      color: #333333;
-      transition: all ease 0.2s;
+        width: 123px;
+        margin-top: 35px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        display: block;
+        font-size: 16px;
+        color: #333333;
+        -webkit-transition: all ease 0.2s;
+        transition: all ease 0.2s;
     }
     .link.router-link-active {
       color: #ffffff;
