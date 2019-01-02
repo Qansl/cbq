@@ -42,7 +42,7 @@
               <!-- <div class="header2-inner-new" style="background: url('//pic.iidingyun.com//file/20181229/76583.png')no-repeat;width:155px;height:75px"></div> -->
       <div class="g-nav-wrapper">
         <nav v-show="pathHideHav.indexOf(currentRoutePath)==-1" class="g-nav">
-          <span class="header2-inner-new" style="background: url('//pic.iidingyun.com//file/20181229/76583.png')no-repeat;width:155px;height:75px"></span>
+          <span class="header2-inner-new" @click="window.location.href='#/home'" style="background: url('//pic.iidingyun.com//file/20181229/76583.png')no-repeat;width:155px;height:75px"></span>
           <!-- <a class="logo" href="#/home" style="background: url('//pic.iidingyun.com//file/20181229/76583.png')no-repeat;"></a> -->
           <router-link class="link" to="/home" style="margin-left:20px">首页</router-link>
           <router-link class="link" to="/projectlist/0">预售项目</router-link>
@@ -1859,7 +1859,7 @@ textarea {
         position: absolute;
         right: 0;
         top: 50%;
-        transform: translateY(-50%);
+        transform: translateY(-50%);       
       }
       .qrcode {
         width: 90px;
