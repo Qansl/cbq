@@ -17,9 +17,10 @@
                             <div class="lb" v-show="jsons.status == 2 && tcps == 2">单价：</div>
                             <div class="num">
                                 <span class="unit-price">¥</span>
-                                <span v-if="tcps == 0">{{jsons.dev_standard_price}}</span>
-                                <span v-else-if="tcps == 1">{{jsons.dev_custom_price}}</span>
-                                <span v-else>{{jsons.dev_special_unit_price}}</span>
+                                <span v-if="jsons.status != 2">{{jsons.presell_price}}</span>
+                                <span v-else-if="jsons.status == 2 && tcps == 0">{{jsons.dev_standard_price}}</span>
+                                <span v-else-if="jsons.status == 2 && tcps == 1">{{jsons.dev_custom_price}}</span>
+                                <span v-else-if="jsons.status == 2 && tcps == 2">{{jsons.dev_special_unit_price}}</span>
                             </div>
                         </li>
                         <li class="item" v-show="jsons.status != 2">
@@ -236,10 +237,10 @@
               <span slot="footer" class="dialog-footer">
                 <el-button class="buttons" @click="constract">联系客服</el-button>
                 <el-button class="steps" @click="step(jsons)">下一步
-                  <div class="tipcs">(已确定金额)</div>
+                  <!-- <div class="tipcs">(已确定金额)</div> -->
                 </el-button>
                 <el-button class="stepp" @click="stepsM(jsons)">下一步
-                   <div class="tipcs">(已确定金额)</div>
+                   <!-- <div class="tipcs">(已确定金额)</div> -->
                 </el-button>
               </span>
             </el-dialog>
@@ -316,6 +317,9 @@ export default {
            }else{
               _this.attentions = 1;
            }
+        }else{
+            var msg = res.msg;
+            _this.$message.error(msg);
         }
       })
     },
@@ -401,6 +405,9 @@ export default {
             var msg = res.msg;
             _this.$message.error(msg);
           }
+        }else{
+            var msg = res.msg;
+            _this.$message.error(msg);
         }
       })
 
@@ -431,6 +438,9 @@ export default {
             var msg = res.msg;
               _this.$message.error(msg);
           }
+        }else{
+            var msg = res.msg;
+            _this.$message.error(msg);
         }
       })
 
@@ -599,24 +609,6 @@ export default {
       })
 
     },
-    // //查询此项目是否已经签约
-    // query_project_is_exist(){
-    //   var _this = this;
-    //   var projectid = sessionStorage.getItem("select_projectid");
-    //   var select_type = sessionStorage.getItem("select_type");
-    //   request("com.iiding.web.personal_center.user_project.get_product_price",{"projectid":projectid},res => {
-    //     if(res.code == "success"){
-    //       _this.projectInfo = res.data;
-    //       if(res.my_project_status == "project_not_exist"){
-    //       }else if(res.my_project_status == "project_exist_follow"){
-    //       }else if(res.my_project_status == "project_exist_participate"){
-    //       }else if(res.my_project_status == "project_exist_signing"){
-    //           _this.$message.error("此项目您已经签约");
-    //       }else{
-    //       }
-    //     }
-    //   })
-    // },
     //移动端预参与
     handleOrderM(val) {
       this.$router.push({ path: "/morder/" + val.id + "/" + val.status + "/5"});
@@ -797,9 +789,9 @@ export default {
             line-height: 20px;
           }
           .num {
-            font-size: 48px;
+            font-size: 36px;
             color: $front-color;
-            line-height: 55px;
+            line-height: 36px;
             display: flex;
             align-items: flex-end;
             margin-top: 10px;

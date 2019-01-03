@@ -88,9 +88,9 @@
                 <div class="price">{{item.presell_price}}.<span class="decimal">00</span></div>
                 <div class="status">满额截标</div>
               </div>
-              <!-- <div class="progress-wrapper">
+              <div class="progress-wrapper">
                 <progress class="u-progress" :value="parseInt(item.plenty) " :max="item.plenty > 100 ? parseInt(item.plenty) : 100"></progress>
-              </div> -->
+              </div>
               <ul class="details">
                 <li>
                   <div class="prog">{{isNaN(item.plenty)?0:parseInt(item.plenty)}}%</div>
