@@ -129,7 +129,7 @@
                   <span class="u-checkbox__label">自动登录</span>
                 </label>
                 <a class="link" href="javascript:;" @click="showPwd">忘记密码</a>
-                <a class="link" href="javascript:;" @click="showRegisNoneLogin">还没注册,去注册></a>
+                <a class="link" href="javascript:;" @click="showRegisNoneLogin">立即注册></a>
               </div>
               <!-- <div class="other-method">
                 <div class="desc">第三方账号登录</div>
