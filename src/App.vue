@@ -4,7 +4,7 @@
       <div class="header1-inner">
         <i class="icon icon-tel"></i>
         <span class="txt">官方咨询电话</span>
-        <span class="txt tel im">000 - 444 1234</span>
+        <span class="txt tel im">400-8979-568</span>
         <span style="flex:1"></span>
         <template v-if="!$store.state.login">
           <a class="link active" href="javascript:;" @click="showLogin">请登录</a>
