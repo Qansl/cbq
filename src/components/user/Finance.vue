@@ -47,7 +47,8 @@
                         <tr>
                             <td>
                                 <div class="cover-wrapper">
-                                    <img class="cover" src="http://pic.iidingyun.com//file/20181120/75487.png" alt="">
+                                    <img class="cover" :src="decodeURIComponent(item.product_pic)" alt="" v-if="item.order_type!=1">
+                                    <img class="cover" src="//pic.iidingyun.com//file/20190102/76646.jpg" alt="" width="50" height="50" v-if="item.order_type==1">
                                     <span>{{item.product_name}}</span>
                                 </div>
                             </td>

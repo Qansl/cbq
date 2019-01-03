@@ -31,18 +31,18 @@
                         </li>
                     </ul>
                     <div class="prog-wrapper" v-show="jsons.status != 2">
-                        <progress class="u-progress" :value="jsons.plenty" :max="jsons.plenty > 100 ? jsons.plenty : 100"></progress>
+                        <progress class="u-progress" :value="isNaN(jsons.plenty)?0:parseInt(jsons.plenty)" :max="jsons.plenty > 100 ? jsons.plenty : 100"></progress>
                         <ul class="prog-details">
                             <li>
-                                <div class="prog">{{jsons.plenty}}%</div>
+                                <div class="prog">{{isNaN(jsons.plenty)?0:parseInt(jsons.plenty)}}%</div>
                                 <div class="desc2">完成</div>
                             </li>
                             <li v-show="jsons.status == 0">
-                                <div class="prog">{{jsons.pre_count}}人</div>
+                                <div class="prog">{{isNaN(jsons.pre_count) || jsons.pre_count == 'undefined' || jsons.pre_count == ''?0:parseInt(jsons.pre_count)}}人</div>
                                 <div class="desc2">预报名人数</div>
                             </li>
                             <li>
-                                <div class="prog">{{jsons.date_time}}天</div>
+                                <div class="prog">{{isNaN(jsons.date_time)?0:parseInt(jsons.date_time)}}天</div>
                                 <div class="desc2">剩余时间</div>
                             </li>
                         </ul>
@@ -153,19 +153,19 @@
                                   <div class="status">满额截标</div>
                                 </div>
                                 <div class="progress-wrapper">
-                                  <progress class="u-progress" :value="item.plenty" :max="item.plenty > 100 ? item.plenty : 100"></progress>
+                                  <progress class="u-progress" :value="isNaN(item.plenty)?0:parseInt(item.plenty)" :max="item.plenty > 100 ? item.plenty : 100"></progress>
                                 </div>
                                 <ul class="details">
                                   <li>
-                                    <div class="prog">{{item.plenty}}%</div>
+                                    <div class="prog">{{isNaN(item.plenty)?0:parseInt(item.plenty)}}%</div>
                                     <div class="desc">完成</div>
                                   </li>
                                   <li>
-                                    <div class="prog">{{item.pre_count}}人</div>
+                                    <div class="prog">{{isNaN(item.pre_count)?0:parseInt(item.pre_count)}}人</div>
                                     <div class="desc">预报名人数</div>
                                   </li>
                                   <li>
-                                    <div class="prog">{{item.date_time}}天</div>
+                                    <div class="prog">{{isNaN(item.date_time)?0:parseInt(item.date_time)}}天</div>
                                     <div class="desc">剩余时间</div>
                                   </li>
                                 </ul>
@@ -189,11 +189,11 @@
                                   <div class="status">开发进度</div>
                                 </div>
                                 <div class="progress-wrapper">
-                                  <progress class="u-progress green" :value="item.plenty" max="100"></progress>
+                                  <progress class="u-progress green" :value="isNaN(item.plenty)?0:parseInt(item.plenty)" max="100"></progress>
                                 </div>
                                 <ul class="details">
                                   <li>
-                                    <div class="prog">{{item.plenty}}%</div>
+                                    <div class="prog">{{isNaN(item.plenty)?0:parseInt(item.plenty)}}%</div>
                                     <div class="desc">完成</div>
                                   </li>
                                   <li>
@@ -201,7 +201,7 @@
                                     <div class="desc"></div>
                                   </li>
                                   <li>
-                                    <div class="prog">{{item.date_time}}天</div>
+                                    <div class="prog">{{isNaN(item.date_time)?0:parseInt(item.date_time)}}天</div>
                                     <div class="desc">剩余时间</div>
                                   </li>
                                 </ul>
@@ -352,6 +352,9 @@ export default {
               type: 'success'
             });
            _this.follows();
+        }else{
+            var msg = res.msg;
+            _this.$message.error(msg);
         }
       })
     },
@@ -395,6 +398,8 @@ export default {
           }else if(res.my_project_status == "project_exist_signing"){
               _this.$message.error("此项目您已经签约");
           }else{
+            var msg = res.msg;
+            _this.$message.error(msg);
           }
         }
       })
@@ -423,6 +428,8 @@ export default {
           }else if(res.my_project_status == "project_exist_signing"){
               _this.$message.error("此项目您已经签约");
           }else{
+            var msg = res.msg;
+              _this.$message.error(msg);
           }
         }
       })
@@ -582,7 +589,12 @@ export default {
           }else if(res.my_project_status == "project_exist_signing"){
               _this.$message.error("此项目您已经签约");
           }else{
+              var msg = res.msg;
+              _this.$message.error(msg);
           }
+        }else{
+               var msg = res.msg;
+              _this.$message.error(msg);         
         }
       })
 

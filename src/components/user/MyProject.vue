@@ -67,8 +67,8 @@
                         </div>
                         <div class="tools">
                             <a class="link active" :href="item.development_details">开发明细</a>
-                            <a class="link active" href="javascript:;">项目进度</a>
-                            <a class="link active" :href="item.development_contract">预览合同</a>
+                            <a class="link active" :href="'#/projectdetails/'+item.project_status + '/' + item.projectid">项目进度</a>
+                            <a class="link active" @click="download(item.development_contract,item.project_name)" href="#">下载合同</a>
                             <a class="link green" :href="item.personalized_demand">个性化需求</a>
                         </div>
                     </div>
@@ -203,7 +203,66 @@ export default {
                 // console.log(_this.plans)
             }
         })    
-    }
+    },
+        /**
+         * 获取 blob
+         * @param  {String} url 目标文件地址
+         * @return {Promise} 
+         */
+        getBlob:function(url) {
+            return new Promise(resolve => {
+                const xhr = new XMLHttpRequest();
+
+                xhr.open('GET', url, true);
+                xhr.responseType = 'blob';
+                xhr.onload = () => {
+                    if (xhr.status === 200) {
+                        resolve(xhr.response);
+                    }
+                };
+
+                xhr.send();
+            });
+        },
+        /**
+         * 保存
+         * @param  {Blob} blob     
+         * @param  {String} filename 想要保存的文件名称
+         */
+        saveAs:function(blob, filename) {
+            if (window.navigator.msSaveOrOpenBlob) {
+                navigator.msSaveBlob(blob, filename);
+            } else {
+                const link = document.createElement('a');
+                const body = document.querySelector('body');
+
+                link.href = window.URL.createObjectURL(blob);
+                link.download = filename;
+
+                // fix Firefox
+                link.style.display = 'none';
+                body.appendChild(link);
+                
+                link.click();
+                body.removeChild(link);
+
+                window.URL.revokeObjectURL(link.href);
+            }
+        },
+        /**
+         * 下载
+         * @param  {String} url 目标文件地址
+         * @param  {String} filename 想要保存的文件名称
+         */
+        download:function(url,filename) {
+            // filename = filename + "开发合同";
+           var num =  url.lastIndexOf(".");
+           var type = url.substring(num,url.length);
+           filename = filename + "开发合同" + type;
+            this.getBlob(url).then(blob => {
+                this.saveAs(blob, filename);
+            });
+        },
   }
 };
 </script>

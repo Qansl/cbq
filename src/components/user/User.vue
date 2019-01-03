@@ -166,13 +166,23 @@ export default {
   data() {
     return {
       currentRoutePath: "",
+      user_info:{}
     };
   },
   mounted() {
     this.handleRouteChange(this.$route.path);
-
+    this.get_user_info();
   },
   methods: {
+    //获取用户注册信息
+    get_user_info(){
+      request("com.iiding.common.user.get_user_info",{},res => {
+          if(res.code == "success"){
+            this.user_info = res.data;
+            this.$store.commit("changeUserInfo", this.user_info);
+          }
+      })
+    },
     handleRouteChange(path) {
       this.currentRoutePath = path;
     },

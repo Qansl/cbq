@@ -101,7 +101,7 @@
                   <div class="desc">预报名人数</div>
                 </li>
                 <li>
-                  <div class="prog">{{item.date_time}}天</div>
+                  <div class="prog">{{isNaN(item.date_time)?0:parseInt(item.date_time)}}天</div>
                   <div class="desc">剩余时间</div>
                 </li>
               </ul>
@@ -144,7 +144,7 @@
                   <div class="desc"></div>
                 </li>
                 <li>
-                  <div class="prog">{{item.date_time}}天</div>
+                  <div class="prog">{{isNaN(item.date_time)?0:parseInt(item.date_time)}}天</div>
                   <div class="desc">剩余时间</div>
                 </li>
               </ul>

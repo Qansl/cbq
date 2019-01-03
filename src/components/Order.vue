@@ -638,7 +638,7 @@ export default {
               _this.my_project_id = res.id;
               _this.payWay1 = 2;
               _this.is_true1 = true;
-              _this.is_true2 = false;
+              _this.is_true2 = true;
               _this.is_true3 = true;
           }else if(res.my_project_status == "project_exist_signing"){
               _this.my_project_id = res.id;
@@ -652,6 +652,8 @@ export default {
             //   var urls = "/projectdetails/0/" + projectid;
             //   _this.$router.push(urls);
           }else{
+            var msg = res.msg;
+            _this.$message.error(msg);
           }
         }
       })
@@ -744,15 +746,14 @@ export default {
             postData.op = "participate";
         }else if(_this.payWay1 == 2){
             var id = sessionStorage.getItem("my_projectid");
-
             postData.op = "signing";
             postData.quota_number = _this.devType;
-            postData.pay_type = 1;
+            postData.pay_type = 2;
             postData.id = id;
         }else{
             postData.op = "signing";
             postData.quota_number = _this.devType;
-            postData.pay_type = 2;
+            postData.pay_type = 1;
         }
         request("com.iiding.web.personal_center.user_project.add_project",postData,res => {
             if(res.code == "success"){

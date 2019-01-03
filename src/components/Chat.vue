@@ -34,7 +34,7 @@
 
 <script>
 import { request,SITEID } from "../api/api";
-
+import cookie from "js-cookie/src/js.cookie";
 var MicroserviceEnv = "dev.";
 export default {
   data() {
@@ -53,13 +53,39 @@ export default {
     };
   },
   mounted: function(){
-      this.init_Below_scroll_bar();
-      this.init_websocket();
-      this.get_customer_service_msg();
+      this.init_userinfo();
   },
   methods: {
     //获取登录信息，校验用户是否登录
-    
+    init_userinfo:function(){
+      var _this = this;
+      request("com.iiding.admin.user_manage.query_ischeck",{},data => {
+      if(data.code != "success"){
+          request("com.iiding.web.instant_messaging.create_customer",{},res => {
+              if (res.code == "success") {
+                //将token存入cookie
+                cookie.set("Authorization", res.token, res.expires);
+                // sessionStorage.setItem("userInfo", JSON.stringify(res));
+                _this.userInfo = res;
+                _this.init_Below_scroll_bar();
+                _this.init_websocket();
+                _this.get_customer_service_msg();
+                window.location.reload();
+              } else {
+                _this.$message.error(res.msg);
+              }
+            }
+          );
+        }else{
+            _this.userInfo = data.data;
+            // sessionStorage.setItem("userInfo", JSON.stringify(data.data));
+            _this.init_Below_scroll_bar();
+            _this.init_websocket();
+            _this.get_customer_service_msg();
+        }
+      })
+      // this.$router.push("/home");
+    },
     //滚动条固定在下面
     init_Below_scroll_bar:function(){
         var scopll = document.getElementById("iidd");
@@ -103,9 +129,9 @@ export default {
     //初始化websocket
     init_websocket:function(){
           var _this = this;
-          var userInfo = sessionStorage.getItem("userInfo");
-          userInfo = JSON.parse(userInfo);
-          var url = "ws://119.23.142.94:8999?siteid=" + SITEID + "&groupid=" + userInfo.userid + "&msg=1";
+          // var userInfo = sessionStorage.getItem("userInfo");
+          // userInfo = JSON.parse(userInfo);
+          var url = "ws://119.23.142.94:8999?siteid=" + SITEID + "&groupid=" + _this.userInfo + "&msg=1";
 					_this.socket = new WebSocket(url);
 					console.log(url);
 					//接收消息
