@@ -106,7 +106,7 @@
                 </li>
               </ul>
               <div class="tag">满{{item.person_count}}人截标</div>
-              <div class="qrcode-wrapper">
+              <div class="qrcode-wrapper" >
                 <img class="pic" :src="item.demo_qcode" alt="">
                 <div class="desc">扫码查看样例</div>
               </div>
@@ -191,7 +191,7 @@
     </div>
 
     <!-- contact -->
-    <ul class="contact-wrapper">
+    <!-- <ul class="contact-wrapper">
       <li class="item chat">
         <a href="#/chat" target="_blank">
           <i class="icon icon-chat"><div class="txt">咨询客服</div></i>
@@ -204,7 +204,7 @@
           <div class="desc">关注我们</div>
         </div>
       </li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 

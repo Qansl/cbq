@@ -88,7 +88,7 @@
                     <ul id="tabProjectDetails" class="u-tabpanel">
                         <li class="item" :class="{active:tab==0}" @click="changeTab(0)">项目介绍</li>
                         <li class="item" :class="{active:tab==1}" @click="changeTab(1)" v-show="jsons.status != 2">项目回报</li>
-                        <li class="item" :class="{active:tab==2}" @click="changeTab(2)">功能说明</li>
+                        <!-- <li class="item" :class="{active:tab==2}" @click="changeTab(2)">功能说明</li> -->
                         <li class="item" :class="{active:tab==3}" @click="changeTab(3)" v-show="jsons.status != 2">项目进展</li>
                         <li class="item" :class="{active:tab==4}" @click="changeTab(4)">项目答疑</li>
                         <li class="item" :class="{active:tab==5}" @click="changeTab(5)" v-show="jsons.status == 2">体验中心</li>
@@ -234,14 +234,14 @@
             </div>
             <el-dialog title="注意" center :modal="true" :visible.sync="dialogVisible" width="360px" :close-on-click-modal="false">
               <span class="tip-words">总价格务必请联系客服进行确认,否则付款立即退回！</span>
-              <span slot="footer" class="dialog-footer">
-                <el-button class="buttons" @click="constract">联系客服</el-button>
-                <el-button class="steps" @click="step(jsons)">下一步
+              <span slot="footer" class="dialog-footer" style="line-height:0">
+                <el-button class="buttons" @click="constract" style="line-height:0">联系客服</el-button>
+                <el-button class="steps" @click="step(jsons)" style="line-height:0">下一步
                   <!-- <div class="tipcs">(已确定金额)</div> -->
                 </el-button>
-                <el-button class="stepp" @click="stepsM(jsons)">下一步
-                   <!-- <div class="tipcs">(已确定金额)</div> -->
-                </el-button>
+                <!-- <el-button class="stepp" @click="stepsM(jsons)">下一步
+                   <div class="tipcs">(已确定金额)</div> 
+                </el-button>-->
               </span>
             </el-dialog>
             <dir class="fixed-tool-mobile">
@@ -318,8 +318,8 @@ export default {
               _this.attentions = 1;
            }
         }else{
-            var msg = res.msg;
-            _this.$message.error(msg);
+            // var msg = res.msg;
+            // _this.$message.error(msg);
         }
       })
     },

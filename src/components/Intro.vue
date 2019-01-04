@@ -3,13 +3,13 @@
     <div>
         <div class="main">
             <div class="banners">
-                <el-carousel height="456px">
-                    <el-carousel-item v-for="item in banner_data" :key="item.id">
-                        <a class="item-inner"  :href="item.advertise_link" target="_blank">
-                            <img style="width:1200px;height:456px" :src="item.advertise_piture" alt="" >
+                <!-- <el-carousel height="456px"> -->
+                    <!-- <el-carousel-item v-for="item in banner_data" :key="item.id"> -->
+                        <a class="item-inner"  v-for="item in banner_data" :key="item.id" :href="item.advertise_link" target="_blank">
+                            <img style="width:1200px;height:456px"  :src="item.advertise_piture" alt="" >
                         </a>
-                    </el-carousel-item>
-                </el-carousel>
+                    <!-- </el-carousel-item> -->
+                <!-- </el-carousel> -->
             </div>
             <div class="infos" v-html="page_data">
                 

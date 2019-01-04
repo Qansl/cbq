@@ -24,14 +24,14 @@
           <div class="seperator"></div>
           <a class="link" href="#/user/myproject" target="_blank">我的项目</a>
         </template>
-        <div class="seperator"></div>
+        <!-- <div class="seperator"></div>
         <a class="link sel market" href="javascript:;">
           手机商城
           <i class="arr"></i>
           <div class="qrcode">
             <img class="pic" :src="QRcodeUrl" alt>
           </div>
-        </a>
+        </a> -->
       </div>
     </header>
 <!-- 
@@ -42,11 +42,11 @@
               <!-- <div class="header2-inner-new" style="background: url('//pic.iidingyun.com//file/20181229/76583.png')no-repeat;width:155px;height:75px"></div> -->
       <div class="g-nav-wrapper">
         <nav v-show="pathHideHav.indexOf(currentRoutePath)==-1" class="g-nav">
-          <span class="header2-inner-new" @click="window.location.href='#/home'" style="background: url('//pic.iidingyun.com//file/20181229/76583.png')no-repeat;width:155px;height:75px"></span>
+          <span class="header2-inner-new" @click="go_home" style="background: url('//pic.iidingyun.com//file/20181229/76583.png')no-repeat;width:155px;height:75px;cursor: pointer"></span>
           <!-- <a class="logo" href="#/home" style="background: url('//pic.iidingyun.com//file/20181229/76583.png')no-repeat;"></a> -->
           <router-link class="link" to="/home" style="margin-left:20px">首页</router-link>
           <router-link class="link" to="/projectlist/0">预售项目</router-link>
-          <a class="link" href="#/chat" target="_blank">发起项目</a>
+          <!-- <a class="link" href="#/chat" target="_blank">发起项目</a> -->
           <router-link class="link" to="/proc">参与流程</router-link>
           <router-link class="link" to="/intro">平台介绍</router-link>
           <router-link class="link" to="/service">客服中心</router-link>
@@ -79,7 +79,7 @@
       <div class="footer-inner">
         <nav class="nav">
           <a class="link" href="#/intro">关于我们</a>
-          <a class="link" href="#/chat">联系我们</a>
+          <a class="link" href="https://codebank.iidingyun.com">加入我们</a>
           <a class="link" href="#/service">帮助中心</a>
           <a class="link" href="#/proc">参与流程</a>
         </nav>
@@ -429,6 +429,9 @@ export default {
       // if (path.indexOf("/projectdetails") >= 0) {
       //   document.body.style.background = "#f2f2f2";
       // }
+    },
+    go_home(){
+      window.location.href='#/home';
     },
     showRegisNoneLogin(){
       this.loginDialogVisible = false;

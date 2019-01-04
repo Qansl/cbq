@@ -101,10 +101,10 @@ export default {
             var url = "com.iiding.web.personal_center.money_manage.recharge.recharge_my_money";
             var param = {money:_this.recharge_money,pay_method:"alipayweb"};
             request(url, param, result => {
-                if(result.payinfo){
+                if(result.code_url){
                     loading.close();
-                    _this.order_number = result.tradeno;
-                    _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + result.payinfo;
+                    _this.order_number = result.out_trade_no;
+                    _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + result.code_url;
                     _this.showAlipayQrcode = true;
                     _this.showWxpayQrcode = false;
                     _this.get_payResult();
@@ -124,10 +124,10 @@ export default {
             var url = "com.iiding.web.personal_center.money_manage.recharge.recharge_my_money";
             var param = {money:_this.recharge_money,pay_method:"wxweb"};
             request(url, param, result => {
-                if(result.payinfo){
+                if(result.code_url){
                     loading.close();
-                    _this.order_number = result.tradeno;
-                    _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + result.payinfo;
+                    _this.order_number = result.out_trade_no;
+                    _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + result.code_url;
                     _this.showWxpayQrcode = true;
                     _this.showAlipayQrcode = false;
                     _this.get_payResult();

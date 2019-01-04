@@ -367,10 +367,10 @@ export default {
              console.log("参数",postData);
             request("com.iiding.web.personal_center.money_manage.pay_interface",postData,res => {
                 console.log("返回值",res);
-                if(res.payinfo){
+                if(res.code_url){
                     loading.close();
-                    _this.order_number = res.tradeno;
-                    _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.payinfo;
+                    _this.order_number = res.out_trade_no;
+                    _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.code_url;
                     _this.showAlipayQrcode = true;
                     _this.get_payResult();
                 }else{
@@ -406,10 +406,10 @@ export default {
                 console.log("参数",postData);
                 request("com.iiding.web.personal_center.money_manage.pay_interface",postData,res => {
                     console.log("返回值",res);
-                    if(res.payinfo){
+                    if(res.code_url){
                         loading.close();
-                        _this.order_number = res.tradeno;
-                        _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.payinfo;
+                        _this.order_number = res.out_trade_no;
+                        _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.code_url;
                         _this.showWxpayQrcode = true;
                         _this.get_payResult();
                     }else{
@@ -461,16 +461,16 @@ export default {
              console.log("参数",postData);
             request("com.iiding.web.personal_center.money_manage.purchase_customized_project_pay",postData,res => {
                 console.log("返回值",res);
-                if(res.payinfo){
+                if(res.code_url){
                     loading.close();
-                    _this.order_number = res.tradeno;
-                    _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.payinfo;
+                    _this.order_number = res.out_trade_no;
+                    _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.code_url;
                     _this.showAlipayQrcode = true;
                     _this.get_payResult();
                 }else{
                     loading.close();
                     _this.showAlipayQrcode = false;
-                    var msg = res.msg;
+                    var msg = res.return_msg;
                     _this.$message.error(msg)
                 }
             })
@@ -498,16 +498,16 @@ export default {
                 console.log("参数",postData);
                 request("com.iiding.web.personal_center.money_manage.purchase_customized_project_pay",postData,res => {
                     console.log("返回值",res);
-                    if(res.payinfo){
+                    if(res.code_url){
                         loading.close();
-                        _this.order_number = res.tradeno;
-                        _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.payinfo;
+                        _this.order_number = res.out_trade_no;
+                        _this.qr_code = "http://iidingyun.com/barcodeImage.do?text=" + res.code_url;
                         _this.showWxpayQrcode = true;
                         _this.get_payResult();
                     }else{
                         loading.close();
                         _this.showWxpayQrcode = false;
-                        var msg = res.msg;
+                        var msg = res.return_msg;
                         _this.$message.error(msg)
                     }
                    
