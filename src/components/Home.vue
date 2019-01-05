@@ -90,9 +90,9 @@
                 <div class="price">{{item.presell_price}}.<span class="decimal">00</span></div>
                 <div class="status">满额截标</div>
               </div>
-              <!-- <div class="progress-wrapper">
+              <div class="progress-wrapper">
                 <progress class="u-progress" :value="parseInt(item.plenty) " :max="item.plenty > 100 ? parseInt(item.plenty) : 100"></progress>
-              </div> -->
+              </div>
               <ul class="details">
                 <li>
                   <div class="prog">{{isNaN(item.plenty)?0:parseInt(item.plenty)}}%</div>
@@ -108,7 +108,7 @@
                 </li>
               </ul>
               <div class="tag">满{{item.person_count}}人截标</div>
-              <div class="qrcode-wrapper">
+              <div class="qrcode-wrapper" >
                 <img class="pic" :src="item.demo_qcode" alt="">
                 <div class="desc">扫码查看样例</div>
               </div>
@@ -193,7 +193,7 @@
     </div>
 
     <!-- contact -->
-    <ul class="contact-wrapper">
+    <!-- <ul class="contact-wrapper">
       <li class="item chat">
         <a href="#/chat" target="_blank">
           <i class="icon icon-chat"><div class="txt">咨询客服</div></i>
@@ -206,7 +206,7 @@
           <div class="desc">关注我们</div>
         </div>
       </li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 

@@ -24,14 +24,14 @@
           <div class="seperator"></div>
           <a class="link" href="#/user/myproject" target="_blank">我的项目</a>
         </template>
-        <div class="seperator"></div>
+        <!-- <div class="seperator"></div>
         <a class="link sel market" href="javascript:;">
           手机商城
           <i class="arr"></i>
           <div class="qrcode">
-            <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt>
+            <img class="pic" :src="QRcodeUrl" alt>
           </div>
-        </a>
+        </a> -->
       </div>
     </header>
 <!-- 
@@ -42,11 +42,11 @@
               <!-- <div class="header2-inner-new" style="background: url('//pic.iidingyun.com//file/20181229/76583.png')no-repeat;width:155px;height:75px"></div> -->
       <div class="g-nav-wrapper">
         <nav v-show="pathHideHav.indexOf(currentRoutePath)==-1" class="g-nav">
-          <span class="header2-inner-new" @click="window.location.href='#/home'" style="background: url('//pic.iidingyun.com//file/20181229/76583.png')no-repeat;width:155px;height:75px"></span>
+          <span class="header2-inner-new" @click="go_home" style="background: url('//pic.iidingyun.com//file/20181229/76583.png')no-repeat;width:155px;height:75px;cursor: pointer"></span>
           <!-- <a class="logo" href="#/home" style="background: url('//pic.iidingyun.com//file/20181229/76583.png')no-repeat;"></a> -->
           <router-link class="link" to="/home" style="margin-left:20px">首页</router-link>
           <router-link class="link" to="/projectlist/0">预售项目</router-link>
-          <a class="link" href="#/chat" target="_blank">发起项目</a>
+          <!-- <a class="link" href="#/chat" target="_blank">发起项目</a> -->
           <router-link class="link" to="/proc">参与流程</router-link>
           <router-link class="link" to="/intro">平台介绍</router-link>
           <router-link class="link" to="/service">客服中心</router-link>
@@ -78,10 +78,10 @@
     <footer class="footer">
       <div class="footer-inner">
         <nav class="nav">
-          <a class="link" href="javascript:;">关于我们</a>
-          <a class="link" href="javascript:;">联系我们</a>
-          <a class="link" href="javascript:;">帮助中心</a>
-          <a class="link" href="javascript:;">参与项目</a>
+          <a class="link" href="#/intro">关于我们</a>
+          <a class="link" href="https://codebank.iidingyun.com">加入我们</a>
+          <a class="link" href="#/service">帮助中心</a>
+          <a class="link" href="#/proc">参与流程</a>
         </nav>
         <div class="copyright">©1997-2018 爱订云公司 版权所有</div>
       </div>
@@ -92,7 +92,7 @@
       <div v-show="loginDialogVisible" class="u-dialog-wrapper">
         <div class="u-dialog dialog-login">
           <header class="dialog-title">登录
-            <div class="icon-back" @click="hideLogin"></div>
+            <!-- <div class="icon-back" @click="hideLogin"></div> -->
             <div class="icon-close" @click="hideLogin"></div>
           </header>
           <section class="dialog-body">
@@ -129,14 +129,15 @@
                   <span class="u-checkbox__label">自动登录</span>
                 </label>
                 <a class="link" href="javascript:;" @click="showPwd">忘记密码</a>
+                <a class="link" href="javascript:;" @click="showRegisNoneLogin">立即注册></a>
               </div>
-              <div class="other-method">
+              <!-- <div class="other-method">
                 <div class="desc">第三方账号登录</div>
                 <div class="method">
                   <a class="icon icon-wechat" href="javascript:;"></a>
                   <a class="icon icon-qq" href="javascript:;"></a>
                 </div>
-              </div>
+              </div> -->
             </div>
           </section>
           <footer class="dialog-footer"></footer>
@@ -213,7 +214,7 @@
       <div v-show="registerDialogVisible" class="u-dialog-wrapper">
         <div class="u-dialog dialog-login">
           <header class="dialog-title">注册
-            <div class="icon-back" @click="hideRegister"></div>
+            <!-- <div class="icon-back" @click="hideRegister"></div> -->
             <div class="icon-close" @click="hideRegister"></div>
           </header>
           <section class="dialog-body">
@@ -266,10 +267,10 @@
               </div>
               <button class="btn" @click="registerSubmit">注册</button>
               <div class="tool">
-                <div class="link">第三方账号注册</div>
-                <a class="icon icon-wechat" href="javascript:;" @click="showPhone"></a>
+                <!--<div class="link">第三方账号注册</div>
+                 <a class="icon icon-wechat" href="javascript:;" @click="showPhone"></a>
                 <a class="icon icon-qq" href="javascript:;" @click="showPhone"></a>
-                <div style="flex:1"></div>
+                <div style="flex:1"></div> -->
                 <a class="link" href="javascript:;" @click="showLogin">已有账号,立即登录 ></a>
               </div>
             </div>
@@ -328,6 +329,8 @@ export default {
       userInfo: {
         user_name: ""
       },
+      //二维码
+      QRcodeUrl:"",
       //登录
       login: false,
       loginDialogVisible: false,
@@ -380,43 +383,8 @@ export default {
     // console.log(this.$store.state.userInfo)
 
     this.handleRouteChange(this.$route.path);
-
-    // var data;
-
-    // axios
-    //   .get("https://s3.iidingyun.com/api/get_service_to_json.vm")
-    //   .then(function(response) {
-    //     // handle success
-    //     console.log(response);
-    //     data = response.data;
-
-    //     data.forEach(v => {
-    //       if (
-    //         v.service_name ==
-    //         "com.iiding.admin.shop_management.base_param.query"
-    //       ) {
-    //         axios
-    //           .post(v.service_path, {
-    //             siteid: siteid
-    //           })
-    //           .then(re => {
-    //             console.log(re);
-    //           });
-    //       }
-    //     });
-    //   })
-    //   .catch(function(error) {
-    //     // handle error
-    //     console.log(error);
-    //   })
-    //   .then(function() {
-    //     // always executed
-    //   });
-
-    // request("com.iiding.admin.shop_management.base_param.query", {}, data => {
-    //   console.log(data);
-    // });
-
+    this.QRcodeUrl = "http://iidingyun.com/barcodeImage.do?text=" + window.location.href;
+    console.log("QRcodeUrl",this.QRcodeUrl);
     let userInfo = sessionStorage.getItem("userInfo");
     if (userInfo && userInfo != "") {
       this.$store.commit("changeLogin", true);
@@ -443,31 +411,6 @@ export default {
           }
         );
       } else {
-        //获取游客身份进行登录
-          // request("com.iiding.web.instant_messaging.create_customer",{},res => {
-          //     if (res.code == "success") {
-          //       //将token存入cookie
-          //       cookie.set("Authorization", res.token, res.expires);
-          //       sessionStorage.setItem("userInfo", JSON.stringify(res));
-          //       this.userInfo = res;
-          //       this.loginDialogVisible = false;
-          //       this.$store.commit("changeLogin", true);
-          //       this.$store.commit("changeUserInfo", res);
-          //       // if (this.autoLogin) {
-          //       //   localStorage.setItem("autoLogin", true);
-          //       //   localStorage.setItem(
-          //       //     "loginInfo",
-          //       //     JSON.stringify({ account: para.account, password: para.password })
-          //       //   );
-          //       // } else {
-          //       //   localStorage.removeItem("autoLogin");
-          //       // }
-          //     } else {
-          //       this.$message.error(res.msg);
-          //     }
-          //   }
-          // );
-        // this.$router.push("/home");
       }
     }
   },
@@ -487,7 +430,13 @@ export default {
       //   document.body.style.background = "#f2f2f2";
       // }
     },
-
+    go_home(){
+      window.location.href='#/home';
+    },
+    showRegisNoneLogin(){
+      this.loginDialogVisible = false;
+      this.showRegister();
+    },
     showLogin() {
       this.registerDialogVisible = false;
       this.pwdDialogVisible = false;
