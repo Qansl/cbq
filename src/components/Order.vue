@@ -260,7 +260,7 @@ export default {
   methods:{
     //去充值
     goRrechargeMoney(){
-        this.$router.push('/rrechargeMoney');
+        this.$router.push('/rechargeMoney');
     },
     //计数器
     handleChange(v){

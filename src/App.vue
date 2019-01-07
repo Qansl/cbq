@@ -79,11 +79,14 @@
       <div class="footer-inner">
         <nav class="nav">
           <a class="link" href="#/intro">关于我们</a>
-          <a class="link" href="https://codebank.iidingyun.com">加入我们</a>
+          <!-- <a class="link" href="https://codebank.iidingyun.com">加入我们</a> -->
           <a class="link" href="#/service">帮助中心</a>
           <a class="link" href="#/proc">参与流程</a>
         </nav>
         <div class="copyright">©1997-2018 爱订云公司 版权所有</div>
+        <div class="copyright">公司地址：深圳市龙岗区坂田街道五和大道南星河E栋 1505
+      深圳市爱订网络技术有限公司 版权所有 粤ICP备11023596号
+      Copyright  2010-2018 iiding, All Rights Reserved</div>
       </div>
     </footer>
 
@@ -564,6 +567,9 @@ export default {
           setTimeout(() => {
             this.showLogin();
           }, 1000);
+          this.loginInfo.account = this.registerInfo.phone;
+          this.loginInfo.password = this.registerInfo.password;
+          this.loginSubmit();
         } else {
           this.$message.error(res.msg);
         }

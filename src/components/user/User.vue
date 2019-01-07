@@ -13,8 +13,9 @@
           <div class="basic">
             <img class="avator" :src="decodeURIComponent($store.state.userInfo.icon)" alt>
             <!-- //pic.iidingyun.com/1000//file/20181127/75713.png -->
-            <div class="mobile">{{transferMobile($store.state.userInfo.phone)}}</div>
+            <!-- <div class="mobile">{{transferMobile($store.state.userInfo.phone)}}</div> -->
             <div class="account">账户名：{{$store.state.userInfo.user_name}}</div>
+            <div class="account">ID：{{$store.state.userInfo.userid}}</div>
           </div>
           <nav class="nav">
             <router-link
@@ -40,121 +41,44 @@
       <div class="m-project">
         <h1 class="title">
           热门预售
-          <a class="more" href="javascript:;">更多 ></a>
+          <a class="more" href="#/projectlist/0">更多 ></a>
         </h1>
-        <ul class="list">
-          <li class="item">
-            <a class="item-inner" href="javascript:;">
-              <div class="cover-wrapper">
-                <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt>
-              </div>
-              <h3 class="name">拼多多类APP商城 定制开发</h3>
-              <div class="price-wrapper">
-                <div class="price">
-                  3000.
-                  <span class="decimal">00</span>
+        <ul class="list" >
+            <li class="item" v-for="item in list" :key="item.id" >
+              <a class="item-inner" :href="'#/projectdetails/'+item.status + '/' + item.id">
+                <div class="cover-wrapper">
+                  <img class="cover" :src="item.shop_piture" alt="">
                 </div>
-                <div class="status">满额截标</div>
-              </div>
-              <div class="progress-wrapper">
-                <progress class="u-progress" value="22" max="100"></progress>
-              </div>
-              <ul class="details">
-                <li>
-                  <div class="prog">60%</div>
-                  <div class="desc">完成</div>
-                </li>
-                <li>
-                  <div class="prog">6人</div>
-                  <div class="desc">参与人数</div>
-                </li>
-                <li>
-                  <div class="prog">30天</div>
-                  <div class="desc">剩余时间</div>
-                </li>
-              </ul>
-              <div class="tag">满10人截标</div>
-              <div class="qrcode-wrapper">
-                <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt>
-                <div class="desc">扫码查看样例</div>
-              </div>
-            </a>
-          </li>
-          <li class="item">
-            <a class="item-inner" href="javascript:;">
-              <div class="cover-wrapper">
-                <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt>
-              </div>
-              <h3 class="name">拼多多类APP商城 定制开发</h3>
-              <div class="price-wrapper">
-                <div class="price">
-                  3000.
-                  <span class="decimal">00</span>
+                <h3 class="name">{{item.shop_title}}</h3>
+                <div class="price-wrapper">
+                  <div class="price">{{item.presell_price}}.<span class="decimal">00</span></div>
+                  <div class="status">满额截标</div>
                 </div>
-                <div class="status">满额截标</div>
-              </div>
-              <div class="progress-wrapper">
-                <progress class="u-progress" value="22" max="100"></progress>
-              </div>
-              <ul class="details">
-                <li>
-                  <div class="prog">60%</div>
-                  <div class="desc">完成</div>
-                </li>
-                <li>
-                  <div class="prog">6人</div>
-                  <div class="desc">参与人数</div>
-                </li>
-                <li>
-                  <div class="prog">30天</div>
-                  <div class="desc">剩余时间</div>
-                </li>
-              </ul>
-              <div class="tag">满10人截标</div>
-              <div class="qrcode-wrapper">
-                <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt>
-                <div class="desc">扫码查看样例</div>
-              </div>
-            </a>
-          </li>
-          <li class="item">
-            <a class="item-inner" href="javascript:;">
-              <div class="cover-wrapper">
-                <img class="cover" src="//pic.iidingyun.com//file/20181120/75485.png" alt>
-              </div>
-              <h3 class="name">拼多多类APP商城 定制开发</h3>
-              <div class="price-wrapper">
-                <div class="price">
-                  3000.
-                  <span class="decimal">00</span>
+                <div class="progress-wrapper">
+                  <progress class="u-progress" :value="isNaN(item.plenty)?0:parseInt(item.plenty)" :max="item.plenty > 100 ? item.plenty : 100"></progress>
                 </div>
-                <div class="status">满额截标</div>
-              </div>
-              <div class="progress-wrapper">
-                <progress class="u-progress" value="22" max="100"></progress>
-              </div>
-              <ul class="details">
-                <li>
-                  <div class="prog">60%</div>
-                  <div class="desc">完成</div>
-                </li>
-                <li>
-                  <div class="prog">6人</div>
-                  <div class="desc">参与人数</div>
-                </li>
-                <li>
-                  <div class="prog">30天</div>
-                  <div class="desc">剩余时间</div>
-                </li>
-              </ul>
-              <div class="tag">满10人截标</div>
-              <div class="qrcode-wrapper">
-                <img class="pic" src="//pic.iidingyun.com//file/20181120/75482.png" alt>
-                <div class="desc">扫码查看样例</div>
-              </div>
-            </a>
-          </li>
-        </ul>
+                <ul class="details">
+                  <li>
+                    <div class="prog">{{isNaN(item.plenty)?0:parseInt(item.plenty)}}%</div>
+                    <div class="desc">完成</div>
+                  </li>
+                  <li>
+                    <div class="prog">{{isNaN(item.pre_count)?0:parseInt(item.pre_count)}}人</div>
+                    <div class="desc">预报名人数</div>
+                  </li>
+                  <li>
+                    <div class="prog">{{isNaN(item.date_time)?0:parseInt(item.date_time)}}天</div>
+                    <div class="desc">剩余时间</div>
+                  </li>
+                </ul>
+                <div class="tag">满{{item.person_count}}人截标</div>
+                <div class="qrcode-wrapper">
+                  <img class="pic" :src="item.demo_qcode" alt="">
+                  <div class="desc">扫码查看样例</div>
+                </div>
+              </a>
+            </li>
+          </ul>
       </div>
     </div>
   </div>
@@ -166,12 +90,15 @@ export default {
   data() {
     return {
       currentRoutePath: "",
-      user_info:{}
+      user_info:{},
+      list:[],
+      jsons:{}
     };
   },
   mounted() {
     this.handleRouteChange(this.$route.path);
     this.get_user_info();
+    this.get_info();
   },
   methods: {
     //获取用户注册信息
@@ -180,6 +107,35 @@ export default {
           if(res.code == "success"){
             this.user_info = res.data;
             this.$store.commit("changeUserInfo", this.user_info);
+          }
+      })
+    },
+    //获取热门项目
+    get_info(){
+      var _this = this;
+      var param = {};
+      param.status = 0;
+      param.id = 10173650;
+      request("com.iiding.web.index.shop_detials", param, data => {
+        console.log(data);
+        if(data.code == "success"){
+            _this.jsons = data.detial_data;
+            var date1 = new Date();
+            var date2 = new Date(_this.jsons.presell_finish_time.replace(/-/g, "/"))
+            var date = date2.getTime() - date1.getTime();
+            _this.jsons["date_time"] = parseInt(date/(1000*3600*24));
+            var plenty = parseInt(((_this.jsons.person_count - _this.jsons.residue_count) / _this.jsons.person_count) * 100);
+            _this.jsons["plenty"] = plenty;
+            _this.list = data.recommend;
+            _this.list.forEach(function(ele){
+              var date1 = new Date();
+              var date2 = new Date(ele.presell_finish_time.replace(/-/g, "/"))
+              var date = date2.getTime() - date1.getTime();
+              ele["date_time"] = parseInt(date/(1000*3600*24));
+              var plenty = parseInt(((ele.person_count - ele.residue_count) / ele.person_count) * 100);
+              ele["plenty"] = plenty;
+            })
+            _this.list.pop(1);
           }
       })
     },

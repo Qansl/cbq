@@ -61,7 +61,8 @@
                     </div>
                     <div class="tips" v-show="jsons.status == 0">预报名需支付100元报名费（可退）预售成功后再缴纳其他费用</div>
                     <button class="btn" @click="handleOrder(jsons)" v-show="jsons.status == 0">预报名参与</button>
-                    <div class="u-share" v-show="jsons.status != 1">
+                    <button class="btn" style="background:#beb5b0" v-show="jsons.status == 1">预售已结束</button>
+                    <div class="u-share" >
                         <span class="lb">分享到</span>
                         <!-- <ul class="list">
                             <li class="icon icon-weibo"></li>
@@ -79,8 +80,8 @@
                             <a href="#" class="bds_weixin" data-cmd="weixin"></a>
                         </div>
                     </div>
-                    <a class="star" href="javascript:;" v-show="jsons.status == 0 && attentions == 0" @click="attention">关注</a>
-                    <a class="starg" href="javascript:;" v-show="jsons.status == 0 && attentions == 1" @click="cancel_attention">已关注</a>
+                    <a class="star" href="javascript:;" v-show="attentions == 0" @click="attention">关注</a>
+                    <a class="starg" href="javascript:;" v-show="attentions == 1" @click="cancel_attention">已关注</a>
                 </div>
             </div>
             <div class="project-details">
@@ -251,6 +252,7 @@
                 <span style="flex:1"></span>
                 <button class="btn" @click="handleOrderM(jsons)" v-show="jsons.status == 0">预报名参与</button>
                 <button class="btn" @click="changeSaleM(jsons)" v-show="jsons.status == 2">购买</button>
+                <button class="btn" style="background:#beb5b0" v-show="jsons.status == 1">预售已结束</button>
             </dir>
         </div>
     </div>
