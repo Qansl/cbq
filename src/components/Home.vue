@@ -4,7 +4,9 @@
         <div class="banner-wrapper" :style="{background:background_color}">
           <div class="banner-inner">
             <div class="banner" >
-              <img class="pic" v-for="item in banner_list" :key="item.id" :src="item.advertise_piture" alt="" v-show="item.visible">
+              <a  v-for="item in banner_list" :key="item.id"  v-show="item.visible" :href="item.advertise_link" target="_blank">
+                <img class="pic" alt="" :src="item.advertise_piture">
+              </a>
               <div class="arr left" @click="tetch('left')"></div>
               <div class="arr right" @click="tetch('right')"></div>
               <ul class="dot" >
