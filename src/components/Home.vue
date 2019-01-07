@@ -97,8 +97,8 @@
                   <div class="desc">完成</div>
                 </li>
                 <li>
-                  <div class="prog">{{item.pre_count}}人</div>
-                  <div class="desc">预报名人数</div>
+                  <div class="prog">{{item.person_count - item.residue_count}}人</div>
+                  <div class="desc">参与人数</div>
                 </li>
                 <li>
                   <div class="prog">{{isNaN(item.date_time)?0:parseInt(item.date_time)}}天</div>
@@ -287,7 +287,7 @@ export default {
         var date2 = new Date(ele.presell_finish_time.replace(/-/g, "/"))
         var date = date2.getTime() - date1.getTime();
         ele["date_time"] = parseInt(date/(1000*3600*24));
-        var plenty = parseInt((ele.pre_count / ele.person_count) * 100);
+        var plenty = parseInt(((ele.person_count - ele.residue_count) / ele.person_count) * 100);
         ele["plenty"] = plenty;
       })
       _this.dev_list = data.dev_list;

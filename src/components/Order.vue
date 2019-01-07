@@ -10,24 +10,9 @@
                             <div class="lb">项目名称：</div>
                             <div class="disp-txt">{{jsons.shop_title}}</div>
                         </div>
-                        <div class="form-item" v-show="jsons.status == 0">
+                        <div class="form-item" v-show="jsons.status == 0 && (payWay1 == 2 || payWay1 == 3)">
                             <div class="lb top">开发类型：</div>
                             <div class="u-radio-group1"> 
-                                <!-- <label class="u-radio" :class="{ischecked:devType==1}" @change="change_quota_number">
-                                    <input v-model="devType" :disabled="devTypeIsTrue" class="u-radio__original" type="radio" tabindex="-1" value="1">   
-                                    <span class="u-radio__label">1份</span>
-                                    <div class="u-radio__desc">软件+10%分红权</div>
-                                </label>
-                                <label class="u-radio" :class="{ischecked:devType==2}" @change="change_quota_number">
-                                    <input v-model="devType" :disabled="devTypeIsTrue" class="u-radio__original" type="radio" tabindex="-1" value="2">
-                                    <span class="u-radio__label">2份</span>
-                                    <div class="u-radio__desc">软件+20%分红权</div>
-                                </label>
-                                <label class="u-radio" :class="{ischecked:devType==3}" @change="change_quota_number">
-                                    <input v-model="devType" :disabled="devTypeIsTrue" class="u-radio__original" type="radio" tabindex="-1" value="3">
-                                    <span class="u-radio__label">3份</span>
-                                    <div class="u-radio__desc">软件+30%分红权</div>
-                                </label>  -->
                                 <label class="u-radio" v-for="item in dev_list" :key="item.id" :class="{ischecked:devType==item.dev_count}">
                                     <input v-model="devType" class="u-radio__original" :class="{ischecked:devType==3}" @change="change_quota_number(item.dev_count)" type="radio" tabindex="-1" :value="item.dev_count">
                                     <span class="u-radio__label">{{item.dev_count}}份</span>
@@ -44,19 +29,19 @@
                         <div class="form-item" v-show="jsons.status == 0">
                             <div class="lb">支付选项：</div>
                             <div class="u-radio-group2"> 
-                                <label class="u-radio down-payment" :class="{ischecked:payWay1==1}" @change="change_order_type">
-                                    <input v-model="payWay1" :disabled="is_true1" class="u-radio__original" type="radio" tabindex="-1" value="1">
+                                <label class="u-radio down-payment" :class="{ischecked:payWay1==1}" @change="change_order_type" v-show="payWay1_show23">
+                                    <input v-model="payWay1" :disabled="payWay1_istru1" class="u-radio__original" type="radio" tabindex="-1" value="1">
                                     <span class="u-radio__label">¥{{projectInfo.deposit}}定金</span>
                                     <div class="poper">
                                         <span class="im">*</span>预报名需支付{{jsons.deposit * devType}}元报名费（可退） 预售成功后再缴纳其他费用
                                     </div>
                                 </label>
-                                <label class="u-radio" :class="{ischecked:payWay1==2}" @change="change_order_type">
-                                    <input v-model="payWay1" :disabled="is_true2" class="u-radio__original" type="radio" tabindex="-1" value="2">
+                                <label class="u-radio" :class="{ischecked:payWay1==2}" @change="change_order_type" v-show="payWay1_show2">
+                                    <input v-model="payWay1" :disabled="payWay1_istru2" class="u-radio__original" type="radio" tabindex="-1" value="2">
                                     <span class="u-radio__label">支付尾款</span>
                                 </label>
-                                <label class="u-radio" :class="{ischecked:payWay1==3}" @change="change_order_type">
-                                    <input v-model="payWay1" :disabled="is_true2" class="u-radio__original" type="radio" tabindex="-1" value="3">
+                                <label class="u-radio" :class="{ischecked:payWay1==3}" @change="change_order_type" v-show="payWay1_show23">
+                                    <input v-model="payWay1" :disabled="payWay1_istru3" class="u-radio__original" type="radio" tabindex="-1" value="3">
                                     <span class="u-radio__label">全额支付</span>
                                 </label>
                             </div>
@@ -225,7 +210,12 @@ export default {
       payWay1: 1, //支付选项
       payWay2: 1, //支付方式
       devType: 1, //开发类型
+      payWay1_istru3:false,
+      payWay1_istru2:false,
+      payWay1_istru1:false,
       devTypeIsTrue:false,
+      payWay1_show2:true,
+      payWay1_show23:true,
       showPhoneValidCode:true,
       isAgree: false,
       is_true1:false,
@@ -531,7 +521,7 @@ export default {
             }else{
                 _this.$message({ type: 'error', message: "支付失败"});
             }
-            if(_this.payDialogVisible >= 180){
+            if(_this.payDialogVisible >= 280){
                 _this.payDialogVisible = false;
                 _this.$message({ type: 'error', message: "支付失败"});
                 setTimeout(function(){
@@ -601,15 +591,22 @@ export default {
           _this.projectInfo = res.data;
           if(select_type == 1){
               _this.payWay1 = 1;
-              _this.is_true1 = true;
-              _this.is_true2 = true;
-              _this.is_true3 = true;
+              _this.is_true1 = false;
+            //  _this.is_true2 = true;
+              _this.payWay1_show2 = false;
+              _this.payWay1_show23 = true;
+              _this.payWay1_istru2 = true;
+              _this.is_true3 = false;
               _this.pay_money = Number(res.data.deposit);
               _this.devTypeIsTrue = true;
           }else if(select_type == 2){
               _this.payWay1 = 2;
               _this.is_true1 = true;
-              _this.is_true2 = true;
+              _this.payWay1_show23 = false;
+              // _this.is_true2 = true;
+              _this.payWay1_show2 = true;
+              _this.payWay1_istru1 = true;
+              _this.payWay1_istru3 = true;
               _this.is_true3 = true;
               var deposit_money = Number(res.data.deposit);
               var presell_price = Number(res.data.presell_price);
@@ -620,6 +617,8 @@ export default {
               _this.is_true2 = true;
               _this.is_true3 = false;
               _this.payWay1 = 1;
+              _this.payWay1_show23 = true;
+              _this.payWay1_show2 = false;
               _this.pay_money = Number(res.data.deposit);
               _this.devTypeIsTrue = true;
           }

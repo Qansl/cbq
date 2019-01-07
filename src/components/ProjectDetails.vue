@@ -39,8 +39,8 @@
                                 <div class="desc2">完成</div>
                             </li>
                             <li v-show="jsons.status == 0">
-                                <div class="prog">{{isNaN(jsons.pre_count) || jsons.pre_count == 'undefined' || jsons.pre_count == ''?0:parseInt(jsons.pre_count)}}人</div>
-                                <div class="desc2">预报名人数</div>
+                                <div class="prog">{{isNaN(jsons.person_count - jsons.residue_count) || (jsons.person_count - jsons.residue_count) == 'undefined' || (jsons.person_count - jsons.residue_count) == ''?0:parseInt(jsons.person_count - jsons.residue_count)}}人</div>
+                                <div class="desc2">参与人数</div>
                             </li>
                             <li>
                                 <div class="prog">{{isNaN(jsons.date_time)?0:parseInt(jsons.date_time)}}天</div>
@@ -430,7 +430,7 @@ export default {
               sessionStorage.setItem("select_projectid",val.id);
               _this.$router.push({ path: "/order/" + val.id + "/" + val.status + "/" + this.tcps});
           }else if(res.my_project_status == "project_exist_participate"){
-              sessionStorage.setItem("select_projectid",val.id);
+              sessionStorage.setItem("select_projectid",val.id);            
               _this.$router.push({ path: "/order/" + val.id + "/" + val.status + "/" + this.tcps});
           }else if(res.my_project_status == "project_exist_signing"){
               _this.$message.error("此项目您已经签约");
@@ -470,7 +470,7 @@ export default {
             var date2 = new Date(_this.jsons.presell_finish_time.replace(/-/g, "/"))
             var date = date2.getTime() - date1.getTime();
             _this.jsons["date_time"] = parseInt(date/(1000*3600*24));
-            var plenty = parseInt((_this.jsons.pre_count / _this.jsons.person_count) * 100);
+            var plenty = parseInt(((_this.jsons.person_count - _this.jsons.residue_count) / _this.jsons.person_count) * 100);
             _this.jsons["plenty"] = plenty;
             _this.list = data.recommend;
             _this.list.forEach(function(ele){
@@ -478,7 +478,7 @@ export default {
               var date2 = new Date(ele.presell_finish_time.replace(/-/g, "/"))
               var date = date2.getTime() - date1.getTime();
               ele["date_time"] = parseInt(date/(1000*3600*24));
-              var plenty = parseInt((ele.pre_count / ele.person_count) * 100);
+              var plenty = parseInt(((ele.person_count - ele.residue_count) / ele.person_count) * 100);
               ele["plenty"] = plenty;
             })
           }
@@ -590,9 +590,11 @@ export default {
           _this.projectInfo = res.data;
           if(res.my_project_status == "project_not_exist"){
               sessionStorage.setItem("select_projectid",val.id);
+              sessionStorage.setItem("select_type",1);
               _this.$router.push({ path: "/order/" + val.id + "/" + val.status +"/5"});
           }else if(res.my_project_status == "project_exist_follow"){
               sessionStorage.setItem("select_projectid",val.id);
+              sessionStorage.setItem("select_type",1);
               _this.$router.push({ path: "/order/" + val.id + "/" + val.status +"/5"});
           }else if(res.my_project_status == "project_exist_participate"){
               _this.$message.error("此项目您已经签约");
@@ -611,6 +613,7 @@ export default {
     },
     //移动端预参与
     handleOrderM(val) {
+      sessionStorage.setItem("select_type",1);
       this.$router.push({ path: "/morder/" + val.id + "/" + val.status + "/5"});
     },
     //移动端定制

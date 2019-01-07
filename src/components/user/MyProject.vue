@@ -28,22 +28,22 @@
                             <div class="disp-txt del">开发总费：{{item.dev_sum_money}}</div>
                         </div>
                         <div class="item-field" v-if="item.status == 3">
-                            <div class="disp-txt del">恭喜，你已获得预售名额</div>
+                            <div class="disp-txt" style="color:#ff5000">恭喜，你已获得预售{{item.quota_number}}个名额</div>
                         </div>
                         <div class="tools" v-if="item.status == 1">
                             <button class="btn" @click="go_to_pay(item,1)">预报名参与</button>
                             <a class="link" href="javascript:;" @click="remove_concerns(item.projectid)">取消关注</a>
-                            <a class="link active" href="javascript:;">项目进度</a>
+                            <a class="link active" :href="'#/projectdetails/'+item.project_status + '/' + item.projectid">项目进度</a>
                         </div>
                         <div class="tools" v-if="item.status == 2">
                             <button class="btn" @click="go_to_pay(item,2)">支付尾款</button>
                             <a class="link" href="javascript:;">已预报名</a>
-                            <a class="link active" href="javascript:;">项目进度</a>
+                            <a class="link active" :href="'#/projectdetails/'+item.project_status + '/' + item.projectid">项目进度</a>
                         </div>
                         <div class="tools" v-if="item.status == 3">
                             <button class="btn">支付完成</button>
-                            <a class="link" href="javascript:;">支付完成</a>
-                            <a class="link active" href="javascript:;">项目进度</a>
+                            <!-- <a class="link" href="javascript:;">支付完成</a> -->
+                            <a class="link active" :href="'#/projectdetails/'+item.project_status + '/' + item.projectid">项目进度</a>
                         </div>
                     </div>
                     <div class="other">
